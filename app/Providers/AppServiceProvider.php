@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+use App\Contracts\ProductRepositoryInterface;
+use App\Repositories\ProductRepository;
+use App\Contracts\OrderRepositoryInterface;
+use App\Repositories\OrderRepository;
+
+class AppServiceProvider extends ServiceProvider
+{
+    public function register(): void
+    {
+        $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
+$this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
+        $this->app->bind(\App\Contracts\CouponRepositoryInterface::class, \App\Repositories\CouponRepository::class);
+    }
+
+    public function boot(): void
+    {
+        view()->composer('*', function ($view) {
+            $cartService = app(\App\Services\CartService::class);
+            $cartItems = $cartService->get();
+            $cartTotal = $cartService->total();
+            
+            $view->with('cartItems', $cartItems);
+            $view->with('cartTotal', $cartTotal);
+            $view->with('cartCount', count($cartItems));
+            
+            $view->with('menus', [
+                'header_main' => \App\Models\Menu::getMenus('header_main'),
+                'footer_sitemap' => \App\Models\Menu::getMenus('footer_sitemap'),
+                'footer_others' => \App\Models\Menu::getMenus('footer_others'),
+                'footer_shop' => \App\Models\Menu::getMenus('footer_shop'),
+                'footer_service' => \App\Models\Menu::getMenus('footer_service'),
+                'admin_sidebar' => \App\Models\Menu::getMenus('admin_sidebar'),
+            ]);
+        });
+    }
+}
+

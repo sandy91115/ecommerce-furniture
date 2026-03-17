@@ -1,0 +1,987 @@
+{
+  "rootFolder": "c:\\xampp\\htdocs\\furniture",
+  "analyzedAt": "2026-03-14T06:06:47.025Z",
+  "rootStructure": [
+    {
+      "name": ".gitattributes",
+      "type": "file",
+      "size": 186,
+      "lines": 12
+    },
+    {
+      "name": ".gitignore",
+      "type": "file",
+      "size": 283,
+      "lines": 25
+    },
+    {
+      "name": "app",
+      "type": "dir"
+    },
+    {
+      "name": "artisan",
+      "type": "file",
+      "size": 425,
+      "lines": 19
+    },
+    {
+      "name": "bootstrap",
+      "type": "dir"
+    },
+    {
+      "name": "composer.json",
+      "type": "file",
+      "size": 2536,
+      "lines": 79
+    },
+    {
+      "name": "composer.lock",
+      "type": "file",
+      "size": 337956,
+      "lines": 9185
+    },
+    {
+      "name": "config",
+      "type": "dir"
+    },
+    {
+      "name": "database",
+      "type": "dir"
+    },
+    {
+      "name": "package-lock.json",
+      "type": "file",
+      "size": 100641,
+      "lines": 2581
+    },
+    {
+      "name": "package.json",
+      "type": "file",
+      "size": 480,
+      "lines": 21
+    },
+    {
+      "name": "phpunit.xml",
+      "type": "file",
+      "size": 1228,
+      "lines": 35
+    },
+    {
+      "name": "public",
+      "type": "dir"
+    },
+    {
+      "name": "README.md",
+      "type": "file",
+      "size": 3929,
+      "lines": 62
+    },
+    {
+      "name": "resources",
+      "type": "dir"
+    },
+    {
+      "name": "routes",
+      "type": "dir"
+    },
+    {
+      "name": "storage",
+      "type": "dir"
+    },
+    {
+      "name": "tests",
+      "type": "dir"
+    },
+    {
+      "name": "TODO.md",
+      "type": "file",
+      "size": 457,
+      "lines": 8
+    },
+    {
+      "name": "vendor",
+      "type": "dir"
+    },
+    {
+      "name": "vite.config.js",
+      "type": "file",
+      "size": 331,
+      "lines": 14
+    }
+  ],
+  "rootFileSnippets": {
+    "artisan": [
+      "#!/usr/bin/env php",
+      "<?php",
+      "",
+      "use Illuminate\\Foundation\\Application;",
+      "use Symfony\\Component\\Console\\Input\\ArgvInput;",
+      "",
+      "define('LARAVEL_START', microtime(true));",
+      "",
+      "// Register the Composer autoloader...",
+      "require __DIR__.'/vendor/autoload.php';"
+    ],
+    "composer.json": [
+      "{",
+      "\"$schema\": \"https://getcomposer.org/schema.json\",",
+      "\"name\": \"laravel/laravel\",",
+      "\"type\": \"project\",",
+      "\"description\": \"The skeleton application for the Laravel framework.\",",
+      "\"keywords\": [\"laravel\", \"framework\"],",
+      "\"license\": \"MIT\",",
+      "\"require\": {",
+      "\"php\": \"^8.2\",",
+      "\"laravel/framework\": \"^12.0\","
+    ],
+    "composer.lock": [
+      "{",
+      "\"_readme\": [",
+      "\"This file locks the dependencies of your project to a known state\",",
+      "\"Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies\",",
+      "\"This file is @generated automatically\"",
+      "],",
+      "\"content-hash\": \"ca2bab62768478a25594e0a46d459dca\",",
+      "\"packages\": [",
+      "{",
+      "\"name\": \"brick/math\","
+    ],
+    "package-lock.json": [
+      "{",
+      "\"name\": \"Furnixar\",",
+      "\"lockfileVersion\": 3,",
+      "\"requires\": true,",
+      "\"packages\": {",
+      "\"\": {",
+      "\"dependencies\": {",
+      "\"autoprefixer\": \"^10.4.21\"",
+      "},",
+      "\"devDependencies\": {"
+    ],
+    "package.json": [
+      "{",
+      "\"$schema\": \"https://json.schemastore.org/package.json\",",
+      "\"private\": true,",
+      "\"type\": \"module\",",
+      "\"scripts\": {",
+      "\"build\": \"vite build\",",
+      "\"dev\": \"vite\"",
+      "},",
+      "\"devDependencies\": {",
+      "\"@tailwindcss/vite\": \"^4.1.11\","
+    ],
+    "phpunit.xml": [
+      "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+      "<phpunit xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"",
+      "xsi:noNamespaceSchemaLocation=\"vendor/phpunit/phpunit/phpunit.xsd\"",
+      "bootstrap=\"vendor/autoload.php\"",
+      "colors=\"true\"",
+      ">",
+      "<testsuites>",
+      "<testsuite name=\"Unit\">",
+      "<directory>tests/Unit</directory>",
+      "</testsuite>"
+    ],
+    "README.md": [
+      "<p align=\"center\"><a href=\"https://laravel.com\" target=\"_blank\"><img src=\"https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg\" width=\"400\" alt=\"Laravel Logo\"></a></p>",
+      "",
+      "<p align=\"center\">",
+      "<a href=\"https://github.com/laravel/framework/actions\"><img src=\"https://github.com/laravel/framework/workflows/tests/badge.svg\" alt=\"Build Status\"></a>",
+      "<a href=\"https://packagist.org/packages/laravel/framework\"><img src=\"https://img.shields.io/packagist/dt/laravel/framework\" alt=\"Total Downloads\"></a>",
+      "<a href=\"https://packagist.org/packages/laravel/framework\"><img src=\"https://img.shields.io/packagist/v/laravel/framework\" alt=\"Latest Stable Version\"></a>",
+      "<a href=\"https://packagist.org/packages/laravel/framework\"><img src=\"https://img.shields.io/packagist/l/laravel/framework\" alt=\"License\"></a>",
+      "</p>",
+      "",
+      "## About Laravel"
+    ],
+    "TODO.md": [
+      "# Fix Frontend Product Links TODO",
+      "",
+      "- [x] 1. Update app/Http/Controllers/HomeController.php with Product query",
+      "- [x] 2. Update resources/views/includes/Home/new-products.blade.php: remove static data, update to use $product model, fix links to slug, map fields safely",
+      "- [x] 3. Execute `php artisan view:clear`",
+      "- [x] 4. Verify DB has active products with images; test http://localhost/furniture/ new products links go to /product/{slug} without error",
+      "",
+      ""
+    ],
+    "vite.config.js": [
+      "import { defineConfig } from 'vite';",
+      "import laravel from 'laravel-vite-plugin';",
+      "import tailwindcss from '@tailwindcss/vite';",
+      "",
+      "export default defineConfig({",
+      "plugins: [",
+      "laravel({",
+      "input: ['resources/css/app.css', 'resources/js/app.js'],",
+      "refresh: true,",
+      "}),"
+    ]
+  },
+  "importantFolders": [
+    {
+      "path": "app",
+      "category": "frontend",
+      "fileCount": 32,
+      "primaryLanguage": "PHP"
+    },
+    {
+      "path": "config",
+      "category": "config",
+      "fileCount": 11,
+      "primaryLanguage": "PHP"
+    },
+    {
+      "path": "public",
+      "category": "assets",
+      "fileCount": 363,
+      "primaryLanguage": "JavaScript"
+    },
+    {
+      "path": "public\\assets",
+      "category": "assets",
+      "fileCount": 358,
+      "primaryLanguage": "JavaScript"
+    },
+    {
+      "path": "public\\assets\\img\\about",
+      "category": "build",
+      "fileCount": 4
+    },
+    {
+      "path": "public\\assets\\img\\demo-page",
+      "category": "examples",
+      "fileCount": 77
+    },
+    {
+      "path": "public\\assets\\img\\testimonial",
+      "category": "tests",
+      "fileCount": 24
+    },
+    {
+      "path": "resources\\views\\admin\\layouts",
+      "category": "build",
+      "fileCount": 1,
+      "primaryLanguage": "PHP"
+    },
+    {
+      "path": "resources\\views\\frontend",
+      "category": "frontend",
+      "fileCount": 1,
+      "primaryLanguage": "PHP"
+    },
+    {
+      "path": "resources\\views\\layouts",
+      "category": "build",
+      "fileCount": 3,
+      "primaryLanguage": "PHP"
+    },
+    {
+      "path": "routes",
+      "category": "build",
+      "fileCount": 2,
+      "primaryLanguage": "PHP"
+    },
+    {
+      "path": "storage\\app",
+      "category": "frontend",
+      "fileCount": 3
+    },
+    {
+      "path": "storage\\app\\public",
+      "category": "assets",
+      "fileCount": 1
+    },
+    {
+      "path": "storage\\framework\\testing",
+      "category": "tests",
+      "fileCount": 1
+    },
+    {
+      "path": "tests",
+      "category": "tests",
+      "fileCount": 4,
+      "primaryLanguage": "PHP"
+    }
+  ],
+  "readmeParagraphs": {
+    "root": "<p align=\"center\"><a href=\"https://laravel.com\" target=\"_blank\"><img src=\"https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg\" width=\"400\" alt=\"Laravel Logo\"></a></p>"
+  },
+  "totals": {
+    "numFiles": 616,
+    "numDirs": 106,
+    "totalSizeBytes": 48508764,
+    "totalLinesOfCode": 27472
+  },
+  "fileCategories": {
+    "other": 367,
+    "source": 229,
+    "config": 4,
+    "build": 1,
+    "test": 12,
+    "documentation": 3
+  },
+  "linesOfCodePerLanguage": {
+    "PHP": 25548,
+    "JavaScript": 1924
+  },
+  "filesPerLanguage": {
+    "PHP": 224,
+    "JavaScript": 5
+  },
+  "projectTypes": [
+    "JavaScript/Node.js",
+    "PHP (Composer)"
+  ],
+  "frameworks": [
+    "Vite"
+  ],
+  "entryPoints": [],
+  "ciCdTools": [],
+  "packageManagers": [
+    "npm/yarn",
+    "composer"
+  ],
+  "topLevelDirectories": [
+    {
+      "name": "resources",
+      "numFiles": 157,
+      "totalLoc": 19834,
+      "dominantLanguage": "PHP"
+    },
+    {
+      "name": "app",
+      "numFiles": 32,
+      "totalLoc": 2942,
+      "dominantLanguage": "PHP"
+    },
+    {
+      "name": "public",
+      "numFiles": 363,
+      "totalLoc": 1924,
+      "dominantLanguage": "JavaScript"
+    },
+    {
+      "name": "config",
+      "numFiles": 11,
+      "totalLoc": 1433,
+      "dominantLanguage": "PHP"
+    },
+    {
+      "name": "database",
+      "numFiles": 17,
+      "totalLoc": 767,
+      "dominantLanguage": "PHP"
+    },
+    {
+      "name": "bootstrap",
+      "numFiles": 5,
+      "totalLoc": 357,
+      "dominantLanguage": "PHP"
+    },
+    {
+      "name": "routes",
+      "numFiles": 2,
+      "totalLoc": 128,
+      "dominantLanguage": "PHP"
+    },
+    {
+      "name": "tests",
+      "numFiles": 4,
+      "totalLoc": 73,
+      "dominantLanguage": "PHP"
+    },
+    {
+      "name": "storage",
+      "numFiles": 11,
+      "totalLoc": 0
+    }
+  ],
+  "detailedDirectories": [
+    {
+      "path": "resources",
+      "name": "resources",
+      "level": 1,
+      "numFiles": 157,
+      "totalLoc": 19834,
+      "dominantLanguage": "PHP",
+      "category": "General",
+      "description": "General module with 157 files (PHP)",
+      "subdirectories": [
+        {
+          "path": "resources\\views",
+          "name": "views",
+          "level": 2,
+          "numFiles": 154,
+          "totalLoc": 19827,
+          "dominantLanguage": "PHP",
+          "category": "Views/Templates",
+          "description": "Views/Templates module with 154 files (PHP)",
+          "subdirectories": [
+            {
+              "path": "resources\\views\\includes",
+              "name": "includes",
+              "level": 3,
+              "numFiles": 81,
+              "totalLoc": 10336,
+              "dominantLanguage": "PHP",
+              "category": "General",
+              "description": "General module with 81 files (PHP)",
+              "subdirectories": []
+            },
+            {
+              "path": "resources\\views\\admin",
+              "name": "admin",
+              "level": 3,
+              "numFiles": 15,
+              "totalLoc": 1490,
+              "dominantLanguage": "PHP",
+              "category": "General",
+              "description": "General module with 15 files (PHP)",
+              "subdirectories": []
+            },
+            {
+              "path": "resources\\views\\auth",
+              "name": "auth",
+              "level": 3,
+              "numFiles": 2,
+              "totalLoc": 209,
+              "dominantLanguage": "PHP",
+              "category": "General",
+              "description": "General module with 2 files (PHP)",
+              "subdirectories": []
+            },
+            {
+              "path": "resources\\views\\frontend",
+              "name": "frontend",
+              "level": 3,
+              "numFiles": 1,
+              "totalLoc": 122,
+              "dominantLanguage": "PHP",
+              "category": "Web/UI",
+              "description": "Web/UI module with 1 files (PHP)",
+              "subdirectories": []
+            },
+            {
+              "path": "resources\\views\\emails",
+              "name": "emails",
+              "level": 3,
+              "numFiles": 1,
+              "totalLoc": 17,
+              "dominantLanguage": "PHP",
+              "category": "General",
+              "description": "General module with 1 files (PHP)",
+              "subdirectories": []
+            }
+          ]
+        },
+        {
+          "path": "resources\\js",
+          "name": "js",
+          "level": 2,
+          "numFiles": 2,
+          "totalLoc": 7,
+          "dominantLanguage": "JavaScript",
+          "category": "General",
+          "description": "General module with 2 files (JavaScript)",
+          "subdirectories": []
+        },
+        {
+          "path": "resources\\css",
+          "name": "css",
+          "level": 2,
+          "numFiles": 1,
+          "totalLoc": 0,
+          "category": "General",
+          "description": "General module with 1 files",
+          "subdirectories": []
+        }
+      ]
+    },
+    {
+      "path": "app",
+      "name": "app",
+      "level": 1,
+      "numFiles": 32,
+      "totalLoc": 2942,
+      "dominantLanguage": "PHP",
+      "category": "Application",
+      "description": "Application module with 32 files (PHP)",
+      "subdirectories": [
+        {
+          "path": "app\\Http",
+          "name": "Http",
+          "level": 2,
+          "numFiles": 20,
+          "totalLoc": 2434,
+          "dominantLanguage": "PHP",
+          "category": "General",
+          "description": "General module with 20 files (PHP)",
+          "subdirectories": [
+            {
+              "path": "app\\Http\\Controllers",
+              "name": "Controllers",
+              "level": 3,
+              "numFiles": 20,
+              "totalLoc": 2434,
+              "dominantLanguage": "PHP",
+              "category": "Controllers",
+              "description": "Controllers module with 20 files (PHP)",
+              "subdirectories": []
+            }
+          ]
+        },
+        {
+          "path": "app\\Models",
+          "name": "Models",
+          "level": 2,
+          "numFiles": 10,
+          "totalLoc": 421,
+          "dominantLanguage": "PHP",
+          "category": "Models/Entities",
+          "description": "Models/Entities module with 10 files (PHP)",
+          "subdirectories": []
+        },
+        {
+          "path": "app\\Mail",
+          "name": "Mail",
+          "level": 2,
+          "numFiles": 1,
+          "totalLoc": 62,
+          "dominantLanguage": "PHP",
+          "category": "General",
+          "description": "General module with 1 files (PHP)",
+          "subdirectories": []
+        },
+        {
+          "path": "app\\Providers",
+          "name": "Providers",
+          "level": 2,
+          "numFiles": 1,
+          "totalLoc": 25,
+          "dominantLanguage": "PHP",
+          "category": "General",
+          "description": "General module with 1 files (PHP)",
+          "subdirectories": []
+        }
+      ]
+    },
+    {
+      "path": "public",
+      "name": "public",
+      "level": 1,
+      "numFiles": 363,
+      "totalLoc": 1924,
+      "dominantLanguage": "JavaScript",
+      "category": "General",
+      "description": "General module with 363 files (JavaScript)",
+      "subdirectories": [
+        {
+          "path": "public\\assets",
+          "name": "assets",
+          "level": 2,
+          "numFiles": 358,
+          "totalLoc": 1903,
+          "dominantLanguage": "JavaScript",
+          "category": "General",
+          "description": "General module with 358 files (JavaScript)",
+          "subdirectories": [
+            {
+              "path": "public\\assets\\js",
+              "name": "js",
+              "level": 3,
+              "numFiles": 2,
+              "totalLoc": 1903,
+              "dominantLanguage": "JavaScript",
+              "category": "General",
+              "description": "General module with 2 files (JavaScript)",
+              "subdirectories": []
+            },
+            {
+              "path": "public\\assets\\img",
+              "name": "img",
+              "level": 3,
+              "numFiles": 351,
+              "totalLoc": 0,
+              "category": "General",
+              "description": "General module with 351 files",
+              "subdirectories": []
+            },
+            {
+              "path": "public\\assets\\fonts",
+              "name": "fonts",
+              "level": 3,
+              "numFiles": 4,
+              "totalLoc": 0,
+              "category": "General",
+              "description": "General module with 4 files",
+              "subdirectories": []
+            },
+            {
+              "path": "public\\assets\\css",
+              "name": "css",
+              "level": 3,
+              "numFiles": 1,
+              "totalLoc": 0,
+              "category": "General",
+              "description": "General module with 1 files",
+              "subdirectories": []
+            }
+          ]
+        },
+        {
+          "path": "public\\storage",
+          "name": "storage",
+          "level": 2,
+          "numFiles": 1,
+          "totalLoc": 0,
+          "category": "General",
+          "description": "General module with 1 files",
+          "subdirectories": []
+        }
+      ]
+    },
+    {
+      "path": "config",
+      "name": "config",
+      "level": 1,
+      "numFiles": 11,
+      "totalLoc": 1433,
+      "dominantLanguage": "PHP",
+      "category": "Configuration",
+      "description": "Configuration module with 11 files (PHP)",
+      "subdirectories": []
+    },
+    {
+      "path": "database",
+      "name": "database",
+      "level": 1,
+      "numFiles": 17,
+      "totalLoc": 767,
+      "dominantLanguage": "PHP",
+      "category": "Data",
+      "description": "Data module with 17 files (PHP)",
+      "subdirectories": [
+        {
+          "path": "database\\migrations",
+          "name": "migrations",
+          "level": 2,
+          "numFiles": 13,
+          "totalLoc": 580,
+          "dominantLanguage": "PHP",
+          "category": "General",
+          "description": "General module with 13 files (PHP)",
+          "subdirectories": []
+        },
+        {
+          "path": "database\\seeders",
+          "name": "seeders",
+          "level": 2,
+          "numFiles": 2,
+          "totalLoc": 142,
+          "dominantLanguage": "PHP",
+          "category": "General",
+          "description": "General module with 2 files (PHP)",
+          "subdirectories": []
+        },
+        {
+          "path": "database\\factories",
+          "name": "factories",
+          "level": 2,
+          "numFiles": 1,
+          "totalLoc": 45,
+          "dominantLanguage": "PHP",
+          "category": "General",
+          "description": "General module with 1 files (PHP)",
+          "subdirectories": []
+        }
+      ]
+    },
+    {
+      "path": "bootstrap",
+      "name": "bootstrap",
+      "level": 1,
+      "numFiles": 5,
+      "totalLoc": 357,
+      "dominantLanguage": "PHP",
+      "category": "General",
+      "description": "General module with 5 files (PHP)",
+      "subdirectories": [
+        {
+          "path": "bootstrap\\cache",
+          "name": "cache",
+          "level": 2,
+          "numFiles": 3,
+          "totalLoc": 328,
+          "dominantLanguage": "PHP",
+          "category": "General",
+          "description": "General module with 3 files (PHP)",
+          "subdirectories": []
+        }
+      ]
+    },
+    {
+      "path": "routes",
+      "name": "routes",
+      "level": 1,
+      "numFiles": 2,
+      "totalLoc": 128,
+      "dominantLanguage": "PHP",
+      "category": "General",
+      "description": "General module with 2 files (PHP)",
+      "subdirectories": []
+    },
+    {
+      "path": "tests",
+      "name": "tests",
+      "level": 1,
+      "numFiles": 4,
+      "totalLoc": 73,
+      "dominantLanguage": "PHP",
+      "category": "Testing",
+      "description": "Testing module with 4 files (PHP)",
+      "subdirectories": [
+        {
+          "path": "tests\\Feature",
+          "name": "Feature",
+          "level": 2,
+          "numFiles": 1,
+          "totalLoc": 8,
+          "dominantLanguage": "PHP",
+          "category": "General",
+          "description": "General module with 1 files (PHP)",
+          "subdirectories": []
+        },
+        {
+          "path": "tests\\Unit",
+          "name": "Unit",
+          "level": 2,
+          "numFiles": 1,
+          "totalLoc": 6,
+          "dominantLanguage": "PHP",
+          "category": "General",
+          "description": "General module with 1 files (PHP)",
+          "subdirectories": []
+        }
+      ]
+    },
+    {
+      "path": "storage",
+      "name": "storage",
+      "level": 1,
+      "numFiles": 11,
+      "totalLoc": 0,
+      "category": "General",
+      "description": "General module with 11 files",
+      "subdirectories": [
+        {
+          "path": "storage\\framework",
+          "name": "framework",
+          "level": 2,
+          "numFiles": 6,
+          "totalLoc": 0,
+          "category": "General",
+          "description": "General module with 6 files",
+          "subdirectories": [
+            {
+              "path": "storage\\framework\\cache",
+              "name": "cache",
+              "level": 3,
+              "numFiles": 2,
+              "totalLoc": 0,
+              "category": "General",
+              "description": "General module with 2 files",
+              "subdirectories": []
+            },
+            {
+              "path": "storage\\framework\\sessions",
+              "name": "sessions",
+              "level": 3,
+              "numFiles": 1,
+              "totalLoc": 0,
+              "category": "General",
+              "description": "General module with 1 files",
+              "subdirectories": []
+            },
+            {
+              "path": "storage\\framework\\testing",
+              "name": "testing",
+              "level": 3,
+              "numFiles": 1,
+              "totalLoc": 0,
+              "category": "Testing",
+              "description": "Testing module with 1 files",
+              "subdirectories": []
+            },
+            {
+              "path": "storage\\framework\\views",
+              "name": "views",
+              "level": 3,
+              "numFiles": 1,
+              "totalLoc": 0,
+              "category": "Views/Templates",
+              "description": "Views/Templates module with 1 files",
+              "subdirectories": []
+            }
+          ]
+        },
+        {
+          "path": "storage\\app",
+          "name": "app",
+          "level": 2,
+          "numFiles": 3,
+          "totalLoc": 0,
+          "category": "Application",
+          "description": "Application module with 3 files",
+          "subdirectories": [
+            {
+              "path": "storage\\app\\private",
+              "name": "private",
+              "level": 3,
+              "numFiles": 1,
+              "totalLoc": 0,
+              "category": "General",
+              "description": "General module with 1 files",
+              "subdirectories": []
+            },
+            {
+              "path": "storage\\app\\public",
+              "name": "public",
+              "level": 3,
+              "numFiles": 1,
+              "totalLoc": 0,
+              "category": "General",
+              "description": "General module with 1 files",
+              "subdirectories": []
+            }
+          ]
+        },
+        {
+          "path": "storage\\logs",
+          "name": "logs",
+          "level": 2,
+          "numFiles": 2,
+          "totalLoc": 0,
+          "category": "General",
+          "description": "General module with 2 files",
+          "subdirectories": []
+        }
+      ]
+    }
+  ],
+  "architecturalInsights": {
+    "coreApplications": [
+      {
+        "path": "app",
+        "name": "app",
+        "level": 1,
+        "numFiles": 32,
+        "totalLoc": 2942,
+        "dominantLanguage": "PHP",
+        "category": "Application",
+        "description": "Application module with 32 files (PHP)",
+        "subdirectories": [
+          {
+            "path": "app\\Http",
+            "name": "Http",
+            "level": 2,
+            "numFiles": 20,
+            "totalLoc": 2434,
+            "dominantLanguage": "PHP",
+            "category": "General",
+            "description": "General module with 20 files (PHP)",
+            "subdirectories": [
+              {
+                "path": "app\\Http\\Controllers",
+                "name": "Controllers",
+                "level": 3,
+                "numFiles": 20,
+                "totalLoc": 2434,
+                "dominantLanguage": "PHP",
+                "category": "Controllers",
+                "description": "Controllers module with 20 files (PHP)",
+                "subdirectories": []
+              }
+            ]
+          },
+          {
+            "path": "app\\Models",
+            "name": "Models",
+            "level": 2,
+            "numFiles": 10,
+            "totalLoc": 421,
+            "dominantLanguage": "PHP",
+            "category": "Models/Entities",
+            "description": "Models/Entities module with 10 files (PHP)",
+            "subdirectories": []
+          },
+          {
+            "path": "app\\Mail",
+            "name": "Mail",
+            "level": 2,
+            "numFiles": 1,
+            "totalLoc": 62,
+            "dominantLanguage": "PHP",
+            "category": "General",
+            "description": "General module with 1 files (PHP)",
+            "subdirectories": []
+          },
+          {
+            "path": "app\\Providers",
+            "name": "Providers",
+            "level": 2,
+            "numFiles": 1,
+            "totalLoc": 25,
+            "dominantLanguage": "PHP",
+            "category": "General",
+            "description": "General module with 1 files (PHP)",
+            "subdirectories": []
+          }
+        ]
+      }
+    ],
+    "entryPointDetails": [],
+    "serviceArchitecture": {
+      "microservices": [],
+      "monoliths": [],
+      "libraries": []
+    },
+    "layeredArchitecture": {
+      "presentation": [],
+      "business": [],
+      "data": [
+        "database"
+      ],
+      "infrastructure": []
+    }
+  },
+  "largeFiles": [
+    {
+      "path": "public\\assets\\img\\shortcode\\carousel\\carousel-08.png",
+      "sizeMb": 3.07
+    },
+    {
+      "path": "public\\assets\\img\\home-v3\\check.png",
+      "sizeMb": 1.18
+    }
+  ],
+  "dependencies": {
+    "production": [
+      "autoprefixer"
+    ],
+    "development": [
+      "@tailwindcss/vite",
+      "axios",
+      "concurrently",
+      "laravel-vite-plugin",
+      "tailwindcss",
+      "vite"
+    ],
+    "total": 7
+  },
+  "complexity": {
+    "averageFileSize": 44.5974025974026,
+    "maxFileSize": 32191.283199999998,
+    "nestedDepth": 0,
+    "estimatedComplexity": "high"
+  }
+}
