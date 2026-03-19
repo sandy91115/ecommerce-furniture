@@ -22,6 +22,11 @@ use HasFactory, Notifiable, HasRoles;
         'name',
         'email',
         'password',
+        'designation',
+        'phone',
+        'location',
+        'bio',
+        'social_links',
     ];
 
     /**

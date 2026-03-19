@@ -21,12 +21,11 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        Role::firstOrCreate(['name' => 'admin']);
-       
-        Role::firstOrCreate(['name' => 'user']);
+Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
+        Role::firstOrCreate(['name' => 'customer', 'guard_name' => 'web']);
 
         $admin = User::firstOrCreate(
-            ['email' => 'admin@furnixar.com'],
+            ['email' => 'admin@caromstudios.com'],
             [
                 'name' => 'Super Admin',
                 'password' => Hash::make('admin123'),
@@ -170,5 +169,4 @@ class DatabaseSeeder extends Seeder
         }
     }
 }
-
 

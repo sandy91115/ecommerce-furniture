@@ -88,6 +88,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 },
                 body: JSON.stringify({ product_id: productId })
@@ -95,6 +97,8 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 this.classList.toggle('text-red-500', data.added);
+                const wishlistCount = document.querySelector('.wishlist-count');
+                if (wishlistCount && typeof data.count !== 'undefined') wishlistCount.textContent = data.count;
                 const svg = this.querySelector('svg');
                 if (svg) {
                     svg.innerHTML = data.added ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" fill="currentColor"/>' : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" fill="none"/>';
@@ -113,13 +117,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 },
-                body: JSON.stringify({ product_id: productId, qty: 1 })
+                body: JSON.stringify({ product_id: productId, quantity: 1 })
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data.message);
+                if (!data.success) throw new Error(data.message || 'Unable to add to cart');
                 // Update cart indicators
                 const cartCount = document.querySelector('.cart-count');
                 if (cartCount) cartCount.textContent = data.cart_count;

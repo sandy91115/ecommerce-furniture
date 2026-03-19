@@ -26,7 +26,8 @@ $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
             
             $view->with('cartItems', $cartItems);
             $view->with('cartTotal', $cartTotal);
-            $view->with('cartCount', count($cartItems));
+            $view->with('cartCount', $cartService->count());
+            $view->with('wishlistCount', $cartService->wishlistCount());
             
             $view->with('menus', [
                 'header_main' => \App\Models\Menu::getMenus('header_main'),
@@ -39,4 +40,3 @@ $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
         });
     }
 }
-

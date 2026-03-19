@@ -11,7 +11,7 @@ class BlogService
 {
     public function all($perPage = 10)
     {
-        return Blog::withTrashed()->paginate($perPage);
+        return Blog::latest()->paginate($perPage);
     }
 
     public function published($limit = null)
@@ -53,9 +53,7 @@ class BlogService
 
     public function delete(Blog $blog): bool
     {
-        if ($blog->featured_image) {
-            Storage::disk('public')->delete($blog->featured_image);
-        }
+        // Don't delete image on soft delete, as it might be restored
         return $blog->delete();
     }
 

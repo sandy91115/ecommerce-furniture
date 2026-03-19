@@ -135,5 +135,13 @@ class ProductController extends Controller
         $product->update(['status' => 'rejected']);
         return redirect()->route('admin.products.pending')->with('success', 'Product rejected.');
     }
+
+    public function quotationProducts()
+    {
+        $products = Product::with(['category', 'vendor'])
+            ->where('product_type', 'quotation')
+            ->paginate(10);
+        return view('admin.products.quotation-products', compact('products'));
+    }
 }
 

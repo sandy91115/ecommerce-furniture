@@ -7,7 +7,7 @@
     <h1 class="text-3xl font-bold text-gray-900">Settings</h1>
 </div>
 
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
     <!-- General Settings -->
     <div class="bg-white shadow rounded-lg p-8">
         <h2 class="text-2xl font-semibold mb-6 text-gray-800 border-b pb-2">General Settings</h2>
@@ -23,6 +23,12 @@
             <div class="mb-6">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Admin Email</label>
                 <input type="email" name="admin_email" value="{{ $settings['admin_email'] ?? '' }}" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">WhatsApp Number</label>
+                <input type="tel" name="whatsapp_number" value="{{ $settings['whatsapp_number'] ?? '' }}" placeholder="+1234567890" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                <p class="text-xs text-gray-500 mt-1">Format: +1234567890 (for WhatsApp CTA button on frontend)</p>
             </div>
             
             <div class="mb-8">
@@ -46,16 +52,42 @@
                 <p class="text-xs text-gray-500 mt-1">Recommended size: 200x60px, Max 2MB</p>
             </div>
 
-            <!-- Favicon Upload Section -->
+            <!-- Site Logo Upload Section -->
             <div class="mb-8">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Favicon</label>
-                @if($settings['admin_favicon_path'])
+                <label class="block text-sm font-medium text-gray-700 mb-2">Site Logo (Frontend)</label>
+                @if($settings['site_logo_path'])
                     <div class="mb-4">
-                        <img src="{{ asset('storage/' . $settings['admin_favicon_path']) }}" alt="Current Favicon" class="w-16 h-16 object-contain border rounded-lg shadow mx-auto">
-                        <p class="text-sm text-gray-500 mt-1">Current favicon</p>
+                        <img src="{{ asset('storage/' . $settings['site_logo_path']) }}" alt="Current Site Logo" class="max-w-32 h-16 object-contain border rounded-lg shadow">
+                        <p class="text-sm text-gray-500 mt-1">Current site logo</p>
                     </div>
                 @endif
-                <input type="file" name="favicon" accept="image/*" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                <input type="file" name="site_logo" accept="image/*" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                <p class="text-xs text-gray-500 mt-1">Recommended size: 200x60px or SVG, Max 2MB</p>
+            </div>
+
+            <!-- Site Favicon Upload Section -->
+            <div class="mb-8">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Site Favicon (Frontend)</label>
+                @if($settings['site_favicon_path'])
+                    <div class="mb-4">
+                        <img src="{{ asset('storage/' . $settings['site_favicon_path']) }}" alt="Current Site Favicon" class="w-16 h-16 object-contain border rounded-lg shadow mx-auto">
+                        <p class="text-sm text-gray-500 mt-1">Current site favicon</p>
+                    </div>
+                @endif
+                <input type="file" name="site_favicon" accept="image/*" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                <p class="text-xs text-gray-500 mt-1">Recommended: 32x32px or 16x16px ICO/PNG, Max 2MB</p>
+            </div>
+
+            <!-- Favicon Upload Section -->
+            <div class="mb-8">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Admin Favicon</label>
+                @if($settings['admin_favicon_path'])
+                    <div class="mb-4">
+                        <img src="{{ asset('storage/' . $settings['admin_favicon_path']) }}" alt="Current Admin Favicon" class="w-16 h-16 object-contain border rounded-lg shadow mx-auto">
+                        <p class="text-sm text-gray-500 mt-1">Current admin favicon</p>
+                    </div>
+                @endif
+                <input type="file" name="admin_favicon" accept="image/*" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                 <p class="text-xs text-gray-500 mt-1">Recommended: 32x32px or 16x16px ICO/PNG, Max 2MB</p>
             </div>
 

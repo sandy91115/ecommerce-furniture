@@ -43,7 +43,7 @@ class OrderRepository implements OrderRepositoryInterface
                     'quantity' => $item['quantity'],
                     'total' => $item['price'] * $item['quantity'],
                     'variant_id' => $item['variation_id'] ?? null,
-                    'variation_data' => !empty($item['variations']) ? json_encode($item['variations']) : null,
+                    'variation_data' => !empty($item['attributes']) ? $item['attributes'] : null,
                 ]);
             }
 
@@ -82,4 +82,3 @@ class OrderRepository implements OrderRepositoryInterface
             ->paginate(15);
     }
 }
-

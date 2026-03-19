@@ -5,7 +5,8 @@
 @section('content')
 <!-- Loading Skeleton -->
 <div id="loading-skeleton" class="space-y-6">
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+  <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+    <div class="stat-card p-6 rounded-xl shadow-lg h-24 skeleton"></div>
     <div class="stat-card p-6 rounded-xl shadow-lg h-24 skeleton"></div>
     <div class="stat-card p-6 rounded-xl shadow-lg h-24 skeleton"></div>
     <div class="stat-card p-6 rounded-xl shadow-lg h-24 skeleton"></div>
@@ -27,65 +28,65 @@
 <!-- Main Content -->
 <div id="main-content" class="space-y-8" style="display: none;">
   <!-- Stats Cards -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-    <div class="stat-card p-8 rounded-xl shadow-xl">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+    <div class="stat-card p-6 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800">
       <div class="flex items-center">
-        <div class="stat-icon p-4 rounded-2xl bg-blue-100 dark:bg-blue-900">
-          <i class="fas fa-shopping-cart text-blue-600 dark:text-blue-400 text-3xl"></i>
+        <div class="stat-icon p-3 rounded-xl bg-blue-100 dark:bg-blue-900">
+          <i class="fas fa-shopping-cart text-blue-600 dark:text-blue-400 text-2xl"></i>
         </div>
-        <div class="ml-6 flex-1">
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Total Orders</h3>
-          <p class="stat-number">{{ number_format($stats['total_orders']) }}</p>
-          <span class="growth-badge growth-positive inline-flex items-center mt-1">
-            <i class="fas fa-arrow-up mr-1"></i> +12.5%
-          </span>
+        <div class="ml-4 flex-1">
+          <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase">Orders</h3>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ number_format($stats['total_orders']) }}</p>
         </div>
       </div>
     </div>
     
-    <div class="stat-card p-8 rounded-xl shadow-xl">
+    <div class="stat-card p-6 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800">
       <div class="flex items-center">
-        <div class="stat-icon p-4 rounded-2xl bg-green-100 dark:bg-green-900">
-          <i class="fas fa-dollar-sign text-green-600 dark:text-green-400 text-3xl"></i>
+        <div class="stat-icon p-3 rounded-xl bg-green-100 dark:bg-green-900">
+          <i class="fas fa-dollar-sign text-green-600 dark:text-green-400 text-2xl"></i>
         </div>
-        <div class="ml-6 flex-1">
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Total Revenue</h3>
-          <p class="stat-number">${{ number_format($stats['total_revenue'], 2) }}</p>
-          <span class="growth-badge growth-positive inline-flex items-center mt-1">
-            <i class="fas fa-arrow-up mr-1"></i> +28.3%
-          </span>
+        <div class="ml-4 flex-1">
+          <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase">Revenue</h3>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">${{ number_format($stats['total_revenue'], 0) }}</p>
         </div>
       </div>
     </div>
     
-    <div class="stat-card p-8 rounded-xl shadow-xl">
+    <div class="stat-card p-6 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800">
       <div class="flex items-center">
-        <div class="stat-icon p-4 rounded-2xl bg-purple-100 dark:bg-purple-900">
-          <i class="fas fa-users text-purple-600 dark:text-purple-400 text-3xl"></i>
+        <div class="stat-icon p-3 rounded-xl bg-purple-100 dark:bg-purple-900">
+          <i class="fas fa-users text-purple-600 dark:text-purple-400 text-2xl"></i>
         </div>
-        <div class="ml-6 flex-1">
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Total Customers</h3>
-          <p class="stat-number">{{ number_format($stats['total_customers']) }}</p>
-          <span class="growth-badge growth-positive inline-flex items-center mt-1">
-            <i class="fas fa-arrow-up mr-1"></i> +8.2%
-          </span>
+        <div class="ml-4 flex-1">
+          <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase">Customers</h3>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ number_format($stats['total_customers']) }}</p>
         </div>
       </div>
     </div>
     
-    <div class="stat-card p-8 rounded-xl shadow-xl">
+    <div class="stat-card p-6 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800">
       <div class="flex items-center">
-        <div class="stat-icon p-4 rounded-2xl bg-indigo-100 dark:bg-indigo-900">
-          <i class="fas fa-boxes text-indigo-600 dark:text-indigo-400 text-3xl"></i>
+        <div class="stat-icon p-3 rounded-xl bg-indigo-100 dark:bg-indigo-900">
+          <i class="fas fa-boxes text-indigo-600 dark:text-indigo-400 text-2xl"></i>
         </div>
-        <div class="ml-6 flex-1">
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Active Products</h3>
-          <p class="stat-number">{{ number_format($stats['total_products']) }}</p>
-          <span class="growth-badge growth-positive inline-flex items-center mt-1">
-            <i class="fas fa-arrow-up mr-1"></i> +15.7%
-          </span>
+        <div class="ml-4 flex-1">
+          <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase">Products</h3>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ number_format($stats['total_products']) }}</p>
         </div>
       </div>
+    </div>
+
+    <div class="stat-card p-6 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800 transition-all hover:scale-105">
+      <a href="{{ route('admin.contacts.index') }}" class="flex items-center">
+        <div class="stat-icon p-3 rounded-xl bg-yellow-100 dark:bg-yellow-900">
+          <i class="fas fa-envelope text-yellow-600 dark:text-yellow-400 text-2xl"></i>
+        </div>
+        <div class="ml-4 flex-1">
+          <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase">Enquiries</h3>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ number_format($stats['total_enquiries']) }}</p>
+        </div>
+      </a>
     </div>
   </div>
 

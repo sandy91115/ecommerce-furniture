@@ -4,7 +4,6 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Session;
 use App\Models\Product;
-use Illuminate\Support\Str;
 
 class CartService
 {
@@ -53,7 +52,7 @@ class CartService
                 'id' => $productId,
                 'name' => $product->name,
                 'price' => $product->sale_price ?: $product->price,
-'image' => $product->images->where('featured', true)->first()?->path ?? $product->images->first()?->path,
+                'image' => $product->images->where('featured', true)->first()?->path ?? $product->images->first()?->path,
                 'quantity' => $quantity,
                 'variation_id' => $variationId,
                 'attributes' => $selectedAttributes,
@@ -114,16 +113,10 @@ class CartService
 
     public function addToWishlist($productId)
     {
-        $product = Product::findOrFail($productId);
+        Product::findOrFail($productId);
         $wishlist = Session::get('wishlist', []);
 
-        $wishlist[$productId] = [
-            'id' => $productId,
-            'name' => $product->name,
-            'slug' => $product->slug,
-'image' => $product->images->first()?->path,
-            'price' => $product->sale_price ?: $product->price,
-        ];
+        $wishlist[$productId] = true;
 
         Session::put('wishlist', $wishlist);
         Session::save();
@@ -136,5 +129,21 @@ class CartService
         Session::put('wishlist', $wishlist);
         Session::save();
     }
-}
 
+    public function getWishlist()
+    {
+        $wishlistIds = array_keys(Session::get('wishlist', []));
+        if (empty($wishlistIds)) {
+            return collect([]);
+        }
+        return Product::whereIn('id', $wishlistIds)
+            ->with(['images', 'category'])
+            ->get()
+            ->keyBy('id');
+    }
+
+    public function getWishlistIds()
+    {
+        return Session::get('wishlist', []);
+    }
+}

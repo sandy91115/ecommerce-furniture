@@ -12,7 +12,7 @@ class CustomerController extends Controller
 {
     public function index()
     {
-$customers = User::role('user')->paginate(15);
+$customers = User::role('customer')->paginate(15) ?: User::whereDoesntHave('roles')->paginate(15);
         return view('admin.customers.index', compact('customers'));
     }
 
@@ -35,7 +35,8 @@ $customers = User::role('user')->paginate(15);
             'password' => Hash::make($validated['password']),
         ]);
 
-        $user->assignRole('user');
+        Role::firstOrCreate(['name' => 'customer']);
+        $user->assignRole('customer');
 
         return redirect()->route('admin.customers.index')->with('success', 'Customer created successfully.');
     }
@@ -57,13 +58,20 @@ $customers = User::role('user')->paginate(15);
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $customer->id,
             'password' => 'nullable|string|min:8|confirmed',
+            'designation' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:20',
+            'location' => 'nullable|string|max:255',
+            'bio' => 'nullable|string',
+            'social_links' => 'nullable|string|max:255',
         ]);
 
-        $customer->update([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => $validated['password'] ? Hash::make($validated['password']) : $customer->password,
-        ]);
+        if ($validated['password']) {
+            $validated['password'] = Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
+
+        $customer->update($validated);
 
         return redirect()->route('admin.customers.index')->with('success', 'Customer updated successfully.');
     }
@@ -74,4 +82,3 @@ $customers = User::role('user')->paginate(15);
         return redirect()->route('admin.customers.index')->with('success', 'Customer deleted successfully.');
     }
 }
-

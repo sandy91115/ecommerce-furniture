@@ -17,7 +17,7 @@ class ProductStoreRequest extends FormRequest
         return [
             'vendor_id' => 'nullable|exists:vendors,id',
             'category_id' => 'required|exists:categories,id',
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:products',
             'slug' => 'nullable|string|unique:products',
             'sku' => 'required|string|max:100|unique:products',
             'price' => 'required|numeric|min:0',
@@ -35,13 +35,21 @@ class ProductStoreRequest extends FormRequest
             'assembly_required' => 'boolean',
             'seo_title' => 'nullable|string|max:255',
             'seo_description' => 'nullable|string|max:500',
+            'images' => 'required|array|min:1',
             'images.*' => 'image|max:5120',
+            'product_type' => 'required|in:sell,quotation',
+            'extra_title' => 'nullable|string|max:255',
+            'extra_description' => 'nullable|string',
         ];
     }
+
 
     public function messages(): array
     {
         return [
+            'name.unique' => 'A product with this title already exists. Please use a different title.',
+            'slug.unique' => 'This slug is already taken. Try another or leave it blank.',
+            'sku.unique' => 'This SKU is already in use. Each product must have a unique SKU.',
             'sale_price.lt' => 'Sale price must be less than regular price.',
         ];
     }

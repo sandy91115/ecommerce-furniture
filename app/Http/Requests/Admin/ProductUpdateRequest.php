@@ -19,7 +19,7 @@ class ProductUpdateRequest extends FormRequest
         return [
             'vendor_id' => 'nullable|exists:vendors,id',
             'category_id' => 'required|exists:categories,id',
-            'name' => 'required|string|max:255',
+            'name' => ['required', 'string', 'max:255', Rule::unique('products')->ignore($productId)],
             'slug' => ['nullable', 'string', Rule::unique('products')->ignore($productId)],
             'sku' => ['required', 'string', 'max:100', Rule::unique('products')->ignore($productId)],
             'price' => 'required|numeric|min:0',
@@ -44,6 +44,9 @@ class ProductUpdateRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'name.unique' => 'A product with this title already exists. Please use a different title.',
+            'slug.unique' => 'This slug is already taken. Try another or leave it blank.',
+            'sku.unique' => 'This SKU is already in use. Each product must have a unique SKU.',
             'sale_price.lt' => 'Sale price must be less than regular price.',
         ];
     }

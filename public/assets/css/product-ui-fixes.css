@@ -83,3 +83,291 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
+
+/* Navbar menu alignment fix */
+.nav-shop-link {
+  justify-content: flex-start !important;
+  gap: 0.4rem !important;
+}
+
+.nav-shop-plus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-style: normal;
+  font-size: 1.05rem;
+  line-height: 1;
+  transform: translateY(-0.04em);
+}
+
+/* WhatsApp floating CTA */
+.whatsapp-float {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 6rem;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 9999px;
+  background: #22c55e;
+  color: #ffffff;
+  box-shadow: 0 18px 40px rgba(34, 197, 94, 0.35);
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.whatsapp-float:hover {
+  background: #16a34a;
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 22px 48px rgba(22, 163, 74, 0.42);
+}
+
+.whatsapp-float::before {
+  content: "";
+  position: absolute;
+  inset: 0.42rem;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.04));
+}
+
+.whatsapp-float svg {
+  position: relative;
+  z-index: 1;
+  width: 2.15rem;
+  height: 2.15rem;
+  fill: #ffffff;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  transform: scale(1.06);
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.whatsapp-float:hover svg {
+  transform: scale(1.14);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.22));
+}
+
+.whatsapp-float__tooltip {
+  position: absolute;
+  right: 0;
+  bottom: -2.35rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 0.5rem;
+  background: rgba(17, 24, 39, 0.94);
+  color: #ffffff;
+  font-size: 0.75rem;
+  line-height: 1;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+}
+
+.whatsapp-float:hover .whatsapp-float__tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+@media (min-width: 768px) {
+  .whatsapp-float {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .whatsapp-float svg {
+    width: 2.35rem;
+    height: 2.35rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .whatsapp-float {
+    right: 1rem;
+    bottom: 5rem;
+  }
+}
+
+/* Home banner alignment fixes */
+.hero-banner-slide {
+  isolation: isolate;
+}
+
+.hero-banner-layout {
+  position: relative;
+  gap: clamp(2rem, 4vw, 4.5rem);
+}
+
+.banner-copy {
+  max-width: 560px;
+}
+
+.banner-meta-card {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  margin-bottom: 1.75rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid rgba(187, 151, 109, 0.18);
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 18px 48px rgba(23, 36, 48, 0.08);
+}
+
+.banner-meta-card p,
+.banner-meta-card h4 {
+  visibility: visible !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.banner-decor {
+  left: -3rem;
+  top: 4.5rem;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.banner-title-wrap {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.banner-title-wrap span {
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+}
+
+.banner-season-art {
+  width: clamp(150px, 18vw, 260px);
+  margin-left: 0 !important;
+  transform: translateY(-0.2rem);
+}
+
+.banner-kicker,
+.banner-main-title,
+.banner-description,
+.banner-actions {
+  position: relative;
+  z-index: 2;
+}
+
+.banner-main-title {
+  max-width: 12ch;
+}
+
+.banner-description {
+  max-width: 32rem;
+}
+
+.banner-media {
+  position: relative;
+}
+
+.banner-media-frame {
+  position: relative;
+  min-height: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.banner-media-frame::before {
+  content: "";
+  position: absolute;
+  inset: 1.5rem;
+  border-radius: 1.5rem;
+  background: linear-gradient(180deg, rgba(250, 246, 239, 0.95), rgba(243, 238, 230, 0.55));
+}
+
+.banner-product-image {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.banner-discount-badge {
+  top: 1rem;
+  left: 0;
+  right: auto;
+  z-index: 3;
+}
+
+.banner-discount-badge__text {
+  left: 71%;
+}
+
+@media (max-width: 1279px) {
+  .banner-copy {
+    max-width: 100%;
+  }
+
+  .banner-main-title {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .banner-meta-card {
+    margin-bottom: 1.25rem;
+  }
+
+  .banner-title-wrap {
+    gap: 0.25rem;
+  }
+
+  .banner-season-art {
+    width: 170px;
+  }
+
+  .banner-media-frame {
+    min-height: 420px;
+  }
+}
+
+@media (max-width: 767px) {
+  .banner-meta-card {
+    display: block;
+    padding: 0.9rem 1rem;
+  }
+
+  .banner-title-wrap {
+    margin-bottom: 0.5rem;
+  }
+
+  .banner-title-wrap span {
+    font-size: clamp(3.25rem, 18vw, 5.25rem) !important;
+  }
+
+  .banner-season-art {
+    width: 135px;
+    transform: none;
+  }
+
+  .banner-main-title {
+    font-size: 2.25rem !important;
+  }
+
+  .banner-description {
+    max-width: 100%;
+  }
+
+  .banner-media-frame {
+    min-height: 320px;
+    padding: 1rem;
+  }
+
+  .banner-media-frame::before {
+    inset: 0.75rem;
+  }
+}

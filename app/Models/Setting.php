@@ -11,6 +11,10 @@ class Setting extends Model
     const ADMIN_THEME_MODE = 'admin_theme_mode';
     const SITE_NAME = 'site_name';
     const ADMIN_EMAIL = 'admin_email';
+    const WHATSAPP_NUMBER = 'whatsapp_number';
+
+    const SITE_LOGO_PATH = 'site_logo_path';
+    const SITE_FAVICON_PATH = 'site_favicon_path';
 
     protected $fillable = [
         'key',

@@ -1,6 +1,24 @@
 @extends('layouts.main')
 
 @section('content')
+<style>
+    .login-submit-btn {
+        background: linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%);
+        color: #ffffff;
+        border-color: transparent;
+    }
+
+    .login-submit-btn:hover {
+        background: linear-gradient(90deg, #1d4ed8 0%, #1e40af 100%);
+        color: #ffffff;
+    }
+
+    .login-submit-btn:focus {
+        color: #ffffff;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+    }
+</style>
+
 <div class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-100 py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
     <div class="max-w-md w-full space-y-8">
         <div>
@@ -56,7 +74,7 @@
 
             <!-- Login Button -->
             <div>
-                <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-lg font-bold rounded-xl shadow-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:scale-[1.02]">
+                <button type="submit" class="login-submit-btn group relative w-full flex justify-center py-3 px-4 border text-lg font-bold rounded-xl shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:scale-[1.02]">
                     <span class="absolute left-0 inset-y-0 flex items-center pl-3">
                         <i class="fas fa-arrow-right text-white"></i>
                     </span>

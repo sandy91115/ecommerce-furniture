@@ -21,7 +21,7 @@
                 </label>
                 <select name="user_id" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('user_id') border-red-500 ring-2 ring-red-500/50 @enderror">
                     <option value="">Select User</option>
-                    @foreach(\App\Models\User::role('user')->get() as $user)
+@php $customers = \App\Models\User::role('customer')->get() ?: \App\Models\User::whereDoesntHave('roles')->get(); @endphp @foreach($customers as $user)
                         <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>{{ $user->name }} ({{ $user->email }})</option>
                     @endforeach
                 </select>

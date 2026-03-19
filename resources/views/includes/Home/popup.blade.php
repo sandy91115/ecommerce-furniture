@@ -153,10 +153,10 @@
             </div>
         </div>
     </div>
-    <button class="quick-popup-close w-12 h-12 rounded-full flex items-center justify-center text-title dark:text-white bg-title/10 dark:bg-white/10 absolute top-5 right-5 z-[999999999] duration-300 hover:text-white hover:bg-primary dark:hove:bg-primary dark:hover:text-white">
+    <!-- <button class="quick-popup-close w-12 h-12 rounded-full flex items-center justify-center text-title dark:text-white bg-title/10 dark:bg-white/10 absolute top-5 right-5 z-[999999999] duration-300 hover:text-white hover:bg-primary dark:hove:bg-primary dark:hover:text-white">
         <svg class="fill-current" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0.273438 2.12808L2.12613 0.275391L8.97678 7.12604L15.8274 0.275391L17.637 2.085L10.7864 8.93564L17.7232 15.8725L15.8705 17.7252L8.93369 10.7883L2.08304 17.639L0.273438 15.8294L7.12409 8.97873L0.273438 2.12808Z"/>
         </svg>                
-    </button>
+    </button> -->
 </div>
 <!-- Quick View Popup End -->

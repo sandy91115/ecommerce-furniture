@@ -65,6 +65,9 @@
                     @error('name')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
+                    <div class="mt-2">
+                        <a href="/product/{{ $product->slug }}" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View Product <i class="fas fa-external-link-alt ml-1"></i></a>
+                    </div>
                 </div>
 
                 <div>
@@ -121,6 +124,25 @@
                     @error('status')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
+                </div>
+
+                <!-- Product Type -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Product Type *</label>
+                    <div class="flex space-x-4">
+                        <label class="flex items-center">
+                            <input type="radio" name="product_type" value="sell" {{ old('product_type', $product->product_type) == 'sell' ? 'checked' : '' }} required class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <span class="ml-2 text-sm font-medium text-gray-700">Sell</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="product_type" value="quotation" {{ old('product_type', $product->product_type) == 'quotation' ? 'checked' : '' }} class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <span class="ml-2 text-sm font-medium text-gray-700">Quotation</span>
+                        </label>
+                    </div>
+                    @error('product_type')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                    <p class="text-xs text-gray-500 mt-1">Sell: Regular product. Quotation: Customer inquiry form.</p>
                 </div>
 
                 <div>
@@ -213,10 +235,21 @@
 
             <div class="mt-6">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Description *</label>
-                <textarea name="description" rows="8" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('description') border-red-500 @enderror">{{ old('description', $product->description) }}</textarea>
+                <textarea id="description" name="description" rows="8" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('description') border-red-500 @enderror">{{ old('description', $product->description) }}</textarea>
                 @error('description')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
+            </div>
+
+            <!-- Extra Info (Optional) -->
+            <div class="mt-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Extra Info Title (Optional)</label>
+                <input type="text" name="extra_title" value="{{ old('extra_title', $product->extra_title) }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            </div>
+
+            <div class="mt-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Extra Info Description (Optional)</label>
+                <textarea id="extra_description" name="extra_description" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">{{ old('extra_description', $product->extra_description) }}</textarea>
             </div>
 
             <div class="mt-6">
@@ -280,4 +313,3 @@ document.getElementById('imagesInput').addEventListener('change', function(e) {
 });
 </script>
 @endsection
-

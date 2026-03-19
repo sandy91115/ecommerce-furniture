@@ -5,7 +5,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>@yield('title', 'Furniture Store - Premium Home Decor')</title>
-        <link rel="icon" href="{{ asset('assets/img/favicon.png') }}" type="image/gif" sizes="18x18">
+        @php
+            $siteFaviconPath = \App\Models\Setting::get('site_favicon_path');
+            $faviconUrl = $siteFaviconPath ? asset('storage/' . $siteFaviconPath) : asset('assets/img/favicon.png');
+        @endphp
+        <link rel="icon" href="{{ $faviconUrl }}" type="image/x-icon">
 
         <!-- Meta tags for SEO -->
         <meta content="	ceramics, decoration, ecommerce, ecommerce template, elementor, furniture, furniture store, furniture template, interior design, interior design template, shopping, simple ecommerce, store, store template" name="keywords">
@@ -17,7 +21,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <!-- Main Stylesheet -->
-<link rel="stylesheet" href="{{ asset('resources/css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('resources/css/app.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/product-ui-fixes.css') }}">
         <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
@@ -49,12 +53,25 @@
         </div>
 
         <!-- Back to top -->
-        <a href="#" onclick="topFunction()" id="back-to-top" class="back-to-top fixed hidden text-lg rectangle-full z-10 bottom-5 end-5 h-9 w-9 text-center bg-[#bb976d] text-white leading-9"><i class="mdi mdi-arrow-up"></i></a>
+        <a href="#" onclick="topFunction()" id="back-to-top" class="back-to-top fixed hidden text-lg rectangle-full z-10 bottom-5 right-5 h-9 w-9 text-center bg-[#bb976d] text-white leading-9"><i class="mdi mdi-arrow-up"></i></a>
         <!-- Back to top -->
+        
+        <!-- WhatsApp Floating Button -->
+        @php
+            $rawWhatsappNumber = $whatsappNumber ?? \App\Models\Setting::get('whatsapp_number', '1234567890');
+            $whatsappNumberForLink = preg_replace('/\D+/', '', (string) $rawWhatsappNumber);
+            $whatsappMessage = rawurlencode("Hi! I'm interested in your furniture");
+        @endphp
+        <a href="https://wa.me/{{ $whatsappNumberForLink ?: '1234567890' }}?text={{ $whatsappMessage }}" target="_blank" rel="noopener noreferrer" class="whatsapp-float group" title="Chat on WhatsApp" aria-label="Chat on WhatsApp">
+            <svg class="w-7 h-7 group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 0 01-1.371-5.05c.584-.815 1.51-1.481 2.666-2.2l.304-.22 3.472 1.022.419-.936c.775-.957 1.777-1.7 2.977-2.237a9.845 9.845 0 015.017 1.371l.361.214 3.741-.982-.998 3.648.235.374a9.86 0 001.371 5.05c-.584.815-1.51 1.481-2.666 2.2l-.304.22-3.472-1.022-.419.936c-.775.957-1.777 1.7-2.977 2.237a9.845 9.845 0 01-5.019-1.371z"/>
+            </svg>
+            <span class="whatsapp-float__tooltip">Chat with us</span>
+        </a>
+        <!-- WhatsApp Floating Button -->
 
         <script src="{{ asset('assets/js/scripts.js') }}"></script>
         <script src="{{ asset('assets/js/base.js') }}"></script>
 
     </body>
 </html>
-

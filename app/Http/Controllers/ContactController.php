@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\Contactus;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -25,20 +26,33 @@ class ContactController extends Controller
                 'Message' => 'required|string',
             ]);
 
-            // Prepare email data
-            $data = $request->only(['name', 'email', 'number', 'subject', 'Message']);
+            // Prepare enquiry data
+            $data = [
+                'name' => $request->name,
+                'email' => $request->email,
+                'number' => $request->number,
+                'subject' => $request->subject,
+                'message' => $request->Message,
+            ];
+
+            // Save to database
+            Contact::create($data);
             
-            // Send email
-            Mail::raw('Name: ' . $data['name'] . "\n" . 
-                    'Email: ' . $data['email'] . "\n" . 
-                    'Number: ' . $data['number'] . "\n" . 
-                    'Subject: ' . $data['subject'] . "\n" . 
-                    'Message: ' . $data['Message'], 
-                function ($message) use ($data) {
-                    $message->to('your-email@gmail.com') // Replace with your email
-                            ->subject($data['subject']);
-                }
-            );
+            // Send email (optional: keep or remove)
+            try {
+                Mail::raw('Name: ' . $data['name'] . "\n" . 
+                        'Email: ' . $data['email'] . "\n" . 
+                        'Number: ' . $data['number'] . "\n" . 
+                        'Subject: ' . $data['subject'] . "\n" . 
+                        'Message: ' . $data['message'], 
+                    function ($message) use ($data) {
+                        $message->to('your-email@gmail.com') // Replace with your email
+                                ->subject($data['subject']);
+                    }
+                );
+            } catch (\Exception $e) {
+                \Log::warning('Email sending failed: ' . $e->getMessage());
+            }
 
             // Return raw HTML for success
             $successMessage = "

@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', $vendor->store_name . ' - Furnixar')
+@section('title', ($store['name'] ?? 'Store') . ' - Furnixar')
 
 @section('content')
 <!-- Store Header -->
@@ -9,8 +9,8 @@
         <div class="flex flex-col md:flex-row items-center gap-8">
             <!-- Store Logo & Banner -->
             <div class="flex-shrink-0">
-                @if($vendor->store_logo)
-                    <img src="{{ asset('storage/' . $vendor->store_logo) }}" alt="{{ $vendor->store_name }}" class="w-32 h-32 rounded-full shadow-2xl object-cover border-4 border-white">
+                @if(!empty($store['logo_path']))
+                    <img src="{{ asset('storage/' . $store['logo_path']) }}" alt="{{ $store['name'] ?? 'Store' }}" class="w-32 h-32 rounded-full shadow-2xl object-cover border-4 border-white" onerror="this.style.display='none'">
                 @else
                     <div class="w-32 h-32 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-2xl">
                         <i class="fas fa-store text-4xl text-white"></i>
@@ -21,21 +21,16 @@
             <!-- Store Info -->
             <div class="flex-1 text-center md:text-left">
 <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-4">
-                    {{ $vendor->store_name }}
+                    {{ $store['name'] ?? 'Store' }}
                 </h1>
                 <div class="flex flex-wrap gap-4 justify-center md:justify-start mb-6">
-                    @if($vendor->store_status == 'active')
-                        <span class="px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-semibold">Verified Store</span>
-                    @else
-                        <span class="px-4 py-2 bg-yellow-100 text-yellow-800 rounded-full text-sm font-semibold">Pending Approval</span>
-                    @endif
-                    <span class="px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">{{ $vendor->products->count() }} Products</span>
+                    <span class="px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">{{ $products->total() }} Products</span>
                 </div>
-                <p class="text-xl text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">{{ $vendor->store_description }}</p>
+                <p class="text-xl text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">{{ $store['description'] ?? '' }}</p>
                 <div class="flex flex-wrap gap-4 text-lg font-medium">
-                    @if($vendor->store_phone)
-                        <a href="tel:{{ $vendor->store_phone }}" class="flex items-center text-blue-600 hover:text-blue-800">
-                            <i class="fas fa-phone mr-2"></i>{{ $vendor->store_phone }}
+                    @if(!empty($store['phone']))
+                        <a href="tel:{{ $store['phone'] }}" class="flex items-center text-blue-600 hover:text-blue-800">
+                            <i class="fas fa-phone mr-2"></i>{{ $store['phone'] }}
                         </a>
                     @endif
                 </div>
@@ -59,7 +54,7 @@
                 <div class="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden">
                     <div class="h-64 overflow-hidden relative bg-gradient-to-br from-gray-50 to-gray-100">
                         @if($product->images->first())
-                            <img src="{{ asset('storage/' . $product->images->first()->image) }}" alt="{{ $product->name }}" 
+                            <img src="{{ asset('storage/' . $product->images->first()->path) }}" alt="{{ $product->name }}" 
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                         @else
                             <div class="w-full h-full flex items-center justify-center">

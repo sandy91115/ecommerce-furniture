@@ -26,9 +26,6 @@ class AuthController extends Controller
             if ($user->hasRole('admin')) {
                 return redirect('/admin/dashboard');
             }
-            if ($user->hasRole('vendor')) {
-                return redirect('/vendor/dashboard');
-            }
             return redirect('/dashboard');
         }
 
@@ -56,6 +53,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'customer']);
         $user->assignRole('customer');
         Auth::login($user);
 

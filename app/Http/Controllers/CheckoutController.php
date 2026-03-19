@@ -44,7 +44,7 @@ class CheckoutController extends Controller
             'city' => 'required|string',
             'state' => 'required|string',
             'zipcode' => 'required|string',
-            'terms' => 'required',
+            'terms' => 'accepted',
         ]);
 
         $cartItems = $this->cartService->get();
@@ -76,6 +76,3 @@ class CheckoutController extends Controller
         ]);
     }
 }
-?>
-
-

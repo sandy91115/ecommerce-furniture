@@ -41,8 +41,8 @@
                 </div>
 
                 <div class="lg:max-w-[522px] w-full sm:text-center -order-1 lg:order-none">
-                    <img class="sm:mx-auto w-[150px] sm:w-auto" src="{{ asset('assets/img/footer-logo.svg') }}" alt="logo">
-                    <p class="mt-4 text-white-light max-w-[522px] sm:mx-auto">Furnixar is a modern furniture Laravel 12 template for an eCommerce website designed to help you create an impressive online store for your furniture or home decor business. </p>
+                    <img class="sm:mx-auto w-[150px] sm:w-auto" src="{{ asset('storage/' . \App\Models\Setting::get('site_logo_path', 'assets/img/footer-logo.svg')) }}" alt="logo">
+                    <p class="mt-4 text-white-light max-w-[522px] sm:mx-auto">Carom studios is a modern furniture  for an eCommerce website designed to help you create an impressive online store for your furniture or home decor business. </p>
                     <div class="flex items-center sm:justify-center gap-4 mt-6">
                         <a href="#" class="w-10 h-10 rounded-full border border-white border-opacity-50 flex items-center justify-center group hover:border-primary duration-300" aria-label="Facebook">
                             <svg class="fill-current text-white group-hover:text-primary duration-300 " width="9" height="17" viewBox="0 0 9 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -96,7 +96,7 @@
             </div>
 
             <div class="max-w-[1722px] mx-auto border-t border-white border-opacity-10 py-5 md:py-7 text-center">
-                <p class="mb-0 text-gray-300">© 2025 Furnixar. Develop with <i class="mdi mdi-heart text-red-700"></i> by <a href="https://shreethemes.in/" target="_blank" class="text-reset">Shreethemes</a>.</p>
+                <p class="mb-0 text-gray-300">© 2026 CAROM STUDIOS. Develop with <i class="mdi mdi-heart text-red-700"></i> by <a href="https://shreethemes.in/" target="_blank" class="text-reset">Lets Digital Marketing</a>.</p>
             </div>
         </div>
     </div>

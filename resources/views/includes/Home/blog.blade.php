@@ -1,53 +1,47 @@
 @php
-$blogs = $relatedBlogs ?? [
-[
-'id' => 1,
-'img' => 'assets/img/shortcode/blog/blog-01.jpg',
-'title' => 'Auctor sit elementum habitant vel tempor varius.',
-'tag' => 'Interior',
-'date' => '6 Sep, 2025',
-],
-[
-'id' => 2,
-'img' => 'assets/img/shortcode/blog/blog-02.jpg',
-'title' => 'Consectetur purus habitasse ut diam habitant varius.',
-'tag' => 'Chair',
-'date' => '6 Sep, 2025',
-],
-[
-'id' => 3,
-'img' => 'assets/img/shortcode/blog/blog-03.jpg',
-'title' => 'Far far away of furniture of this habitant vel tempor.',
-'tag' => 'Vase',
-'date' => '6 Sep, 2025',
-],
-[
-'id' => 4,
-'img' => 'assets/img/shortcode/blog/blog-14.jpg',
-'title' => 'The Auctor sit elementum habitant vel tempor varius.',
-'tag' => 'Interior',
-'date' => '6 Sep, 2025',
-],
-[
-'id' => 5,
-'img' => 'assets/img/shortcode/blog/blog-15.jpg',
-'title' => 'That Auctor sit elementum habitant vel tempor varius.',
-'tag' => 'Vase',
-'date' => '6 Sep, 2025',
-]
-];
+$blogs = $latestBlogs ?? collect();
 
-if (isset($relatedBlogs)) {
-$blogs = $relatedBlogs->map(function ($blog) {
-return [
-'id' => $blog->id,
-'img' => $blog->image_url,
-'title' => $blog->title,
-'tag' => $blog->tags[0] ?? 'Blog',
-'date' => $blog->published_at ? $blog->published_at->format('d M, Y') : $blog->created_at->format('d M, Y'),
-];
-});
+if ($blogs->isEmpty()) {
+    $blogs = collect([
+        [
+            'id' => 1,
+            'image_url' => 'assets/img/shortcode/blog/blog-01.jpg',
+            'title' => 'Auctor sit elementum habitant vel tempor varius.',
+            'tags' => ['Interior'],
+            'published_at' => now(),
+        ],
+        [
+            'id' => 2,
+            'image_url' => 'assets/img/shortcode/blog/blog-02.jpg',
+            'title' => 'Consectetur purus habitasse ut diam habitant varius.',
+            'tags' => ['Chair'],
+            'published_at' => now(),
+        ],
+        [
+            'id' => 3,
+            'image_url' => 'assets/img/shortcode/blog/blog-03.jpg',
+            'title' => 'Far far away of furniture of this habitant vel tempor.',
+            'tags' => ['Vase'],
+            'published_at' => now(),
+        ],
+    ]);
 }
+
+$blogs = $blogs->map(function ($blog) {
+    $blogId = isset($blog->id) ? $blog->id : ($blog['id'] ?? 0);
+    $blogImage = isset($blog->image_url) ? $blog->image_url : ($blog['image_url'] ?? '');
+    $blogTitle = isset($blog->title) ? $blog->title : ($blog['title'] ?? '');
+    $blogTags = isset($blog->tags) ? $blog->tags : ($blog['tags'] ?? []);
+    $blogPublished = isset($blog->published_at) ? $blog->published_at : ($blog['published_at'] ?? now());
+    
+    return [
+        'id' => $blogId,
+        'img' => $blogImage,
+        'title' => $blogTitle,
+        'tag' => $blogTags[0] ?? 'Blog',
+        'date' => $blogPublished->format('d M, Y'),
+    ];
+})->take(5);
 @endphp
 
 @foreach ($blogs as $item)
@@ -64,3 +58,4 @@ return [
     </div>
 </div>
 @endforeach
+

@@ -6,7 +6,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="admin-settings-update-url" content="{{ route('admin.settings.update') }}">
     <title>@yield('title', \App\Models\Setting::get('site_name', 'Furnixar') . ' Admin')</title>
-    <link rel="icon" href="{{ asset('storage/' . \App\Models\Setting::get('admin_favicon_path', 'assets/img/favicon.png')) }}" type="image/x-icon">
+    @php
+        $adminFaviconPath = \App\Models\Setting::get('admin_favicon_path');
+        $adminFaviconUrl = $adminFaviconPath ? asset('storage/' . $adminFaviconPath) : asset('assets/img/favicon.png');
+    @endphp
+    <link rel="icon" href="{{ $adminFaviconUrl }}" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('assets/css/admin-dashboard.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -205,7 +209,11 @@
     <!-- Sidebar -->
     <div class="sidebar w-64 bg-white shadow-lg flex-shrink-0">
         <div class="p-4 border-b">
-            <img src="{{ asset('storage/' . \App\Models\Setting::get('admin_logo_path')) ?: asset('assets/img/favicon.png') }}" alt="Logo" class="h-10 w-auto mb-1">
+            @php
+                $adminLogoPath = \App\Models\Setting::get('admin_logo_path');
+                $adminLogoUrl = $adminLogoPath ? asset('storage/' . $adminLogoPath) : asset('assets/img/favicon.png');
+            @endphp
+            <img src="{{ $adminLogoUrl }}" alt="Logo" class="h-10 w-auto mb-1">
             <p class="text-sm text-gray-600">Admin Panel</p>
         </div>
 <nav class="mt-8">
@@ -286,6 +294,29 @@
         </main>
     </div>
 
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
+    <script>
+        const descriptionField = document.querySelector('#description');
+
+        if (descriptionField) {
+            ClassicEditor
+                .create(descriptionField, {
+                    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|', 'blockQuote', 'insertTable', 'mediaEmbed', 'undo', 'redo']
+                })
+                .then(editor => {
+                    const form = descriptionField.closest('form');
+
+                    if (form) {
+                        form.addEventListener('submit', () => {
+                            descriptionField.value = editor.getData();
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{{ asset('assets/js/admin-settings.js') }}"></script>
     @stack('scripts')

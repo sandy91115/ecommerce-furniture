@@ -23,6 +23,9 @@ class Product extends Model
         'short_description',
         'description',
         'status',
+        'product_type',
+        'extra_title',
+        'extra_description',
         'featured',
         'dimensions',
         'weight',
@@ -44,6 +47,7 @@ class Product extends Model
         'featured' => 'boolean',
         'seo_title' => 'string',
         'seo_description' => 'string',
+        'product_type' => 'string',
     ];
 
     public function vendor(): BelongsTo

@@ -17,16 +17,29 @@ class CartController extends Controller
 
     public function add(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1',
+            'quantity' => 'required_without:qty|integer|min:1',
+            'qty' => 'required_without:quantity|integer|min:1',
             'attribute' => 'nullable|array',
             'attribute.*' => 'required|exists:attribute_values,id'
         ]);
 
-        $cart = $this->cartService->add($request->product_id, $request->quantity, null, $request->attribute);
+        $quantity = (int) ($data['quantity'] ?? $data['qty']);
+        $attributes = $data['attribute'] ?? [];
+
+        $cart = $this->cartService->add($data['product_id'], $quantity, null, $attributes);
 
         Session::put('cart_count', $this->cartService->count());
+
+        if ($request->expectsJson() || $request->isJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Product added to cart successfully!',
+                'cart_count' => $this->cartService->count(),
+                'cart_total' => $this->cartService->total(),
+            ]);
+        }
 
         return redirect()->route('frontend.cart')
             ->with('success', 'Product added to cart successfully!');
@@ -55,4 +68,3 @@ class CartController extends Controller
         return response()->json(['success' => true]);
     }
 }
-?>

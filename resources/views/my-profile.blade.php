@@ -48,31 +48,42 @@
                 <!-- Profile Content -->
                 <div class="w-full max-w-[951px] bg-[#F8F8F9] dark:bg-dark-secondary p-5 sm:p-8 lg:p-[50px]">
                     <div>
-                        <h3 class="font-semibold leading-none text-3xl">Kathlene Roser</h3>
-                        <span class="leading-none mt-3">Product Designer</span>
+                        <h3 class="font-semibold leading-none text-3xl">{{ $user->name }}</h3>
+                        <span class="leading-none mt-3 block">{{ $user->designation ?? 'User' }}</span>
                     </div>
+                    @if($user->bio)
                     <p class="text-base sm:text-lg mt-5 sm:mt-8 md:mt-10 text-justify">
-                        All the Lorem Ipsum generators on the Internet tend to repeat predefined on the Internet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Non, lobortis in in tortor lectus iaculis viverra. Adipiscing lobortis interdum fringilla euismod odio vitae nam pulvinar elementum. Nibh purus integer elementum in. Tellus vulputate habitasse ut vulputate posuere habitant vel tempor varius. 
+                        {{ $user->bio }}
                     </p>
+                    @endif
                     <div class="mt-5 sm:mt-8 md:mt-10 grid gap-4 sm:gap-6">
-                        <a href="#" class="flex items-center gap-2">
+                        @if($user->phone)
+                        <a href="tel:{{ $user->phone }}" class="flex items-center gap-2">
                             <svg class="w-3 sm:w-[17px]" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M16.065 11.7537C14.9033 11.7537 13.7794 11.5649 12.7311 11.2249C12.4006 11.1115 12.0322 11.1965 11.7772 11.4515L10.2944 13.3121C7.62167 12.0371 5.11889 9.62875 3.78722 6.86152L5.62889 5.29375C5.88389 5.0293 5.95944 4.66097 5.85556 4.33041C5.50611 3.28208 5.32667 2.15819 5.32667 0.996523C5.32667 0.486523 4.90167 0.0615234 4.39167 0.0615234H1.12389C0.613889 0.0615234 0 0.28819 0 0.996523C0 9.77041 7.30056 17.0615 16.065 17.0615C16.7356 17.0615 17 16.4665 17 15.9471V12.6887C17 12.1787 16.575 11.7537 16.065 11.7537Z" fill="#BB976D"/>
                             </svg>
-                            <span class="leading-none font-medium text-base sm:text-lg">+111 - (1234 5678 99)</span>
+                            <span class="leading-none font-medium text-base sm:text-lg">{{ $user->phone }}</span>
                         </a>
-                        <a href="#" class="flex items-center gap-2">
+                        @endif
+                        <a href="mailto:{{ $user->email }}" class="flex items-center gap-2">
                             <svg class="w-3 sm:w-[18px]" viewBox="0 0 18 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M16.2 0.0615234H1.8C0.81 0.0615234 0.00899999 0.849023 0.00899999 1.81152L0 12.3115C0 13.274 0.81 14.0615 1.8 14.0615H16.2C17.19 14.0615 18 13.274 18 12.3115V1.81152C18 0.849023 17.19 0.0615234 16.2 0.0615234ZM16.2 3.56152L9 7.93652L1.8 3.56152V1.81152L9 6.18652L16.2 1.81152V3.56152Z" fill="#BB976D"/>
                             </svg>
-                            <span class="leading-none font-medium text-base sm:text-lg">furnixar123@gmail.com</span>
+                            <span class="leading-none font-medium text-base sm:text-lg">{{ $user->email }}</span>
                         </a>
+                        @if($user->location)
                         <a href="#" class="flex items-center gap-2">
                             <svg class="w-3 sm:w-[15px]" viewBox="0 0 15 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7.49927 0.0615234C3.36415 0.0615234 0 3.42567 0 7.56075C0 12.6925 6.71111 20.2262 6.99684 20.5444C7.26522 20.8434 7.7338 20.8428 8.00169 20.5444C8.28743 20.2262 14.9985 12.6925 14.9985 7.56075C14.9985 3.42567 11.6343 0.0615234 7.49927 0.0615234ZM7.49927 11.3338C5.41879 11.3338 3.72624 9.64123 3.72624 7.56075C3.72624 5.48027 5.41883 3.78772 7.49927 3.78772C9.57971 3.78772 11.2723 5.48031 11.2723 7.56079C11.2723 9.64127 9.57971 11.3338 7.49927 11.3338Z" fill="#BB976D"/>
                             </svg>
-                            <span class="leading-none font-medium text-base sm:text-lg">23/ A Lake Side , New Arizona , USA</span>
+                            <span class="leading-none font-medium text-base sm:text-lg">{{ $user->location }}</span>
                         </a>
+                        @endif
+                        @if($user->social_links)
+                        <a href="{{ str_starts_with($user->social_links, 'http') ? $user->social_links : 'https://' . $user->social_links }}" target="_blank" class="flex items-center gap-2 text-primary">
+                            <span class="leading-none font-medium text-base sm:text-lg">Social: {{ $user->social_links }}</span>
+                        </a>
+                        @endif
                     </div>
                 </div>
                 <!-- Profile Content -->

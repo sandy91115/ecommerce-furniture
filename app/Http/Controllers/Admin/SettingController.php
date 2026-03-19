@@ -16,8 +16,11 @@ class SettingController extends Controller
             'admin_logo_path' => Setting::get('admin_logo_path'),
             'admin_favicon_path' => Setting::get('admin_favicon_path'),
             'admin_theme_mode' => Setting::get('admin_theme_mode', 'light'),
+            'site_logo_path' => Setting::get('site_logo_path'),
+            'site_favicon_path' => Setting::get('site_favicon_path'),
             'site_name' => Setting::get('site_name', 'Furnixar'),
             'admin_email' => Setting::get('admin_email', 'admin@furnixar.com'),
+            'whatsapp_number' => Setting::get('whatsapp_number', '1234567890'),
         ];
 
         return view('admin.settings.index', compact('settings'));
@@ -38,17 +41,21 @@ class SettingController extends Controller
         $request->validate([
             'site_name' => 'required|string|max:255',
             'admin_email' => 'required|email',
+            'whatsapp_number' => 'nullable|string|max:20',
             'admin_theme_mode' => 'required|in:light,dark',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'favicon' => 'nullable|image|mimes:ico,png|max:2048',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'site_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'site_favicon' => 'nullable|image|mimes:ico,png,jpg|max:2048',
+            'admin_favicon' => 'nullable|image|mimes:ico,png,jpg|max:2048',
         ]);
 
         // Update text settings
         Setting::updateOrCreate(['key' => 'site_name'], ['value' => $request->site_name]);
         Setting::updateOrCreate(['key' => 'admin_email'], ['value' => $request->admin_email]);
+        Setting::updateOrCreate(['key' => 'whatsapp_number'], ['value' => $request->whatsapp_number]);
         Setting::updateOrCreate(['key' => 'admin_theme_mode'], ['value' => $request->admin_theme_mode]);
 
-        // Handle logo upload
+        // Handle Admin Logo upload
         if ($request->hasFile('logo')) {
             $oldLogo = Setting::get('admin_logo_path');
             if ($oldLogo && File::exists(storage_path('app/public/' . $oldLogo))) {
@@ -58,13 +65,33 @@ class SettingController extends Controller
             Setting::updateOrCreate(['key' => 'admin_logo_path'], ['value' => $path]);
         }
 
-        // Handle favicon upload
-        if ($request->hasFile('favicon')) {
+        // Handle Site Favicon upload
+        if ($request->hasFile('site_favicon')) {
+            $oldFavicon = Setting::get('site_favicon_path');
+            if ($oldFavicon && File::exists(storage_path('app/public/' . $oldFavicon))) {
+                File::delete(storage_path('app/public/' . $oldFavicon));
+            }
+            $path = $request->file('site_favicon')->store('logos', 'public');
+            Setting::updateOrCreate(['key' => 'site_favicon_path'], ['value' => $path]);
+        }
+
+        // Handle Site Logo upload
+        if ($request->hasFile('site_logo')) {
+            $oldLogo = Setting::get('site_logo_path');
+            if ($oldLogo && File::exists(storage_path('app/public/' . $oldLogo))) {
+                File::delete(storage_path('app/public/' . $oldLogo));
+            }
+            $path = $request->file('site_logo')->store('logos', 'public');
+            Setting::updateOrCreate(['key' => 'site_logo_path'], ['value' => $path]);
+        }
+
+        // Handle Admin Favicon upload
+        if ($request->hasFile('admin_favicon')) {
             $oldFavicon = Setting::get('admin_favicon_path');
             if ($oldFavicon && File::exists(storage_path('app/public/' . $oldFavicon))) {
                 File::delete(storage_path('app/public/' . $oldFavicon));
             }
-            $path = $request->file('favicon')->store('admin', 'public');
+            $path = $request->file('admin_favicon')->store('admin', 'public');
             Setting::updateOrCreate(['key' => 'admin_favicon_path'], ['value' => $path]);
         }
 

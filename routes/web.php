@@ -45,12 +45,13 @@ Route::post('/logout', [App\Http\Controllers\Auth\AuthController::class, 'logout
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+    Route::get('/my-profile', [HomeController::class, 'myProfile'])->name('my-profile');
+    Route::get('/my-account', [HomeController::class, 'myAccount']);
+    Route::get('/edit-account', [HomeController::class, 'editAccount'])->name('edit-account');
+    Route::post('/edit-account', [HomeController::class, 'updateAccount'])->name('update-account');
 });
-Route::get('/my-profile', [HomeController::class, 'myProfile']);
-Route::get('/my-account', [HomeController::class, 'myAccount']);
-Route::get('/edit-account', [HomeController::class, 'editAccount']);
-Route::get('/order-history', [HomeController::class, 'orderHistory']);
-Route::get('/wishlist', [HomeController::class, 'wishlist']);
+Route::get('/order-history', [HomeController::class, 'orderHistory'])->middleware('auth');
+Route::get('/user/orders', [HomeController::class, 'userOrders'])->middleware('auth')->name('user.orders');
 
 // Checkout Mock Pages
 Route::get('/shipping-method', [HomeController::class, 'shippingMethod']);
@@ -60,7 +61,6 @@ Route::get('/payment-failure', [HomeController::class, 'paymentFailure']);
 Route::get('/payment-confirmation', [HomeController::class, 'paymentConfirmation']);
 Route::get('/invoice', [HomeController::class, 'invoice']);
 Route::get('/thank-you', [HomeController::class, 'thankYou']);
-Route::get('/cart', [HomeController::class, 'cart']);
 
 // Shop
 Route::get('/shop', [App\Http\Controllers\ShopController::class, 'index'])->name('shop');
@@ -70,6 +70,9 @@ Route::get('/shop-v4', [HomeController::class, 'shopV4']);
 Route::get('/product-category', [HomeController::class, 'productCategory']);
 Route::get('/product-details', [HomeController::class, 'productDetails']);
 Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product-details');
+
+Route::get('/quotation/{product:slug}', [App\Http\Controllers\Admin\QuotationController::class, 'showForm'])->name('quotation.form');
+Route::post('/quotation/{product:slug}', [App\Http\Controllers\Admin\QuotationController::class, 'storeQuotation']); 
 
 // Blog
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
@@ -86,16 +89,27 @@ Route::get('/contact', [HomeController::class, 'contact']);
 Route::get('/contactus', [ContactController::class, 'show'])->name('contact.show');
 Route::post('/contactus', [ContactController::class, 'send'])->name('contact.send');
 
-// Vendor Store Page
-Route::get('/store/{vendor:slug}', [App\Http\Controllers\StoreController::class, 'show'])->name('store.show');
+// Store (single-vendor)
+Route::get('/store', [App\Http\Controllers\StoreController::class, 'index'])->name('store.index');
+Route::get('/store/{any}', function () {
+    return redirect()->route('store.index');
+})->where('any', '.*');
 
 // Frontend Cart/Wishlist Routes
 Route::middleware('auth')->prefix('account')->name('frontend.account.')->group(function () {
-    Route::get('/', function () { return view('frontend.account'); })->name('index');
-    Route::get('/orders', function () { return view('frontend.orders'); })->name('orders');
+    Route::get('/', function () { 
+        $user = auth()->user();
+        $orders = $user->orders()->latest()->paginate(10);
+        return view('frontend.account', compact('orders'));
+    })->name('index');
+    Route::get('/orders', function () { 
+        $user = auth()->user();
+        $orders = $user->orders()->latest()->paginate(10);
+        return view('frontend.orders', compact('orders'));
+    })->name('orders');
 });
 
-Route::get('/wishlist', [App\Http\Controllers\WishlistController::class, 'index'])->name('frontend.wishlist');
+Route::get('/wishlist', [App\Http\Controllers\WishlistController::class, 'accountWishlist'])->name('frontend.wishlist')->middleware('auth');
 
 Route::get('/cart', function () {
     $cartService = new \App\Services\CartService();
@@ -116,14 +130,14 @@ Route::post('/cart/add', [\App\Http\Controllers\CartController::class, 'add'])->
 Route::post('/cart/update', [\App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/remove', [\App\Http\Controllers\CartController::class, 'remove'])->name('cart.remove');
 
-Route::post('/wishlist/add/{product}', [App\Http\Controllers\WishlistController::class, 'add'])->name('wishlist.add');
-Route::delete('/wishlist/remove/{product}', [App\Http\Controllers\WishlistController::class, 'remove'])->name('wishlist.remove');
+Route::post('/wishlist/add/{product}', [App\Http\Controllers\WishlistController::class, 'add'])->name('wishlist.add')->middleware('auth');
+Route::delete('/wishlist/remove/{product}', [App\Http\Controllers\WishlistController::class, 'remove'])->name('wishlist.remove')->middleware('auth');
+Route::post('/wishlist/toggle', [App\Http\Controllers\WishlistController::class, 'toggle'])->name('wishlist.toggle')->middleware('auth');
 
 // Admin Routes
-Route::get('/admin/login', function () {
-    return redirect('/login');
+Route::get('/admin', function () {
+    return redirect()->route('admin.dashboard');
 });
-
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/logout', [App\Http\Controllers\Auth\AuthController::class, 'logout'])->name('logout');
@@ -134,24 +148,22 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::post('products/{product}/approve', [App\Http\Controllers\Admin\ProductController::class, 'approve'])->name('products.approve');
     Route::post('products/{product}/reject', [App\Http\Controllers\Admin\ProductController::class, 'reject'])->name('products.reject');
     Route::resource('products', App\Http\Controllers\Admin\ProductController::class);
+    Route::get('products/quotation', [App\Http\Controllers\Admin\ProductController::class, 'quotationProducts'])->name('admin.products.quotation');
     Route::resource('attributes', App\Http\Controllers\Admin\AttributeController::class);
-    Route::get('attributes/{attribute}/values', [App\Http\Controllers\Admin\AttributeController::class, 'values'])->name('attributes.values');
-    Route::resource('orders', App\Http\Controllers\Admin\OrderController::class);
+Route::get('attributes/{attribute}/values', [App\Http\Controllers\Admin\AttributeController::class, 'values'])->name('attributes.values');
+        Route::get('attributes/{attribute}/values/create', [App\Http\Controllers\Admin\AttributeController::class, 'valuesCreate'])->name('attributes.values.create');
+        Route::post('attributes/{attribute}/values', [App\Http\Controllers\Admin\AttributeController::class, 'valuesStore'])->name('attributes.values.store');
+        Route::get('attributes/{attribute}/values/{value}/edit', [App\Http\Controllers\Admin\AttributeController::class, 'valuesEdit'])->name('attributes.values.edit');
+        Route::put('attributes/{attribute}/values/{value}', [App\Http\Controllers\Admin\AttributeController::class, 'valuesUpdate'])->name('attributes.values.update');
+        Route::delete('attributes/{attribute}/values/{value}', [App\Http\Controllers\Admin\AttributeController::class, 'valuesDestroy'])->name('attributes.values.destroy');
+Route::resource('orders', App\Http\Controllers\Admin\OrderController::class);
 Route::resource('customers', App\Http\Controllers\Admin\CustomerController::class);
-Route::resource('vendors', App\Http\Controllers\Admin\VendorController::class);
 Route::resource('coupons', App\Http\Controllers\Admin\CouponController::class);
     Route::resource('blogs', App\Http\Controllers\Admin\BlogController::class);
     Route::resource('cms', App\Http\Controllers\Admin\CMSController::class);
     Route::resource('menus', App\Http\Controllers\Admin\MenuController::class);
+    Route::resource('contacts', App\Http\Controllers\Admin\ContactController::class)->only(['index', 'show', 'destroy']);
+    Route::resource('quotations', App\Http\Controllers\Admin\QuotationController::class);
     Route::get('settings', [App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
     Route::post('settings', [App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
-});
-
-// Vendor Routes
-Route::prefix('vendor')->name('vendor.')->middleware(['auth', 'role:vendor'])->group(function () {
-    Route::get('/dashboard', [App\Http\Controllers\Vendor\VendorDashboardController::class, 'index'])->name('dashboard');
-    Route::resource('products', App\Http\Controllers\Vendor\VendorProductController::class);
-    Route::resource('orders', App\Http\Controllers\Vendor\VendorOrderController::class);
-    Route::get('/profile', [App\Http\Controllers\Vendor\VendorProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/profile', [App\Http\Controllers\Vendor\VendorProfileController::class, 'update'])->name('profile.update');
 });

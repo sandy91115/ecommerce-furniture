@@ -265,7 +265,7 @@
                 </div>
                 <div class="mt-6 sm:mt-8 md:mt-10">
                     <label class="flex items-center gap-2 iam-agree">
-                        <input class="appearance-none hidden" type="checkbox" name="categories">
+                        <input class="appearance-none hidden" type="checkbox" name="terms" value="1" required>
                         <span class="w-6 h-6 rounded-[5px] border-2 border-title dark:border-white flex items-center justify-center duration-300">
                             <svg  class="duration-300 opacity-0 text-title dark:text-white fill-current" width="15" height="12" viewBox="0 0 20 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M18.3819 0.742676L6.10461 11.8998L2.25731 8.06381L0.763672 9.55745L6.20645 15.0002L20 2.32686L18.3819 0.742676Z"/>
