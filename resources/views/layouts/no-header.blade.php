@@ -18,8 +18,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
         <!-- Main Stylesheet -->
-        @vite('resources/css/app.css')
         <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/product-ui-fixes.css') }}">
         <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
     </head>
 

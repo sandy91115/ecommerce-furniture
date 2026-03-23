@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Attribute extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -18,6 +19,7 @@ class Attribute extends Model
 
     protected $casts = [
         'status' => 'string',
+        'deleted_at' => 'datetime',
     ];
 
     public function values(): HasMany
@@ -43,3 +45,4 @@ class Attribute extends Model
         });
     }
 }
+

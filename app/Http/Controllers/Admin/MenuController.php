@@ -60,7 +60,7 @@ class MenuController extends Controller
     {
         $menu->delete();
 
-        return redirect()->back()->with('success', 'Menu item deleted successfully!');
+        return redirect()->back()->with('success', 'Menu item moved to Recycle Bin successfully.');
     }
 }
 

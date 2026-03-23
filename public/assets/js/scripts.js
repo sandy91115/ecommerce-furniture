@@ -1023,7 +1023,9 @@ let styles = `
     visibility: hidden;`
 
 window.addEventListener('load',function() {
-    loader.style = styles;
+    if (loader) {
+        loader.style = styles;
+    }
 });
 
 
@@ -1806,69 +1808,69 @@ function topFunction() {
 /*     Contact Form  */
 /*********************/
 
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.forms["myForm"];
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.forms["myForm"];
 
-    if (!form) return;
+        if (!form) return;
 
-    const errorMsg = document.getElementById("error-msg");
-    const responseDiv = document.getElementById("simple-msg");
+        const errorMsg = document.getElementById("error-msg");
+        const responseDiv = document.getElementById("simple-msg");
 
-    form.onsubmit = async function (e) {
-        e.preventDefault();
+        form.onsubmit = async function (e) {
+            e.preventDefault();
 
-        // Collect form values
-        const name = form["name"]?.value.trim();
-        const email = form["email"]?.value.trim();
-        const number = form["number"]?.value.trim();
-        const subject = form["subject"]?.value.trim();
-        const Message = form["Message"]?.value.trim();
+            // Collect form values
+            const name = form["name"]?.value.trim();
+            const email = form["email"]?.value.trim();
+            const number = form["number"]?.value.trim();
+            const subject = form["subject"]?.value.trim();
+            const Message = form["Message"]?.value.trim();
 
-        // Reset error
-        errorMsg.style.opacity = 0;
-        errorMsg.innerHTML = "";
-        responseDiv.innerHTML = "";
+            // Reset error
+            errorMsg.style.opacity = 0;
+            errorMsg.innerHTML = "";
+            responseDiv.innerHTML = "";
 
-        // Basic client-side validation
-        if (!name) return showError("*Please enter a Name*");
-        if (!email) return showError("*Please enter an Email*");
-        if (!number) return showError("*Please enter an Number*");
-        if (!subject) return showError("*Please enter a Subject*");
-        if (!Message) return showError("*Please enter a Message*");
+            // Basic client-side validation
+            if (!name) return showError("*Please enter a Name*");
+            if (!email) return showError("*Please enter an Email*");
+            if (!number) return showError("*Please enter an Number*");
+            if (!subject) return showError("*Please enter a Subject*");
+            if (!Message) return showError("*Please enter a Message*");
 
-        try {
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            try {
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            const formData = new URLSearchParams();
-            formData.append("name", name);
-            formData.append("email", email);
-            formData.append("number", number);
-            formData.append("subject", subject);
-            formData.append("Message", Message);
+                const formData = new URLSearchParams();
+                formData.append("name", name);
+                formData.append("email", email);
+                formData.append("number", number);
+                formData.append("subject", subject);
+                formData.append("Message", Message);
 
-            const response = await fetch("/contactus", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    "X-CSRF-TOKEN": csrfToken
-                },
-                body: formData
-            });
+                const response = await fetch("/contactus", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "X-CSRF-TOKEN": csrfToken
+                    },
+                    body: formData
+                });
 
-            const result = await response.json();
+                const result = await response.json();
 
-            if (response.ok) {
-                responseDiv.innerHTML = result.message;
-                form.reset(); // clear form fields
-            } else {
-                showError(result.message || "Something went wrong.");
+                if (response.ok) {
+                    responseDiv.innerHTML = result.message;
+                    form.reset(); // clear form fields
+                } else {
+                    showError(result.message || "Something went wrong.");
+                }
+
+            } catch (error) {
+                console.error("An unexpected error occurred:", error);
+                showError("An unexpected error occurred. Please try again later.");
             }
-
-        } catch (error) {
-            console.error("An unexpected error occurred:", error);
-            showError("An unexpected error occurred. Please try again later.");
-        }
-    };
+        };
 
     function showError(msg) {
         errorMsg.innerHTML = `<div class='bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded'>${msg}</div>`;

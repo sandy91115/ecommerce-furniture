@@ -52,7 +52,7 @@ class AttributeController extends Controller
     public function destroy(Attribute $attribute)
     {
         $attribute->delete();
-        return redirect()->route('admin.attributes.index')->with('success', 'Attribute deleted successfully.');
+        return redirect()->route('admin.attributes.index')->with('success', 'Attribute moved to Recycle Bin successfully.');
     }
 
     public function values(Attribute $attribute)

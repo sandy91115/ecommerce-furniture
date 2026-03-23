@@ -67,5 +67,12 @@ class Blog extends Model
     {
         return $this->featured_image ? Storage::url($this->featured_image) : asset('assets/img/shortcode/blog/blog-01.jpg');
     }
+
+    public function deleteFiles(): void
+    {
+        if ($this->featured_image) {
+            Storage::disk('public')->delete($this->featured_image);
+        }
+    }
 }
 

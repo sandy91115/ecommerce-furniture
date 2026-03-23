@@ -59,7 +59,7 @@ class OrderController extends Controller
     public function destroy(Order $order)
     {
         $this->orderService->delete($order->id);
-        return redirect()->route('admin.orders.index')->with('success', 'Order deleted successfully.');
+        return redirect()->route('admin.orders.index')->with('success', 'Order moved to Recycle Bin successfully.');
     }
 
     public function pending()
@@ -68,5 +68,4 @@ class OrderController extends Controller
         return view('admin.orders.pending', compact('orders'));
     }
 }
-
 

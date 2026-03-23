@@ -80,8 +80,15 @@
                     <div class="p-6">
                         <h3 class="font-bold text-lg mb-2">{{ $product->name }}</h3>
                         <p class="text-gray-600 mb-2">{{ $product->category->name ?? '' }}</p>
+                        @if($product->product_type === 'quotation')
+                            <div class="mb-3">
+                                <span class="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">Quotation Product</span>
+                            </div>
+                        @endif
                         <div class="flex items-center mb-4">
-                            @if($product->sale_price)
+                            @if($product->product_type === 'quotation')
+                                <span class="text-xl font-bold text-primary">Custom quotation</span>
+                            @elseif($product->sale_price)
                                 <span class="text-2xl font-bold text-primary">${{ number_format($product->sale_price, 2) }}</span>
                                 <span class="ml-2 text-lg text-gray-500 line-through">${{ number_format($product->price, 2) }}</span>
                             @else

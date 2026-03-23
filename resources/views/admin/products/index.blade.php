@@ -50,7 +50,10 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-right">
-                                <div class="inline-flex items-center gap-2">
+<div class="inline-flex items-center gap-2">
+                                    <a href="{{ route('admin.products.show', $product) }}" class="inline-flex items-center px-3 py-1.5 rounded-md bg-green-600 text-white hover:bg-green-700 font-medium" title="View Details">
+                                        View
+                                    </a>
                                     <a href="{{ route('admin.products.edit', $product) }}" class="inline-flex items-center px-3 py-1.5 rounded-md bg-indigo-600 text-white hover:bg-indigo-700 font-medium">
                                         Edit
                                     </a>

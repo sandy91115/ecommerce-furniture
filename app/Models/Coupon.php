@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 
 class Coupon extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'code',
         'type', // fixed/percentage
@@ -28,6 +31,7 @@ class Coupon extends Model
         'valid_from' => 'datetime',
         'valid_until' => 'datetime',
         'status' => 'boolean',
+        'deleted_at' => 'datetime',
     ];
 
     public function orders(): HasMany
@@ -39,7 +43,7 @@ class Coupon extends Model
     {
         return $this->status 
             && $this->used_count < $this->max_uses 
-            && now()->between($this->valid_from, $this->valid_until);
+            && Carbon::now()->between($this->valid_from, $this->valid_until);
     }
 }
 

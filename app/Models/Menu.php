@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 
 class Menu extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'menu_type',
@@ -17,11 +18,13 @@ class Menu extends Model
         'icon',
         'url',
         'order',
-        'status'
+        'status',
+        'permission'
     ];
 
     protected $casts = [
         'order' => 'integer',
+        'deleted_at' => 'datetime',
     ];
 
     public function parent()
@@ -55,4 +58,3 @@ class Menu extends Model
             ->where('parent_id', null);
     }
 }
-

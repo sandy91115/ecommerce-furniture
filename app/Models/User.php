@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable, HasRoles, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -27,6 +28,9 @@ use HasFactory, Notifiable, HasRoles;
         'location',
         'bio',
         'social_links',
+        'verification_status',
+        'verified_at',
+        'verified_by',
     ];
 
     /**
@@ -49,7 +53,14 @@ use HasFactory, Notifiable, HasRoles;
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'verified_at' => 'datetime',
+            'deleted_at' => 'datetime',
         ];
+    }
+
+    public function verifier()
+    {
+        return $this->belongsTo(User::class, 'verified_by');
     }
 
     public function vendor()

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             $user = Auth::user();
-            if ($user->hasRole('admin')) {
+            if ($user->hasAnyRole(['admin', 'super_admin'])) {
                 return redirect('/admin/dashboard');
             }
             return redirect('/dashboard');
@@ -53,7 +54,15 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'customer']);
+        $role = Role::withTrashed()->firstOrCreate([
+            'name' => 'customer',
+            'guard_name' => 'web',
+        ]);
+
+        if ($role->trashed()) {
+            $role->restore();
+        }
+
         $user->assignRole('customer');
         Auth::login($user);
 

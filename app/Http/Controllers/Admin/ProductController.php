@@ -107,7 +107,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $this->productService->delete($product->id);
-        return redirect()->route('admin.products.index')->with('success', 'Product deleted successfully.');
+        return redirect()->route('admin.products.index')->with('success', 'Product moved to Recycle Bin successfully.');
     }
 
     public function pending()
@@ -144,4 +144,3 @@ class ProductController extends Controller
         return view('admin.products.quotation-products', compact('products'));
     }
 }
-

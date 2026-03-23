@@ -8,30 +8,25 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
-use Spatie\Permission\Models\Role;
 use App\Models\Coupon;
 use App\Models\Review;
 use App\Models\ShippingZone;
 use App\Models\ShippingRate;
 use App\Models\Material;
 use App\Models\Color;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
-        Role::firstOrCreate(['name' => 'customer', 'guard_name' => 'web']);
+        $this->call(RolePermissionSeeder::class);
+        $this->call(MenuSeeder::class);
 
-        $admin = User::firstOrCreate(
-            ['email' => 'admin@caromstudios.com'],
-            [
-                'name' => 'Super Admin',
-                'password' => Hash::make('admin123'),
-            ]
-        );
-        $admin->assignRole('admin');
+        $admin = User::where('email', 'admin@caromstudios.com')->first();
+        if ($admin && !$admin->hasRole('super_admin')) {
+            $admin->assignRole('super_admin');
+        }
+
 
 
         $cats = [
@@ -169,4 +164,3 @@ Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
         }
     }
 }
-

@@ -3,10 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\CmsStoreRequest;
-use App\Http\Requests\Admin\CmsUpdateRequest;
-use App\Services\CmsService;
-use Illuminate\Http\Request;
 
 class CMSController extends Controller
 {
@@ -51,8 +47,8 @@ class CMSController extends Controller
 
     public function destroy($id)
     {
+        $this->authorize('cms.delete');
         $this->cmsService->deletePage($id);
-        return redirect()->route('admin.cms.index')->with('success', 'CMS Page deleted successfully.');
+        return redirect()->route('admin.cms.index')->with('success', 'CMS Page moved to Recycle Bin successfully.');
     }
-
 }

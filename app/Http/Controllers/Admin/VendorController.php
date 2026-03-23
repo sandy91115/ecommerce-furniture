@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 
 class VendorController extends Controller
 {
@@ -107,7 +106,6 @@ class VendorController extends Controller
     {
         $vendor->user->delete(); // Cascade user too?
         $vendor->delete();
-        return redirect()->route('admin.vendors.index')->with('success', 'Vendor deleted successfully.');
+        return redirect()->route('admin.vendors.index')->with('success', 'Vendor moved to Recycle Bin successfully.');
     }
 }
-

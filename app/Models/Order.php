@@ -4,17 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Enums\OrderStatus;
 use App\Models\OrderItem;
 use App\Models\PaymentTransaction;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'user_id',
-'order_number',
+        'order_number',
         'total_amount',
         'status',
         'payment_status',
@@ -29,6 +30,7 @@ class Order extends Model
         'total_amount' => 'decimal:2',
         'status' => OrderStatus::class,
         'items' => 'json',
+        'deleted_at' => 'datetime',
     ];
 
     public function user()
@@ -51,5 +53,3 @@ class Order extends Model
         return $this->belongsTo(PaymentTransaction::class);
     }
 }
-
-

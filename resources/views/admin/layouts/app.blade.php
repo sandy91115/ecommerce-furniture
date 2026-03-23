@@ -207,7 +207,7 @@
 </head>
 <body class="min-h-screen flex">
     <!-- Sidebar -->
-    <div class="sidebar w-64 bg-white shadow-lg flex-shrink-0">
+    <div class="sidebar w-64 bg-white shadow-lg flex-shrink-0 min-h-screen flex flex-col">
         <div class="p-4 border-b">
             @php
                 $adminLogoPath = \App\Models\Setting::get('admin_logo_path');
@@ -216,22 +216,57 @@
             <img src="{{ $adminLogoUrl }}" alt="Logo" class="h-10 w-auto mb-1">
             <p class="text-sm text-gray-600">Admin Panel</p>
         </div>
-<nav class="mt-8">
-    @foreach($menus['admin_sidebar'] ?? [] as $menu)
-        <a href="{{ $menu->url }}" class="flex items-center px-6 py-3 text-gray-700 hover:bg-gray-100 {{ request()->is($menu->url) || request()->routeIs($menu->url . '*') ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : '' }}">
-            <i class="w-6 text-lg fa {{ $menu->icon ?? 'fa-circle' }} mr-4"></i>
-            <span>{{ $menu->title }}</span>
-        </a>
-        @if($menu->children && $menu->children->count() > 0)
-            @foreach($menu->children as $child)
-                <a href="{{ $child->url }}" class="flex items-center px-8 py-3 text-gray-600 hover:bg-gray-100 pl-12 {{ request()->is($child->url) ? 'bg-blue-50 border-r-4 border-blue-300 text-blue-500' : '' }}">
-                    <i class="w-4 text-lg fa {{ $child->icon ?? 'fa-angle-right' }} mr-3 flex-shrink-0"></i>
-                    <span>{{ $child->title }}</span>
+        @php
+            $adminSidebarMenus = collect($menus['admin_sidebar'] ?? []);
+            $recycleBinMenu = $adminSidebarMenus->first(fn ($menu) => $menu->url === '/admin/trash');
+            $primarySidebarMenus = $adminSidebarMenus->reject(fn ($menu) => $menu->url === '/admin/trash');
+            $recycleBinMenu = $recycleBinMenu ?: (object) [
+                'url' => route('admin.trash.index'),
+                'title' => 'Recycle Bin',
+                'icon' => 'fas fa-recycle',
+                'permission' => 'admin.access',
+            ];
+        @endphp
+        <nav class="mt-8 flex-1">
+            @foreach($primarySidebarMenus as $menu)
+                @php
+                    $menuPath = ltrim(parse_url($menu->url, PHP_URL_PATH) ?? $menu->url, '/');
+                    $menuIsActive = request()->is($menuPath) || request()->is($menuPath . '/*');
+                @endphp
+                @can($menu->permission ?? 'admin.access')
+                <a href="{{ $menu->url }}" class="flex items-center px-6 py-3 text-gray-700 hover:bg-gray-100 {{ $menuIsActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : '' }}">
+                    <i class="w-6 text-lg fa {{ $menu->icon ?? 'fa-circle' }} mr-4"></i>
+                    <span>{{ $menu->title }}</span>
                 </a>
+                @endcan
+                @if($menu->children && $menu->children->count() > 0)
+                    @foreach($menu->children as $child)
+                        @php
+                            $childPath = ltrim(parse_url($child->url, PHP_URL_PATH) ?? $child->url, '/');
+                            $childIsActive = request()->is($childPath) || request()->is($childPath . '/*');
+                        @endphp
+                        @can($child->permission ?? 'admin.access')
+                        <a href="{{ $child->url }}" class="flex items-center px-8 py-3 text-gray-600 hover:bg-gray-100 pl-12 {{ $childIsActive ? 'bg-blue-50 border-r-4 border-blue-300 text-blue-500' : '' }}">
+                            <i class="w-4 text-lg fa {{ $child->icon ?? 'fa-angle-right' }} mr-3 flex-shrink-0"></i>
+                            <span>{{ $child->title }}</span>
+                        </a>
+                        @endcan
+                    @endforeach
+                @endif
             @endforeach
-        @endif
-    @endforeach
-</nav>
+        </nav>
+        @php
+            $binPath = ltrim(parse_url($recycleBinMenu->url, PHP_URL_PATH) ?? $recycleBinMenu->url, '/');
+            $binIsActive = request()->is($binPath) || request()->is($binPath . '/*');
+        @endphp
+        @can($recycleBinMenu->permission ?? 'admin.access')
+        <div class="mt-auto border-t p-4">
+            <a href="{{ $recycleBinMenu->url }}" class="flex items-center rounded-lg px-4 py-3 text-gray-700 hover:bg-gray-100 {{ $binIsActive ? 'bg-blue-50 text-blue-600' : '' }}">
+                <i class="w-6 text-lg fa {{ $recycleBinMenu->icon ?? 'fa-recycle' }} mr-4"></i>
+                <span>{{ $recycleBinMenu->title }}</span>
+            </a>
+        </div>
+        @endcan
     </div>
 
     <!-- Main Content -->

@@ -70,9 +70,10 @@ Route::get('/shop-v4', [HomeController::class, 'shopV4']);
 Route::get('/product-category', [HomeController::class, 'productCategory']);
 Route::get('/product-details', [HomeController::class, 'productDetails']);
 Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product-details');
+Route::get('/quotation-request', [ProductController::class, 'quotationProducts'])->name('quotation-products.index');
 
 Route::get('/quotation/{product:slug}', [App\Http\Controllers\Admin\QuotationController::class, 'showForm'])->name('quotation.form');
-Route::post('/quotation/{product:slug}', [App\Http\Controllers\Admin\QuotationController::class, 'storeQuotation']); 
+Route::post('/quotation/{product:slug}', [App\Http\Controllers\Admin\QuotationController::class, 'storeQuotation'])->name('quotation.store');
 
 // Blog
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
@@ -139,7 +140,7 @@ Route::get('/admin', function () {
     return redirect()->route('admin.dashboard');
 });
 
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'permission:admin.access'])->group(function () {
     Route::post('/logout', [App\Http\Controllers\Auth\AuthController::class, 'logout'])->name('logout');
 
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
@@ -158,12 +159,21 @@ Route::get('attributes/{attribute}/values', [App\Http\Controllers\Admin\Attribut
         Route::delete('attributes/{attribute}/values/{value}', [App\Http\Controllers\Admin\AttributeController::class, 'valuesDestroy'])->name('attributes.values.destroy');
 Route::resource('orders', App\Http\Controllers\Admin\OrderController::class);
 Route::resource('customers', App\Http\Controllers\Admin\CustomerController::class);
-Route::resource('coupons', App\Http\Controllers\Admin\CouponController::class);
+    Route::post('customers/{customer}/verify', [App\Http\Controllers\Admin\CustomerController::class, 'verify'])->name('customers.verify');
+    Route::post('customers/{customer}/reject', [App\Http\Controllers\Admin\CustomerController::class, 'reject'])->name('customers.reject');
+    Route::resource('coupons', App\Http\Controllers\Admin\CouponController::class);
     Route::resource('blogs', App\Http\Controllers\Admin\BlogController::class);
     Route::resource('cms', App\Http\Controllers\Admin\CMSController::class);
     Route::resource('menus', App\Http\Controllers\Admin\MenuController::class);
     Route::resource('contacts', App\Http\Controllers\Admin\ContactController::class)->only(['index', 'show', 'destroy']);
-    Route::resource('quotations', App\Http\Controllers\Admin\QuotationController::class);
+    Route::resource('quotations', App\Http\Controllers\Admin\QuotationController::class)->only(['index', 'show', 'update', 'destroy']);
+    Route::resource('staff', App\Http\Controllers\Admin\StaffController::class);
+    Route::resource('roles', App\Http\Controllers\Admin\RoleController::class)->only(['index', 'update', 'destroy']);
+    
     Route::get('settings', [App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
+    Route::get('trash', [App\Http\Controllers\Admin\TrashController::class, 'index'])->name('trash.index');
+    Route::post('trash/{type}/{id}/restore', [App\Http\Controllers\Admin\TrashController::class, 'restore'])->name('trash.restore');
+    Route::delete('trash/{type}/{id}', [App\Http\Controllers\Admin\TrashController::class, 'forceDelete'])->name('trash.force-delete');
+    
     Route::post('settings', [App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
 });

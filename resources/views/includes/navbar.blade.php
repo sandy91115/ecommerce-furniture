@@ -8,7 +8,7 @@
                     $siteLogoPath = \App\Models\Setting::get('site_logo_path');
                     $logoUrl = $siteLogoPath ? asset('storage/' . $siteLogoPath) : asset('assets/img/footer-logo.svg');
                 @endphp
-                <img class="fill-current dark:text-white text-title w-[80px] sm:w-[150px] object-contain" src="{{ $logoUrl }}" alt="CAROM STUDIOS" onerror="this.outerHTML='<svg class=\"fill-current dark:text-white text-title w-[80px] sm:w-[150px]\" viewBox=\"0 0 201 39\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"> </svg>
+                <img class="fill-current dark:text-white text-title w-[80px] sm:w-[150px] object-contain" src="{{ $logoUrl }}" alt="CAROM STUDIOS" onerror="this.onerror=null; this.src='{{ asset('assets/img/footer-logo.svg') }}';">
             </a>
 
             <!-- Menu -->
@@ -30,7 +30,7 @@
                         </ul>
                     </li>
 
-                     <li><a href="/blog" class="sub-menu-item">Quotation Request</a></li>
+                     <li><a href="{{ route('quotation-products.index') }}" class="sub-menu-item">Quotation Request</a></li>
                     <li><a href="/blog" class="sub-menu-item">Blog</a></li>
                     <li><a href="/about" class="sub-menu-item">About Us</a></li>
                     <li><a href="/contact" class="sub-menu-item">Contact</a></li>

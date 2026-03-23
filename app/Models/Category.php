@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 class Category extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -23,6 +25,7 @@ class Category extends Model
 
     protected $casts = [
         'status' => 'string',
+        'deleted_at' => 'datetime',
     ];
 
     public function parent(): BelongsTo
@@ -38,6 +41,13 @@ class Category extends Model
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function deleteFiles(): void
+    {
+        if ($this->image) {
+            Storage::disk('public')->delete($this->image);
+        }
     }
 }
 

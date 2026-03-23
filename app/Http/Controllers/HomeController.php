@@ -298,7 +298,13 @@ class HomeController extends Controller
     
     public function productDetails()
     {
-        return view('product-details');  
+        $product = Product::where('status', 'active')->latest()->first();
+
+        if (!$product) {
+            return redirect()->route('shop');
+        }
+
+        return redirect()->route('product-details', $product->slug);
     }
 
     public function cart()

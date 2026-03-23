@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Quotation;
 use App\Models\Product;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\QuotationSubmitted; // Optional
 
 class QuotationController extends Controller
 {
@@ -25,61 +23,83 @@ class QuotationController extends Controller
         if ($product->product_type !== 'quotation') {
             abort(404);
         }
-        $product->load('images');
-        return view('quotation-form', compact('product'));
+
+        return response()->json([
+            'success' => true,
+            'product' => $product,
+        ]);
     }
 
     public function storeQuotation(Request $request, Product $product)
     {
+        if ($product->product_type !== 'quotation') {
+            abort(404);
+        }
+
         $request->validate([
             'customer_name' => 'required|string|max:255',
             'email' => 'required|email',
-            'phone' => 'nullable|string',
-            'message' => 'required|string',
+            'phone' => 'nullable|string|max:20',
+            'desired_price' => 'nullable|numeric|min:0',
+            'message' => 'nullable|string|max:1000',
         ]);
 
-        Quotation::create([
+        $quotation = Quotation::create([
             'product_id' => $product->id,
             'customer_name' => $request->customer_name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'desired_price' => $request->desired_price,
             'message' => $request->message,
+            'status' => 'pending',
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Quotation request submitted successfully! We will contact you soon.',
+            'quotation' => $quotation,
         ]);
 
         // Optional: Mail::to(config('mail.from.address'))->send(new QuotationSubmitted($quotation));
 
-        return redirect()->back()->with('success', 'Quotation request submitted successfully! We will contact you soon.');
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Quotation $quotation)
     {
-        //
-    }
+        $quotation->load('product.images');
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        return view('admin.quotations.show', compact('quotation'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Quotation $quotation)
     {
-        //
+        $data = $request->validate([
+            'status' => 'required|in:pending,contacted,closed',
+        ]);
+
+        $quotation->update($data);
+
+        return redirect()
+            ->route('admin.quotations.show', $quotation)
+            ->with('success', 'Quotation status updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Quotation $quotation)
     {
-        //
+        $quotation->delete();
+
+        return redirect()
+            ->route('admin.quotations.index')
+            ->with('success', 'Quotation moved to Recycle Bin successfully.');
     }
 }

@@ -47,9 +47,14 @@
             </div>
         </div>
         <div class="md:px-2 lg:px-4 xl:px-6 lg:pt-6 pt-5 flex gap-4 md:gap-5 flex-col">
+            @if($product->product_type === 'quotation')
+                <span class="inline-flex w-max items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">Quotation Product</span>
+            @endif
 
             <h4 class="font-medium leading-none dark:text-white text-lg">
-                @if($product->sale_price)
+                @if($product->product_type === 'quotation')
+                    Request Quote
+                @elseif($product->sale_price)
                     {{ "$" . number_format($product->sale_price, 2) }}
                     <span class="text-title/50 line-through pl-2 inline-block">{{ "$" . number_format($product->price, 2) }}</span>
                 @else

@@ -3,16 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 
 class CustomerController extends Controller
 {
     public function index()
     {
-$customers = User::role('customer')->paginate(15) ?: User::whereDoesntHave('roles')->paginate(15);
+        $this->authorize('customers.view');
+        $customers = User::role('customer')->orWhereDoesntHave('roles')->with('verifier')->paginate(15);
         return view('admin.customers.index', compact('customers'));
     }
 
@@ -35,7 +36,15 @@ $customers = User::role('customer')->paginate(15) ?: User::whereDoesntHave('role
             'password' => Hash::make($validated['password']),
         ]);
 
-        Role::firstOrCreate(['name' => 'customer']);
+        $role = Role::withTrashed()->firstOrCreate([
+            'name' => 'customer',
+            'guard_name' => 'web',
+        ]);
+
+        if ($role->trashed()) {
+            $role->restore();
+        }
+
         $user->assignRole('customer');
 
         return redirect()->route('admin.customers.index')->with('success', 'Customer created successfully.');
@@ -54,6 +63,8 @@ $customers = User::role('customer')->paginate(15) ?: User::whereDoesntHave('role
 
     public function update(Request $request, User $customer)
     {
+        $this->authorize('customers.update');
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $customer->id,
@@ -76,9 +87,35 @@ $customers = User::role('customer')->paginate(15) ?: User::whereDoesntHave('role
         return redirect()->route('admin.customers.index')->with('success', 'Customer updated successfully.');
     }
 
+    public function verify(User $customer)
+    {
+        $this->authorize('customers.verify');
+
+        $customer->update([
+            'verification_status' => 'verified',
+            'verified_at' => now(),
+            'verified_by' => auth()->id(),
+        ]);
+
+        return back()->with('success', 'Customer verified successfully.');
+    }
+
+    public function reject(User $customer)
+    {
+        $this->authorize('customers.verify');
+
+        $customer->update([
+            'verification_status' => 'rejected',
+            'verified_at' => now(),
+            'verified_by' => auth()->id(),
+        ]);
+
+        return back()->with('success', 'Customer verification rejected.');
+    }
+
     public function destroy(User $customer)
     {
         $customer->delete();
-        return redirect()->route('admin.customers.index')->with('success', 'Customer deleted successfully.');
+        return redirect()->route('admin.customers.index')->with('success', 'Customer moved to Recycle Bin successfully.');
     }
 }
