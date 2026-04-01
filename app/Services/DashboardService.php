@@ -15,7 +15,17 @@ class DashboardService
         return [
             'total_orders' => Order::count(),
             'total_revenue' => Order::where('payment_status', 'paid')->sum('total_amount'),
-'total_customers' => (method_exists(User::class, 'role') && !empty(User::role('customer')->get()) ? User::role('customer')->count() : User::whereDoesntHave('roles')->orWhereHas('roles', function($q){ $q->whereNotIn('name', ['admin', 'vendor']); })->count()),
+            'total_customers' => User::where(function ($query) {
+                $query->whereHas('roles', function ($roleQuery) {
+                    $roleQuery->where('name', 'customer');
+                })->orWhere(function ($customerQuery) {
+                    $customerQuery->whereDoesntHave('roles.permissions', function ($permissionQuery) {
+                        $permissionQuery->where('name', 'admin.access');
+                    })->whereDoesntHave('roles', function ($roleQuery) {
+                        $roleQuery->where('name', 'vendor');
+                    });
+                });
+            })->count(),
             'total_products' => Product::where('status', 'active')->count(),
             'total_enquiries' => \App\Models\Contact::count(),
             'recent_orders' => Order::with('user')->latest()->limit(5)->get(),
@@ -54,4 +64,3 @@ class DashboardService
         ];
     }
 }
-

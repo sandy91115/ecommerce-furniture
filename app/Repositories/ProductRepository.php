@@ -31,10 +31,14 @@ class ProductRepository implements ProductRepositoryInterface
         return $this->model->create($data);
     }
 
-    public function update(int $id, array $data): bool
+    public function update(int $id, array $data): ?Product
     {
-        $product = $this->find($id);
-        return $product ? $product->update($data) : false;
+        $product = $this->model->withTrashed()->find($id);
+        if (!$product) {
+            return null;
+        }
+        $product->update($data);
+        return $product->fresh(['category', 'vendor']);
     }
 
     public function delete(int $id): bool

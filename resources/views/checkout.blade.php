@@ -41,14 +41,7 @@
                 </a>
             </div>
 
-            <script>
-                const addCouponCode = document.querySelector('.add-coupon-code')
-                const couponWrapper = document.querySelector('.coupon-wrapper')
-                addCouponCode.addEventListener('click', () => {
-                    couponWrapper.classList.toggle('hidden');
-                    couponWrapper.classList.toggle('flex');
-                })
-            </script>
+           
             <h4 class="font-semibold leading-none text-xl md:text-2xl mb-6 md:mb-[30px]">
                 Billing Information
             </h4>
@@ -288,67 +281,9 @@
     </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const placeOrderBtn = document.getElementById('place-order-btn');
-    const checkoutForm = document.getElementById('checkout-form');
 
-    if (placeOrderBtn && checkoutForm) {
-        placeOrderBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Basic validation
-            const requiredFields = checkoutForm.querySelectorAll('[required]');
-            let isValid = true;
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    isValid = false;
-                    field.classList.add('border-red-500');
-                } else {
-                    field.classList.remove('border-red-500');
-                }
-            });
-
-            if (!isValid) {
-                alert('Please fill in all required fields.');
-                return;
-            }
-
-            placeOrderBtn.disabled = true;
-            placeOrderBtn.querySelector('span').innerText = 'Processing...';
-
-            const formData = new FormData(checkoutForm);
-            
-            fetch("{{ route('checkout.process') }}", {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    window.location.href = data.redirect;
-                } else {
-                    alert(data.message || 'Something went wrong. Please try again.');
-                    placeOrderBtn.disabled = false;
-                    placeOrderBtn.querySelector('span').innerText = 'Place Order';
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again.');
-                placeOrderBtn.disabled = false;
-                placeOrderBtn.querySelector('span').innerText = 'Place Order';
-            });
-        });
-    }
-});
-</script>
 <!-- Checkout Area End -->
    
-@include('includes.footer6')
+@include('includes.footer')
   
 @endsection

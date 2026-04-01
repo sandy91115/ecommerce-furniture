@@ -56,7 +56,7 @@
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Message</label>
-                    <p class="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{{ $quotation->message ?? 'No message provided' }}</p>
+                    <p class="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{{ filled($quotation->message) ? $quotation->message : 'No message provided' }}</p>
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Status</label>

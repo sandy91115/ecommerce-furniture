@@ -48,6 +48,6 @@
 </div>
 <!--  Payment Completed Area End -->
 
-@include('includes.footer6')
+@include('includes.footer')
   
 @endsection

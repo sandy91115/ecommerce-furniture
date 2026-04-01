@@ -23,6 +23,9 @@ class HomeController extends Controller
         $categories = Category::whereNull('parent_id')
             ->where('status', 'active')
             ->with('children')
+            ->withCount(['products' => function ($query) {
+                $query->where('status', 'active');
+            }])
             ->take(8)
             ->get();
 

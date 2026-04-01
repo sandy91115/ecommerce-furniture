@@ -11,7 +11,7 @@ class MenuController extends Controller
     public function index(Request $request)
     {
         $type = $request->get('type', 'all');
-        $menus = Menu::when($type !== 'all', fn($q) => $q->type($type))
+        $menuGroups = Menu::when($type !== 'all', fn($q) => $q->type($type))
             ->active()
             ->orderBy('order')
             ->orderBy('id')
@@ -21,7 +21,7 @@ class MenuController extends Controller
 
         $menuTypes = Menu::distinct('menu_type')->pluck('menu_type');
 
-        return view('admin.menus.index', compact('menus', 'menuTypes', 'type'));
+        return view('admin.menus.index', compact('menuGroups', 'menuTypes', 'type'));
     }
 
     public function store(Request $request)
@@ -38,6 +38,21 @@ class MenuController extends Controller
         Menu::create($validated);
 
         return redirect()->back()->with('success', 'Menu item created successfully!');
+    }
+
+    public function edit(Menu $menu)
+    {
+        return response()->json([
+            'menu' => $menu->only([
+                'id',
+                'menu_type',
+                'title',
+                'url',
+                'parent_id',
+                'order',
+                'status',
+            ]),
+        ]);
     }
 
     public function update(Request $request, Menu $menu)

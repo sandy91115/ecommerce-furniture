@@ -26,6 +26,6 @@
 </div>
 <!-- Thank you Area End -->
 
-@include('includes.footer6')
+@include('includes.footer')
   
 @endsection

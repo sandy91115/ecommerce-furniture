@@ -41,6 +41,7 @@ class RolePermissionSeeder extends Seeder
             'customers.view',
             'customers.show',
             'customers.update',
+            'customers.create',
             'customers.verify',
             
             // Blogs
@@ -98,6 +99,7 @@ class RolePermissionSeeder extends Seeder
             'orders.show',
             'customers.view',
             'customers.show',
+            'customers.create',
             'customers.verify',
         ];
         $shopTeamRole->syncPermissions($shopTeamPerms);

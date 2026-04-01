@@ -55,7 +55,7 @@
                             </form>
 
                             @if($canForceDelete)
-                                <form action="{{ route('admin.trash.force-delete', [$type, $item->id]) }}" method="POST" onsubmit="return confirm('Is item ko permanently delete karna hai? Yeh action undo nahi hoga.');">
+                                <form action="{{ route('admin.trash.force-delete', [$type, $item->id]) }}" method="POST" onsubmit="return confirm('After delete you cant restore it.');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="rounded-lg bg-red-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-red-700">

@@ -16,6 +16,7 @@ class OrderUpdateRequest extends FormRequest
         return [
             'status' => 'required|in:pending,processing,shipped,delivered,cancelled,returned,refunded',
             'payment_status' => 'required|in:pending,paid,failed,refunded',
+            'shipping_address' => 'nullable|string|max:500',
             'shipping_tracking' => 'nullable|string|max:100',
         ];
     }

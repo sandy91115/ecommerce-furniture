@@ -3,115 +3,144 @@
 @section('title', 'Role Management')
 
 @section('content')
-<div class="row">
-    <div class="col-12">
-        <div class="page-title-box d-flex align-items-center justify-content-between">
-            <div>
-                <h4 class="page-title mb-0">Role & Permission Management</h4>
-            </div>
-            <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Roles</li>
-                </ol>
-            </div>
+@php
+    $systemRoleNames = ['super_admin', 'admin', 'shop_team', 'marketing_team', 'customer', 'vendor'];
+@endphp
+
+<div class="max-w-7xl mx-auto space-y-8">
+    <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Role & Permission Management</h1>
+            
+        </div>
+        @can('roles.manage')
+        <a href="{{ route('admin.roles.create') }}" class="inline-flex items-center justify-center rounded-2xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition hover:bg-blue-700">
+            <i class="fas fa-plus mr-2"></i>
+            Create Role
+        </a>
+        @endcan
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <div class="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Roles</p>
+            <p class="mt-3 text-3xl font-bold text-gray-900 dark:text-white">{{ $stats['total_roles'] }}</p>
+        </div>
+        <div class="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">System Roles</p>
+            <p class="mt-3 text-3xl font-bold text-gray-900 dark:text-white">{{ $stats['system_roles'] }}</p>
+        </div>
+        <div class="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Custom Roles</p>
+            <p class="mt-3 text-3xl font-bold text-gray-900 dark:text-white">{{ $stats['custom_roles'] }}</p>
+        </div>
+        <div class="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Available Permissions</p>
+            <p class="mt-3 text-3xl font-bold text-gray-900 dark:text-white">{{ $stats['total_permissions'] }}</p>
         </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-striped dt-responsive w-100 mb-0">
-                        <thead class="table-light sticky-top">
-                            <tr class="text-left border-b-2 border-gray-200 dark:border-gray-700">
-                                <th class="px-6 py-4 text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider w-64 min-w-[16rem] border-r border-gray-200 dark:border-gray-700">Role Name</th>
-                                <th class="px-6 py-4 text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider border-r border-gray-200 dark:border-gray-700 flex-1 min-w-0">Current Permissions</th>
-                                <th class="px-6 py-4 text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider text-center w-96 min-w-[24rem] border-l border-gray-200 dark:border-gray-700">Manage Permissions & Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
-                            @forelse($roles as $role)
-                            <tr class="hover:bg-gray-50/75 dark:hover:bg-gray-900/30 transition-all duration-200 group">
-                                <td class="px-6 py-8 align-top border-r border-gray-200/50 dark:border-gray-700/50">
-                                    <div class="flex items-center space-x-3">
-                                        <div class="w-3 h-3 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 shadow-lg"></div>
-                                        <div>
-                                            <span class="text-xl font-bold text-gray-900 dark:text-gray-100 tracking-tight">{{ ucfirst($role->name) }}</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-8 align-top border-r border-gray-200/50 dark:border-gray-700/50">
-                                    <div class="h-48 min-h-[12rem] overflow-y-auto p-5 border border-gray-200/60 dark:border-gray-700/60 rounded-2xl bg-gradient-to-br from-gray-50/60 to-gray-100/60 dark:from-gray-900/50 dark:to-gray-800/50 flex flex-wrap gap-2.5 content-start shadow-xl shadow-gray-100/50 dark:shadow-gray-900/30 scrollbar-thin scrollbar-thumb-gray-400/50 scrollbar-track-gray-200/50 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
-                                        @forelse($role->permissions as $perm)
-                                        <span class="inline-flex px-3 py-1.5 text-xs font-semibold bg-gradient-to-r from-emerald-100 to-emerald-200 text-emerald-800 border border-emerald-200/50 dark:from-emerald-900/60 dark:to-emerald-800/60 dark:text-emerald-200 dark:border-emerald-700/50 rounded-full shadow-sm hover:shadow-md transition-all">{{ $perm->name }}</span>
-                                        @empty
-                                        <div class="flex flex-col items-center justify-center w-full h-full text-gray-500 dark:text-gray-400">
-                                            <i class="fas fa-shield-alt text-4xl opacity-40 mb-3"></i>
-                                            <span class="text-sm font-medium italic">No permissions assigned</span>
-                                        </div>
-                                        @endforelse
-                                    </div>
-                                </td>
-                                <td class="px-6 py-8 align-top border-l border-gray-200/50 dark:border-gray-700/50">
-                                    <div class="flex flex-col gap-6">
-                                        <form action="{{ route('admin.roles.update', $role) }}" method="POST" class="flex flex-col gap-4">
-                                            @csrf @method('PUT')
-                                            
-                                            <div class="flex items-center justify-between gap-4">
-                                                <button type="submit" class="flex-1 bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-2xl text-sm font-bold shadow-xl shadow-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 flex items-center justify-center group">
-                                                    <i class="fas fa-sync-alt mr-2 group-hover:rotate-180 transition-transform duration-500"></i> Update Permissions
-                                                </button>
-                                                
-                                                @if($role->name !== 'super_admin')
-                                                <button type="button" 
-                                                        onclick="if(confirm('Are you sure you want to delete this role? This action cannot be undone.')) { document.getElementById('delete-form-{{ $role->id }}').submit(); }"
-                                                        class="bg-gradient-to-br from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white p-3 rounded-2xl text-sm font-bold shadow-xl shadow-red-500/30 hover:shadow-2xl hover:shadow-red-500/50 transition-all duration-300 flex items-center justify-center aspect-square"
-                                                        title="Delete Role">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                                @endif
-                                            </div>
+    <div class="space-y-5">
+        @forelse($roles as $role)
+        @php
+            $isSystemRole = in_array($role->name, $systemRoleNames, true);
+            $displayName = \Illuminate\Support\Str::headline(str_replace('_', ' ', $role->name));
+            $previewPermissions = $role->permissions->take(6);
+            $extraPermissions = max($role->permissions_count - $previewPermissions->count(), 0);
+            $hasAdminAccess = $role->permissions->contains('name', 'admin.access') || $role->name === 'super_admin';
+        @endphp
+        <div class="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-md dark:border-gray-700 dark:bg-gray-800">
+            <div class="grid gap-6 xl:grid-cols-[280px,minmax(0,1fr),220px]">
+                <div class="space-y-4">
+                    <div class="flex items-start justify-between gap-3">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $displayName }}</h2>
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Code: {{ $role->name }}</p>
+                        </div>
+                        <span class="inline-flex rounded-full px-3 py-1 text-xs font-semibold {{ $isSystemRole ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-200' : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200' }}">
+                            {{ $isSystemRole ? 'System' : 'Custom' }}
+                        </span>
+                    </div>
 
-                                            <div class="relative group/select">
-                                                <select name="permissions[]" multiple class="w-full h-48 border-2 border-gray-200 dark:border-gray-700/50 dark:bg-gray-800/50 dark:text-gray-100 rounded-2xl shadow-inner focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all duration-300 text-sm p-4 scrollbar-thin scrollbar-thumb-blue-400/50 dark:scrollbar-thumb-blue-600 scrollbar-track-transparent">
-                                                    @foreach($permissions as $permission)
-                                                    <option value="{{ $permission->name }}" {{ $role->hasPermissionTo($permission->name) ? 'selected' : '' }} class="py-2 px-3 text-sm hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg m-1 cursor-pointer transition-colors">
-                                                        {{ $permission->name }}
-                                                    </option>
-                                                    @endforeach
-                                                </select>
-                                                <div class="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-gray-50/50 dark:from-gray-800/50 to-transparent pointer-events-none rounded-b-2xl"></div>
-                                            </div>
-                                        </form>
-                                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="inline-flex rounded-full px-3 py-1 text-xs font-semibold {{ $hasAdminAccess ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-200' : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200' }}">
+                            {{ $hasAdminAccess ? 'Admin Access Enabled' : 'No Admin Access' }}
+                        </span>
+                        <span class="inline-flex rounded-full px-3 py-1 text-xs font-semibold bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-200">
+                            {{ $role->users_count }} assigned user{{ $role->users_count === 1 ? '' : 's' }}
+                        </span>
+                    </div>
+                </div>
 
-                                    @if($role->name !== 'super_admin')
-                                    <form id="delete-form-{{ $role->id }}" action="{{ route('admin.roles.destroy', $role) }}" method="POST" class="hidden">
-                                        @csrf @method('DELETE')
-                                    </form>
-                                    @endif
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="3" class="text-center py-20">
-                                    <div class="flex flex-col items-center space-y-4">
-                                        <i class="fas fa-users text-6xl text-gray-400 dark:text-gray-500"></i>
-                                        <h3 class="text-xl font-bold text-gray-600 dark:text-gray-400">No roles found</h3>
-                                        <p class="text-gray-500 dark:text-gray-500">Create your first role to get started.</p>
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                <div class="rounded-3xl border border-gray-200 bg-gray-50 p-5 dark:border-gray-700 dark:bg-gray-900/40">
+                    <div class="flex items-center justify-between gap-3">
+                        <h3 class="text-sm font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Permission Snapshot</h3>
+                        <span class="text-sm font-semibold text-gray-700 dark:text-gray-200">{{ $role->permissions_count }} total</span>
+                    </div>
+
+                    @if($role->name === 'super_admin')
+                    <div class="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-5 text-sm text-blue-700 dark:border-blue-800 dark:bg-blue-900/20 dark:text-blue-200">
+                        
+                        Super Admin has full global access. It didn't need any other permissions.
+                    </div>
+                    @elseif($previewPermissions->isEmpty())
+                    <div class="mt-4 rounded-2xl border border-dashed border-gray-300 px-4 py-8 text-center text-sm text-gray-500 dark:border-gray-600 dark:text-gray-400">
+                        No permissions assigned yet.
+                    </div>
+                    @else
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        @foreach($previewPermissions as $permission)
+                        <span class="inline-flex rounded-full bg-gray-900 px-3 py-1 text-xs font-medium text-white dark:bg-gray-700">
+                            {{ $permission->name }}
+                        </span>
+                        @endforeach
+                        @if($extraPermissions > 0)
+                        <span class="inline-flex rounded-full bg-gray-200 px-3 py-1 text-xs font-medium text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                            +{{ $extraPermissions }} more
+                        </span>
+                        @endif
+                    </div>
+                    @endif
+                </div>
+
+                <div class="flex flex-col gap-3 xl:items-end">
+                    @can('roles.manage')
+                    <a href="{{ route('admin.roles.edit', $role) }}" class="inline-flex w-full items-center justify-center rounded-2xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition hover:bg-blue-700 xl:w-[200px]">
+                        <i class="fas fa-sliders-h mr-2"></i>
+                        Manage
+                    </a>
+                    @endcan
+
+                    @can('roles.manage')
+                    @if(!$isSystemRole && $role->users_count === 0)
+                    <form action="{{ route('admin.roles.destroy', $role) }}" method="POST" class="w-full xl:w-[200px]">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" onclick="return confirm('Delete this role?')" class="inline-flex w-full items-center justify-center rounded-2xl border border-red-200 px-4 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-50 dark:border-red-800 dark:text-red-300 dark:hover:bg-red-900/20">
+                            <i class="fas fa-trash-alt mr-2"></i>
+                            Delete
+                        </button>
+                    </form>
+                    @elseif(!$isSystemRole)
+                    <p class="w-full rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs font-medium text-amber-700 dark:border-amber-800 dark:bg-amber-900/20 dark:text-amber-200 xl:w-[200px]">
+                        Reassign users before deleting.
+                    </p>
+                    @else
+                    <p class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-xs font-medium text-gray-600 dark:border-gray-700 dark:bg-gray-900/30 dark:text-gray-300 xl:w-[200px]">
+                        Protected system role.
+                    </p>
+                    @endif
+                    @endcan
                 </div>
             </div>
         </div>
+        @empty
+        <div class="rounded-3xl border border-dashed border-gray-300 bg-white px-6 py-16 text-center dark:border-gray-700 dark:bg-gray-800">
+            <i class="fas fa-user-shield text-5xl text-gray-300 dark:text-gray-600"></i>
+            <h3 class="mt-4 text-xl font-semibold text-gray-900 dark:text-white">No roles found</h3>
+            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Create a role to start managing access properly.</p>
+        </div>
+        @endforelse
     </div>
 </div>
 @endsection
-

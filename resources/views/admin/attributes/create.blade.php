@@ -37,7 +37,7 @@
                 <button type="submit" class="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 px-8 rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center">
                     <i class="fas fa-save mr-2"></i> Create Attribute
                 </button>
-                <a href="{{ route('admin.attributes.index') }}" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-4 px-8 rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center">
+                <a href="{{ route('admin.attributes.index') }}" class="flex-1 bg-gray-600 hover:bg-gray-300 text-gray-800 font-bold py-4 px-8 rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center">
                     <i class="fas fa-times mr-2"></i> Cancel
                 </a>
             </div>

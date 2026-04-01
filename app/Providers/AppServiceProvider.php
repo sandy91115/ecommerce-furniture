@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Services\WishlistService;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 use App\Contracts\ProductRepositoryInterface;
 use App\Repositories\ProductRepository;
 use App\Contracts\OrderRepositoryInterface;
@@ -13,21 +15,28 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
-$this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
+        $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
         $this->app->bind(\App\Contracts\CouponRepositoryInterface::class, \App\Repositories\CouponRepository::class);
     }
 
     public function boot(): void
     {
+        Gate::before(function ($user, string $ability) {
+            return $user->hasRole('super_admin') ? true : null;
+        });
+
         view()->composer('*', function ($view) {
             $cartService = app(\App\Services\CartService::class);
+            $wishlistService = app(WishlistService::class);
             $cartItems = $cartService->get();
             $cartTotal = $cartService->total();
             
             $view->with('cartItems', $cartItems);
             $view->with('cartTotal', $cartTotal);
             $view->with('cartCount', $cartService->count());
-            $view->with('wishlistCount', $cartService->wishlistCount());
+            $view->with('wishlistCount', $wishlistService->count());
+            $view->with('wishlistItems', $wishlistService->getItems());
+            $view->with('wishlistIds', $wishlistService->ids());
             
             $view->with('menus', [
                 'header_main' => \App\Models\Menu::getMenus('header_main'),

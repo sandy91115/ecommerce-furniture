@@ -37,11 +37,25 @@ class Attribute extends Model
         parent::boot();
 
         static::creating(function ($attribute) {
-            $attribute->slug = \Illuminate\Support\Str::slug($attribute->name);
+            $slug = \Illuminate\Support\Str::slug($attribute->name);
+            $originalSlug = $slug;
+            $counter = 2;
+            while (static::withTrashed()->where('slug', $slug)->exists()) {
+                $slug = $originalSlug . '-' . $counter++;
+            }
+            $attribute->slug = $slug;
         });
 
         static::updating(function ($attribute) {
-            $attribute->slug = \Illuminate\Support\Str::slug($attribute->name);
+            $slug = \Illuminate\Support\Str::slug($attribute->name);
+            $originalSlug = $slug;
+            $counter = 2;
+            while (static::withTrashed()->where('id', '!=', $attribute->id)
+                          ->where('slug', $slug)
+                          ->exists()) {
+                $slug = $originalSlug . '-' . $counter++;
+            }
+            $attribute->slug = $slug;
         });
     }
 }

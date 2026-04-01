@@ -49,9 +49,8 @@
 </div>
 <!-- Shop End -->
 
-<!-- includes/Home/popup.blade.php -->
-@include('includes.Home.popup')
 
-@include('includes.footer6')
+
+@include('includes.footer')
   
 @endsection

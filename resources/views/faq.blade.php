@@ -1,7 +1,7 @@
 <!-- resources/views/faq.blade.php -->
 @extends('layouts.main')
 
-@section('title', 'Faq Page')
+@section('title', 'Faq ')
 
 @section('content')
 
@@ -33,6 +33,6 @@
 </div>
 <!-- Faq Area End -->
    
-@include('includes.footer6')
+@include('includes.footer')
   
 @endsection

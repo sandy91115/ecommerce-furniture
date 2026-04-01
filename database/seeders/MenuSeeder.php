@@ -42,12 +42,12 @@ class MenuSeeder extends Seeder
             ['menu_type' => 'footer_service', 'title' => 'Contact', 'url' => '/contact', 'order' => 4],
 
             // Admin Sidebar (matching current hardcoded)
-            ['menu_type' => 'admin_sidebar', 'title' => 'Dashboard', 'url' => '/admin/dashboard', 'order' => 1, 'icon' => 'fas fa-tachometer-alt', 'permission' => 'dashboard.view'],
-            ['menu_type' => 'admin_sidebar', 'title' => 'Categories', 'url' => '/admin/categories', 'order' => 2, 'icon' => 'fas fa-list-alt', 'permission' => 'categories.view'],
-            ['menu_type' => 'admin_sidebar', 'title' => 'Products', 'url' => '/admin/products', 'order' => 3, 'icon' => 'fas fa-box', 'permission' => 'products.view'],
-            ['menu_type' => 'admin_sidebar', 'title' => 'Attributes', 'url' => '/admin/attributes', 'order' => 4, 'icon' => 'fas fa-tags', 'permission' => 'attributes.view'],
-            ['menu_type' => 'admin_sidebar', 'title' => 'Orders', 'url' => '/admin/orders', 'order' => 5, 'icon' => 'fas fa-shopping-cart', 'permission' => 'orders.view'],
-            ['menu_type' => 'admin_sidebar', 'title' => 'Customers', 'url' => '/admin/customers', 'order' => 6, 'icon' => 'fas fa-users', 'permission' => 'customers.view'],
+            ['menu_type' => 'admin_sidebar', 'title' => 'Dashboard', 'url' => '/admin/dashboard', 'order' => 1, 'icon' => 'fas fa-tachometer-alt', 'permission' => 'dashboard.view', 'is_permanent' => true],
+            ['menu_type' => 'admin_sidebar', 'title' => 'Categories', 'url' => '/admin/categories', 'order' => 2, 'icon' => 'fas fa-list-alt', 'permission' => 'categories.view', 'is_permanent' => true],
+            ['menu_type' => 'admin_sidebar', 'title' => 'Products', 'url' => '/admin/products', 'order' => 3, 'icon' => 'fas fa-box', 'permission' => 'products.view', 'is_permanent' => true],
+            ['menu_type' => 'admin_sidebar', 'title' => 'Attributes', 'url' => '/admin/attributes', 'order' => 4, 'icon' => 'fas fa-tags', 'permission' => 'attributes.view', 'is_permanent' => true],
+            ['menu_type' => 'admin_sidebar', 'title' => 'Orders', 'url' => '/admin/orders', 'order' => 5, 'icon' => 'fas fa-shopping-cart', 'permission' => 'orders.view', 'is_permanent' => true],
+            ['menu_type' => 'admin_sidebar', 'title' => 'Customers', 'url' => '/admin/customers', 'order' => 6, 'icon' => 'fas fa-users', 'permission' => 'customers.view', 'is_permanent' => true],
             ['menu_type' => 'admin_sidebar', 'title' => 'Staff', 'url' => '/admin/staff', 'order' => 7, 'icon' => 'fas fa-user-tie', 'permission' => 'staff.view'],
             ['menu_type' => 'admin_sidebar', 'title' => 'Coupons', 'url' => '/admin/coupons', 'order' => 8, 'icon' => 'fas fa-ticket-alt', 'permission' => 'coupons.view'],
             ['menu_type' => 'admin_sidebar', 'title' => 'Blogs', 'url' => '/admin/blogs', 'order' => 9, 'icon' => 'fas fa-newspaper', 'permission' => 'blogs.view'],
@@ -57,6 +57,7 @@ class MenuSeeder extends Seeder
             ['menu_type' => 'admin_sidebar', 'title' => 'Menus', 'url' => '/admin/menus', 'order' => 13, 'icon' => 'fas fa-list', 'permission' => 'menus.view'],
             ['menu_type' => 'admin_sidebar', 'title' => 'Contacts', 'url' => '/admin/contacts', 'order' => 14, 'icon' => 'fas fa-envelope', 'permission' => 'contacts.view'],
             ['menu_type' => 'admin_sidebar', 'title' => 'Quotations', 'url' => '/admin/quotations', 'order' => 15, 'icon' => 'fas fa-file-invoice', 'permission' => 'quotations.view'],
+            ['menu_type' => 'admin_sidebar', 'title' => 'Payment Methods', 'url' => '/admin/payment-methods', 'order' => 16, 'icon' => 'fas fa-credit-card', 'permission' => 'admin.access'],
             ['menu_type' => 'admin_sidebar', 'title' => 'Recycle Bin', 'url' => '/admin/trash', 'order' => 999, 'icon' => 'fas fa-recycle', 'permission' => 'admin.access'],
 
             // Header Main (placeholder - customize later)

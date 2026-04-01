@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -36,12 +37,61 @@ class ProductController extends Controller
 
         $whatsappNumber = Setting::get(Setting::WHATSAPP_NUMBER);
         $isQuotationProduct = $product->product_type === 'quotation';
+        $siteName = Setting::get(Setting::SITE_NAME, config('app.name', 'Furniture Store')) ?: config('app.name', 'Furniture Store');
+        $currencyCode = strtoupper((string) (Setting::get(Setting::CURRENCY, 'INR') ?: 'INR'));
+        $price = (float) ($product->sale_price ?: $product->price);
+        $canonicalUrl = route('product-details', $product->slug);
+        $availability = $isQuotationProduct || (int) $product->stock > 0
+            ? 'https://schema.org/InStock'
+            : 'https://schema.org/OutOfStock';
+
+        $schemaImageUrls = $product->images
+            ->sortByDesc(fn ($image) => (int) $image->featured)
+            ->map(fn ($image) => $image->path ? asset('storage/' . ltrim($image->path, '/')) : null)
+            ->filter()
+            ->values();
+
+        if ($schemaImageUrls->isEmpty()) {
+            $schemaImageUrls = collect([asset('assets/img/product/default.jpg')]);
+        }
+
+        $schemaDescription = trim((string) preg_replace(
+            '/\s+/',
+            ' ',
+            strip_tags($product->seo_description ?: $product->short_description ?: $product->description ?: $product->name)
+        ));
+
+        $metaDescription = Str::limit($schemaDescription, 160, '');
+
+        $productSchema = array_filter([
+            '@context' => 'https://schema.org/',
+            '@type' => 'Product',
+            'name' => $product->name,
+            'image' => $schemaImageUrls->count() === 1 ? $schemaImageUrls->first() : $schemaImageUrls->all(),
+            'description' => $schemaDescription,
+            'brand' => [
+                '@type' => 'Brand',
+                'name' => data_get($product, 'vendor.store_name') ?: $siteName,
+            ],
+            'sku' => $product->sku,
+            'category' => $product->category?->name,
+            'offers' => [
+                '@type' => 'Offer',
+                'url' => $canonicalUrl,
+                'priceCurrency' => $currencyCode,
+                'price' => number_format($price, 2, '.', ''),
+                'availability' => $availability,
+            ],
+        ], fn ($value) => ! is_null($value) && $value !== '');
 
         return view('product-details', compact(
             'product',
             'products',
             'whatsappNumber',
-            'isQuotationProduct'
+            'isQuotationProduct',
+            'metaDescription',
+            'productSchema',
+            'canonicalUrl'
         ));
     }
 

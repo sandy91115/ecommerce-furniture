@@ -89,7 +89,8 @@
 <div class="s-pb-100" data-aos="fade-up">
     <div class="container-fluid">
         <div class="max-w-[1720px] mx-auto">
-            <iframe class="w-full h-[400px] md:h-[600px]" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28951.79709608298!2d91.85394430000001!3d24.898846749999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m3!3e6!4m0!4m0!5e0!3m2!1sen!2sbd!4v1668006237424!5m2!1sen!2sbd" style="border:0;"></iframe>
+            <iframe  class="w-full h-[400px] md:h-[600px]" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3501.859061019454!2d77.27956597604573!3d28.633985884013654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce31239612c63%3A0xe892f7ba0ff5f21b!2sLets%20Digital%20Marketing%20-%20Best%20SEO%20Company%20in%20Delhi%20NCR!5e0!3m2!1sen!2sin!4v1774958646151!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            
         </div>
     </div>
 </div>

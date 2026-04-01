@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\Storage;
 
 class StaffController extends Controller
 {
@@ -16,8 +17,8 @@ class StaffController extends Controller
         $this->authorize('staff.view');
 
         $staff = User::with('roles', 'verifier')
-            ->whereHas('roles', function ($query) {
-                $query->whereIn('name', ['admin', 'super_admin', 'shop_team', 'marketing_team']);
+            ->whereHas('roles.permissions', function ($query) {
+                $query->where('name', 'admin.access');
             })
             ->paginate(10);
 
@@ -27,8 +28,10 @@ class StaffController extends Controller
     public function create()
     {
         $this->authorize('staff.create');
-        $roles = Role::whereIn('name', ['shop_team', 'marketing_team'])->get(); // super_admin manual only
-        return view('admin.staff.create', compact('roles'));
+        $roles = $this->adminAssignableRoles();
+        $permissions = collect();
+        $staff = null;
+        return view('admin.staff.create', compact('roles', 'permissions', 'staff'));
     }
 
     public function store(Request $request)
@@ -38,19 +41,24 @@ class StaffController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
+            'phone' => 'nullable|string|max:20',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'password' => 'required|min:8|confirmed',
             'designation' => 'nullable|string',
             'roles' => 'array',
             'roles.*' => 'exists:roles,name',
         ]);
 
+        if ($request->hasFile('avatar')) {
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+            $data['avatar_path'] = $avatarPath;
+        }
+
         $data['password'] = Hash::make($data['password']);
         $data['verification_status'] = 'verified'; // Staff auto-verified
 
         $user = User::create($data);
-        if ($request->roles) {
-            $user->syncRoles($request->roles);
-        }
+        $user->syncRoles($request->input('roles', []));
 
         return redirect()->route('admin.staff.index')->with('success', 'Staff created successfully.');
     }
@@ -58,8 +66,8 @@ class StaffController extends Controller
     public function edit(User $staff)
     {
         $this->authorize('staff.update');
-        $roles = Role::all();
-        $permissions = Permission::all();
+        $roles = $this->adminAssignableRoles();
+        $permissions = Permission::orderBy('name')->get();
         return view('admin.staff.edit', compact('staff', 'roles', 'permissions'));
     }
 
@@ -70,11 +78,23 @@ class StaffController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $staff->id,
+            'phone' => 'nullable|string|max:20',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'password' => 'nullable|min:8|confirmed',
+            'designation' => 'nullable|string',
             'roles' => 'array',
             'roles.*' => 'exists:roles,name',
             'permissions' => 'array',
         ]);
+
+        if ($request->hasFile('avatar')) {
+            // Delete old avatar if exists
+            if ($staff->avatar_path && Storage::disk('public')->exists($staff->avatar_path)) {
+                Storage::disk('public')->delete($staff->avatar_path);
+            }
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+            $data['avatar_path'] = $avatarPath;
+        }
 
         if ($request->password) {
             $data['password'] = Hash::make($data['password']);
@@ -83,13 +103,8 @@ class StaffController extends Controller
 
         $staff->update($data);
 
-        if ($request->roles) {
-            $staff->syncRoles($request->roles);
-        }
-
-        if ($request->permissions) {
-            $staff->syncPermissions($request->permissions);
-        }
+        $staff->syncRoles($request->input('roles', []));
+        $staff->syncPermissions($request->input('permissions', []));
 
         return redirect()->route('admin.staff.index')->with('success', 'Staff updated successfully.');
     }
@@ -99,6 +114,16 @@ class StaffController extends Controller
         $this->authorize('staff.delete');
         $staff->delete();
         return redirect()->route('admin.staff.index')->with('success', 'Staff moved to Recycle Bin successfully.');
+    }
+
+    private function adminAssignableRoles()
+    {
+        return Role::where('name', '!=', 'super_admin')
+            ->whereHas('permissions', function ($query) {
+                $query->where('name', 'admin.access');
+            })
+            ->orderBy('name')
+            ->get();
     }
 }
 

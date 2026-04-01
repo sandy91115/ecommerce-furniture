@@ -27,7 +27,7 @@ class ProductUpdateRequest extends FormRequest
             'stock' => 'required|integer|min:0',
             'short_description' => 'required|string|max:500',
             'description' => 'required|string',
-            'status' => 'required|in:active,inactive,draft',
+'status' => 'required|in:pending,active,rejected',
             'featured' => 'boolean',
             'dimensions' => 'nullable|string',
             'weight' => 'nullable|numeric|min:0',
@@ -37,7 +37,11 @@ class ProductUpdateRequest extends FormRequest
             'assembly_required' => 'boolean',
             'seo_title' => 'nullable|string|max:255',
             'seo_description' => 'nullable|string|max:500',
-            'images.*' => 'image|max:5120',
+            'images.*' => 'nullable|image|max:5120',
+            'replace_images' => 'nullable|boolean',
+            'delete_image' => 'nullable|array',
+            'delete_image.*' => 'integer|exists:product_images,id',
+            'featured_image_index' => 'nullable|integer|min:0',
         ];
     }
 

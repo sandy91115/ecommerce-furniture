@@ -91,6 +91,37 @@
                 <p class="text-xs text-gray-500 mt-1">Recommended: 32x32px or 16x16px ICO/PNG, Max 2MB</p>
             </div>
 
+            <!-- Currency Settings -->
+            <div class="mb-8 bg-gradient-to-r  p-6 rounded-xl border border-emerald-200">
+                <h3 class="text-lg font-semibold mb-4 text-white flex items-center">
+                    <i class="fas fa-dollar-sign mr-2"></i>Currency Settings
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Currency Code</label>
+                        <select name="currency" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
+                            <option value="USD" {{ ($settings['currency'] ?? 'USD') == 'USD' ? 'selected' : '' }}>USD - US Dollar ($)</option>
+                            <option value="EUR" {{ ($settings['currency'] ?? 'USD') == 'EUR' ? 'selected' : '' }}>EUR - Euro (€)</option>
+                            <option value="GBP" {{ ($settings['currency'] ?? 'USD') == 'GBP' ? 'selected' : '' }}>GBP - British Pound (£)</option>
+                            <option value="INR" {{ ($settings['currency'] ?? 'USD') == 'INR' ? 'selected' : '' }}>INR - Indian Rupee (₹)</option>
+                            <option value="CAD" {{ ($settings['currency'] ?? 'USD') == 'CAD' ? 'selected' : '' }}>CAD - Canadian Dollar (C$)</option>
+                            <option value="AUD" {{ ($settings['currency'] ?? 'USD') == 'AUD' ? 'selected' : '' }}>AUD - Australian Dollar (A$)</option>
+                        </select>
+                        <p class="text-xs text-gray-500 mt-1">ISO 4217 code for currency</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Currency Symbol</label>
+                        <input type="text" name="currency_symbol" value="{{ $settings['currency_symbol'] ?? '$' }}" maxlength="5" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
+                        <p class="text-xs text-gray-500 mt-1">Symbol to display before prices (e.g. $, €, ₹)</p>
+                    </div>
+                </div>
+                <div class="mt-4 p-4 rounded-lg border border-white">
+                    <p class="text-sm text-white"><strong>Preview:</strong> <span class="font-mono bg-white px-2 py-1 rounded">{{ $settings['currency_symbol'] ?? '$' }}99.99</span></p>
+                </div>
+            </div>
+
+           
+
             <button type="submit" class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 font-medium transition duration-200">
                 <i class="fas fa-save mr-2"></i>Save Settings
             </button>

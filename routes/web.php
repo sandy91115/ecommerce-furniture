@@ -24,6 +24,9 @@ Route::get('/team', [HomeController::class, 'team']);
 Route::get('/our-clients', [HomeController::class, 'ourClients']);
 Route::get('/faq', [HomeController::class, 'faq']);
 Route::get('/terms-and-conditions', [HomeController::class, 'termsAndConditions']);
+Route::get('/return-policy', function() {
+    return view('return-policy');
+});
 
 // Portfolio
 Route::get('/portfolio-v1', [HomeController::class, 'portfolioV1']);
@@ -98,19 +101,19 @@ Route::get('/store/{any}', function () {
 
 // Frontend Cart/Wishlist Routes
 Route::middleware('auth')->prefix('account')->name('frontend.account.')->group(function () {
-    Route::get('/', function () { 
+    Route::get('/', function () {
         $user = auth()->user();
         $orders = $user->orders()->latest()->paginate(10);
         return view('frontend.account', compact('orders'));
     })->name('index');
-    Route::get('/orders', function () { 
+    Route::get('/orders', function () {
         $user = auth()->user();
         $orders = $user->orders()->latest()->paginate(10);
         return view('frontend.orders', compact('orders'));
     })->name('orders');
 });
 
-Route::get('/wishlist', [App\Http\Controllers\WishlistController::class, 'accountWishlist'])->name('frontend.wishlist')->middleware('auth');
+Route::get('/wishlist', [App\Http\Controllers\WishlistController::class, 'accountWishlist'])->name('frontend.wishlist');
 
 Route::get('/cart', function () {
     $cartService = new \App\Services\CartService();
@@ -131,9 +134,9 @@ Route::post('/cart/add', [\App\Http\Controllers\CartController::class, 'add'])->
 Route::post('/cart/update', [\App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/remove', [\App\Http\Controllers\CartController::class, 'remove'])->name('cart.remove');
 
-Route::post('/wishlist/add/{product}', [App\Http\Controllers\WishlistController::class, 'add'])->name('wishlist.add')->middleware('auth');
-Route::delete('/wishlist/remove/{product}', [App\Http\Controllers\WishlistController::class, 'remove'])->name('wishlist.remove')->middleware('auth');
-Route::post('/wishlist/toggle', [App\Http\Controllers\WishlistController::class, 'toggle'])->name('wishlist.toggle')->middleware('auth');
+Route::post('/wishlist/add/{product}', [App\Http\Controllers\WishlistController::class, 'add'])->name('wishlist.add');
+Route::delete('/wishlist/remove/{product}', [App\Http\Controllers\WishlistController::class, 'remove'])->name('wishlist.remove');
+Route::post('/wishlist/toggle', [App\Http\Controllers\WishlistController::class, 'toggle'])->name('wishlist.toggle');
 
 // Admin Routes
 Route::get('/admin', function () {
@@ -145,20 +148,17 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'permission:admin.ac
 
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);
-    Route::get('products/pending', [App\Http\Controllers\Admin\ProductController::class, 'pending'])->name('products.pending');
-    Route::post('products/{product}/approve', [App\Http\Controllers\Admin\ProductController::class, 'approve'])->name('products.approve');
-    Route::post('products/{product}/reject', [App\Http\Controllers\Admin\ProductController::class, 'reject'])->name('products.reject');
     Route::resource('products', App\Http\Controllers\Admin\ProductController::class);
     Route::get('products/quotation', [App\Http\Controllers\Admin\ProductController::class, 'quotationProducts'])->name('admin.products.quotation');
     Route::resource('attributes', App\Http\Controllers\Admin\AttributeController::class);
-Route::get('attributes/{attribute}/values', [App\Http\Controllers\Admin\AttributeController::class, 'values'])->name('attributes.values');
-        Route::get('attributes/{attribute}/values/create', [App\Http\Controllers\Admin\AttributeController::class, 'valuesCreate'])->name('attributes.values.create');
-        Route::post('attributes/{attribute}/values', [App\Http\Controllers\Admin\AttributeController::class, 'valuesStore'])->name('attributes.values.store');
-        Route::get('attributes/{attribute}/values/{value}/edit', [App\Http\Controllers\Admin\AttributeController::class, 'valuesEdit'])->name('attributes.values.edit');
-        Route::put('attributes/{attribute}/values/{value}', [App\Http\Controllers\Admin\AttributeController::class, 'valuesUpdate'])->name('attributes.values.update');
-        Route::delete('attributes/{attribute}/values/{value}', [App\Http\Controllers\Admin\AttributeController::class, 'valuesDestroy'])->name('attributes.values.destroy');
-Route::resource('orders', App\Http\Controllers\Admin\OrderController::class);
-Route::resource('customers', App\Http\Controllers\Admin\CustomerController::class);
+    Route::get('attributes/{attribute}/values', [App\Http\Controllers\Admin\AttributeController::class, 'values'])->name('attributes.values');
+    Route::get('attributes/{attribute}/values/create', [App\Http\Controllers\Admin\AttributeController::class, 'valuesCreate'])->name('attributes.values.create');
+    Route::post('attributes/{attribute}/values', [App\Http\Controllers\Admin\AttributeController::class, 'valuesStore'])->name('attributes.values.store');
+    Route::get('attributes/{attribute}/values/{value}/edit', [App\Http\Controllers\Admin\AttributeController::class, 'valuesEdit'])->name('attributes.values.edit');
+    Route::put('attributes/{attribute}/values/{value}', [App\Http\Controllers\Admin\AttributeController::class, 'valuesUpdate'])->name('attributes.values.update');
+    Route::delete('attributes/{attribute}/values/{value}', [App\Http\Controllers\Admin\AttributeController::class, 'valuesDestroy'])->name('attributes.values.destroy');
+    Route::resource('orders', App\Http\Controllers\Admin\OrderController::class);
+    Route::resource('customers', App\Http\Controllers\Admin\CustomerController::class);
     Route::post('customers/{customer}/verify', [App\Http\Controllers\Admin\CustomerController::class, 'verify'])->name('customers.verify');
     Route::post('customers/{customer}/reject', [App\Http\Controllers\Admin\CustomerController::class, 'reject'])->name('customers.reject');
     Route::resource('coupons', App\Http\Controllers\Admin\CouponController::class);
@@ -167,13 +167,14 @@ Route::resource('customers', App\Http\Controllers\Admin\CustomerController::clas
     Route::resource('menus', App\Http\Controllers\Admin\MenuController::class);
     Route::resource('contacts', App\Http\Controllers\Admin\ContactController::class)->only(['index', 'show', 'destroy']);
     Route::resource('quotations', App\Http\Controllers\Admin\QuotationController::class)->only(['index', 'show', 'update', 'destroy']);
+    Route::resource('payment-methods', App\Http\Controllers\Admin\PaymentMethodController::class);
     Route::resource('staff', App\Http\Controllers\Admin\StaffController::class);
-    Route::resource('roles', App\Http\Controllers\Admin\RoleController::class)->only(['index', 'update', 'destroy']);
-    
+    Route::resource('roles', App\Http\Controllers\Admin\RoleController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+
     Route::get('settings', [App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
     Route::get('trash', [App\Http\Controllers\Admin\TrashController::class, 'index'])->name('trash.index');
     Route::post('trash/{type}/{id}/restore', [App\Http\Controllers\Admin\TrashController::class, 'restore'])->name('trash.restore');
     Route::delete('trash/{type}/{id}', [App\Http\Controllers\Admin\TrashController::class, 'forceDelete'])->name('trash.force-delete');
-    
+
     Route::post('settings', [App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
 });

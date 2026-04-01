@@ -16,6 +16,15 @@ class Setting extends Model
     const SITE_LOGO_PATH = 'site_logo_path';
     const SITE_FAVICON_PATH = 'site_favicon_path';
 
+    // Payment Methods
+    const RAZORPAY_KEY = 'razorpay_key';
+    const RAZORPAY_SECRET = 'razorpay_secret';
+    const RAZORPAY_WEBHOOK = 'razorpay_webhook';
+    const RAZORPAY_ENABLED = 'razorpay_enabled';
+    const RAZORPAY_SHOW_CHECKOUT = 'razorpay_show_checkout';
+    const CURRENCY = 'currency';
+    const CURRENCY_SYMBOL = 'currency_symbol';
+
     protected $fillable = [
         'key',
         'value',
@@ -34,4 +43,3 @@ class Setting extends Model
         return $setting ? $setting->value : $default;
     }
 }
-

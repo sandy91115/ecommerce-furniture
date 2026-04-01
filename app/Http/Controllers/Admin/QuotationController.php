@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Quotation;
 use App\Models\Product;
+use App\Models\Quotation;
+use Illuminate\Http\Request;
 
 class QuotationController extends Controller
 {
@@ -18,10 +18,14 @@ class QuotationController extends Controller
         return view('admin.quotations.index', compact('quotations'));
     }
 
-    public function showForm(Product $product)
+    public function showForm(Request $request, Product $product)
     {
         if ($product->product_type !== 'quotation') {
             abort(404);
+        }
+
+        if (! $request->expectsJson() && ! $request->ajax()) {
+            return redirect()->route('product-details', $product->slug);
         }
 
         return response()->json([
@@ -36,7 +40,7 @@ class QuotationController extends Controller
             abort(404);
         }
 
-        $request->validate([
+        $validated = $request->validate([
             'customer_name' => 'required|string|max:255',
             'email' => 'required|email',
             'phone' => 'nullable|string|max:20',
@@ -46,23 +50,29 @@ class QuotationController extends Controller
 
         $quotation = Quotation::create([
             'product_id' => $product->id,
-            'customer_name' => $request->customer_name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'desired_price' => $request->desired_price,
-            'message' => $request->message,
+            'customer_name' => trim($validated['customer_name']),
+            'email' => $validated['email'],
+            'phone' => filled($validated['phone'] ?? null) ? $validated['phone'] : null,
+            'desired_price' => $validated['desired_price'] ?? null,
+            'message' => trim($validated['message'] ?? ''),
             'status' => 'pending',
         ]);
 
-        return response()->json([
+        $responsePayload = [
             'success' => true,
             'message' => 'Quotation request submitted successfully! We will contact you soon.',
             'quotation' => $quotation,
-        ]);
+        ];
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json($responsePayload);
+        }
+
+        return redirect()
+            ->route('product-details', $product->slug)
+            ->with('success', $responsePayload['message']);
 
         // Optional: Mail::to(config('mail.from.address'))->send(new QuotationSubmitted($quotation));
-
-
     }
 
     /**

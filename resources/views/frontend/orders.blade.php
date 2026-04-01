@@ -46,8 +46,8 @@
                     <h3 class="text-2xl font-semibold text-title dark:text-white">All Orders ({{ $orders->total() ?? 0 }})</h3>
                     {{ $orders->links() ?? '' }}
                 </div>
-                
-@if(isset($orders) && $orders->count() > 0)
+
+                @if(isset($orders) && $orders->count() > 0)
                 <ul class="order-history">
                     <!-- Table Heading -->
                     <li class="title flex items-center justify-between gap-5 pb-[10px] sm:pb-5 border-b border-bdr-clr dark:border-bdr-clr-drk">
@@ -59,18 +59,18 @@
                     </li>
                     @foreach($orders as $order)
                     @php
-                        $items = is_array($order->items) ? $order->items : json_decode($order->items ?? '[]', true);
-                        $firstItem = $items[0] ?? [];
-                        $statusClass = match($order->status) {
-                            \App\Enums\OrderStatus::PENDING => '#EC991D',
-                            \App\Enums\OrderStatus::PROCESSING => '#EC991D',
-                            \App\Enums\OrderStatus::SHIPPED => '#007BFF',
-                            \App\Enums\OrderStatus::DELIVERED => '#31A051',
-                            \App\Enums\OrderStatus::CANCELLED => '#E13939',
-                            \App\Enums\OrderStatus::RETURNED => '#E13939',
-                            \App\Enums\OrderStatus::REFUNDED => '#E13939',
-                            default => '#31A051'
-                        }; 
+                    $items = is_array($order->items) ? $order->items : json_decode($order->items ?? '[]', true);
+                    $firstItem = $items[0] ?? [];
+                    $statusClass = match($order->status) {
+                    \App\Enums\OrderStatus::PENDING => '#EC991D',
+                    \App\Enums\OrderStatus::PROCESSING => '#EC991D',
+                    \App\Enums\OrderStatus::SHIPPED => '#007BFF',
+                    \App\Enums\OrderStatus::DELIVERED => '#31A051',
+                    \App\Enums\OrderStatus::CANCELLED => '#E13939',
+                    \App\Enums\OrderStatus::RETURNED => '#E13939',
+                    \App\Enums\OrderStatus::REFUNDED => '#E13939',
+                    default => '#31A051'
+                    };
                     @endphp
                     <li class="flex items-center justify-between gap-5 py-[15px] sm:py-[15px] border-b border-bdr-clr dark:border-bdr-clr-drk hover:bg-white dark:hover:bg-dark-secondary">
                         <div class="flex items-center gap-3 ordered-product w-[270px] sm:w-[310px] xl:w-[330px]">

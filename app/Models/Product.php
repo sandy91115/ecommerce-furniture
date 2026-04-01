@@ -48,6 +48,7 @@ class Product extends Model
         'warranty_months' => 'integer',
         'assembly_required' => 'boolean',
         'featured' => 'boolean',
+        'status' => 'string',
         'seo_title' => 'string',
         'seo_description' => 'string',
         'product_type' => 'string',

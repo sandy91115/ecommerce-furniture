@@ -84,7 +84,7 @@
 
         <div class="mb-6">
             <label for="status" class="flex items-center">
-                <input type="checkbox" name="status" id="status" value="1" {{ old('status', 1) ? 'checked' }} class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                <input type="checkbox" name="status" id="status" value="1" {{ old('status', 1) ? 'checked' : '' }} class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
                 <span class="ml-2 text-sm font-medium text-gray-700">Active</span>
             </label>
             @error('status')

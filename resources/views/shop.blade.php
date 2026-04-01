@@ -1,125 +1,139 @@
-<!-- resources/views/shop-v1.blade.php -->
 @extends('layouts.main')
 
-@section('title', 'Shop-V1 Page')
+@section('title', 'Shop')
 
 @section('content')
 
 
-
-<!-- Banner Start -->
-<div class="flex items-center gap-4 flex-wrap bg-overlay p-14 sm:p-16 before:bg-title before:bg-opacity-70" style="background-image:url('{{ asset('assets/img/shortcode/breadcumb.jpg') }}');">
-    <div class="text-center w-full">
-        <h2 class="text-white text-8 md:text-[40px] font-normal leading-none text-center">Shop</h2>
-        <ul class="flex items-center justify-center gap-[10px] text-base md:text-lg leading-none font-normal text-white mt-3 md:mt-4">
-            <li><a href="{{ url('/') }}">Home</a></li>
-            <li>/</li>
-            <li class="text-primary">Shop</li>
-        </ul>
+    <!-- Banner Start -->
+    <div class="flex items-center gap-4 flex-wrap bg-overlay p-14 sm:p-16 before:bg-title before:bg-opacity-70"
+        style="background-image:url('{{ asset('assets/img/shortcode/breadcumb.jpg') }}');">
+        <div class="text-center w-full">
+            <h2 class="text-white text-8 md:text-[40px] font-normal leading-none text-center">Shop</h2>
+            <ul
+                class="flex items-center justify-center gap-[10px] text-base md:text-lg leading-none font-normal text-white mt-3 md:mt-4">
+                <li><a href="{{ url('/') }}">Home</a></li>
+                <li>/</li>
+                <li class="text-primary">Shop</li>
+            </ul>
+        </div>
     </div>
-</div>
-<!-- Banner End -->
+    <!-- Banner End -->
 
-<!-- Shop Start -->
-<div class="s-py-100">
-    <div class="container-fluid">
-        <!-- Shop Header -->
-        <div class="flex items-start justify-between gap-8 max-w-[1720px] mx-auto flex-col lg:flex-row border-b border-bdr-clr dark:border-bdr-clr-drk pb-8 md:pb-[50px]" >
-            <div>
-                <h4 class="font-medium leading-none text-xl sm:text-2xl mb-5 sm:mb-6">Choose Category</h4>
-                <div class="flex flex-wrap gap-[10px] md:gap-[15px]">
-                    <a class="btn btn-theme-outline btn-sm shop1-button" href="{{ url('/product-category') }}" data-text="Sofa & Chair"><span>Sofa & Chair</span></a>
-                    <a class="btn btn-theme-outline btn-sm shop1-button" href="{{ url('/product-category') }}" data-text="Full Interior"><span>Full Interior</span></a>
-                    <a class="btn btn-theme-outline btn-sm shop1-button" href="{{ url('/product-category') }}" data-text="Lamp & Vase"><span>Lamp & Vase</span></a>
-                    <a class="btn btn-theme-outline btn-sm shop1-button" href="{{ url('/product-category') }}" data-text="Table"><span>Table</span></a>
-                    <a class="btn btn-theme-outline btn-sm shop1-button" href="{{ url('/product-category') }}" data-text="Wood Design"><span>Wood Design</span></a>
+    <!-- Shop Slider Start -->
+    <!-- <div class="s-py-100-50 overflow-hidden" data-aos="fade-up">
+        <div class="relative">
+            <button class="absolute top-[56%] -translate-y-1/2 left-0 z-10 shop_prev w-9 h-9 md:w-14 md:h-14 flex items-center justify-center text-white duration-300 bg-title bg-opacity-90 hover:bg-primary p-2">
+                <svg class="fill-current" width="24" height="14" viewBox="0 0 24 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.180223 7.38726L5.62434 12.8314C5.8199 13.0598 6.16359 13.0864 6.39195 12.8908C6.62031 12.6952 6.64693 12.3515 6.45132 12.1232C6.43307 12.1019 6.41324 12.082 6.39195 12.0638L1.87877 7.54516L23.4322 7.54516C23.7328 7.54516 23.9766 7.30141 23.9766 7.00072C23.9766 6.70003 23.7328 6.45632 23.4322 6.45632L1.87877 6.45632L6.39195 1.94314C6.62031 1.74758 6.64693 1.40389 6.45132 1.17553C6.25571 0.947171 5.91207 0.920551 5.68371 1.11616C5.66242 1.13441 5.64254 1.15424 5.62434 1.17553L0.180175 6.6197C-0.0308748 6.83196 -0.0308748 7.1749 0.180223 7.38726Z"/>
+                </svg>
+            </button>
+            <button class="absolute top-[56%] -translate-y-1/2 z-10 right-0 shop_next w-9 h-9 md:w-14 md:h-14 flex items-center justify-center text-white duration-300 bg-title bg-opacity-90 hover:bg-primary p-2">
+                <svg class="fill-current" width="24" height="14" viewBox="0 0 24 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M23.8198 6.61958L18.3757 1.17541C18.1801 0.947054 17.8364 0.920433 17.608 1.11604C17.3797 1.31161 17.3531 1.65529 17.5487 1.88366C17.5669 1.90494 17.5868 1.92483 17.608 1.94303L22.1212 6.46168L0.567835 6.46168C0.267191 6.46168 0.0234375 6.70543 0.0234375 7.00612C0.0234375 7.30681 0.267191 7.55052 0.567835 7.55052L22.1212 7.55052L17.608 12.0637C17.3797 12.2593 17.3531 12.6029 17.5487 12.8313C17.7443 13.0597 18.0879 13.0863 18.3163 12.8907C18.3376 12.8724 18.3575 12.8526 18.3757 12.8313L23.8198 7.38714C24.0309 7.17488 24.0309 6.83194 23.8198 6.61958Z"/>
+                </svg>
+            </button>
+            <div class="container">
+                <div class="owl-carousel shop-v3-slider max-w-[1440px] mx-auto" data-carousel-autoplay="true" data-carousel-loop="true" data-carousel-animateout="false" data-carousel-margin="0" data-carousel-items="3" data-carousel-xl="3" data-carousel-lg="3" data-carousel-md="2" data-carousel-sm="2">
+                    @include('includes.Shop.shop-slider')
                 </div>
             </div>
-            <div class="max-w-[562px] w-full grid sm:grid-cols-2 gap-8 md:gap-12">
-                <div>
-                    <h4 class="font-medium leading-none text-xl sm:text-2xl mb-5 sm:mb-6">Price Range</h4>
-                    <div class="grid grid-cols-2 gap-[15px]">
-                        <div class="py-[10px] px-5 border border-title dark:border-white-light flex items-center justify-center gap-[5px]">
-                            <span class="text-title dark:text-white font-medium leading-none">Min:</span>
-                            <div class="relative">
-                                <span class="text-title dark:text-white font-medium leading-none absolute left-0 top-[82%] block transform -translate-y-1/2">$</span>
-                                <input class="pl-[10px] w-full appearance-none bg-transparent text-title dark:text-white font-medium leading-none placeholder:text-title dark:placeholder:text-white placeholder  placeholder:font-medium placeholder:leading-none outline-none " type="number" placeholder="0" value="0">
-                            </div>
-                        </div>
-                        <div class="py-[10] px-5 border border-title dark:border-white-light flex items-center justify-center gap-[5px]">
-                            <span class="text-title dark:text-white font-medium leading-none">Max:</span>
-                            <div class="relative">
-                                <span class="text-title dark:text-white  font-medium leading-none absolute left-0 top-[82%] block transform -translate-y-1/2">$</span>
-                                <input class="pl-[10px] w-full appearance-none bg-transparent text-title dark:text-white font-medium leading-none placeholder:text-title dark:placeholder:text-white  placeholder:font-medium placeholder:leading-none outline-none " type="number" placeholder="100" value="100">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="font-medium leading-none text-xl sm:text-2xl mb-5 sm:mb-6">Choose Brand</h4>
-                    <select class="outline-select small-select">
-                        <option value="1">Navana Furniture</option>
-                        <option value="2">RFL Furniture</option>
-                        <option value="2">Gazi Furniture</option>
-                        <option value="2">Plastic Furniture</option>
-                        <option value="2">Luxury Furniture</option>
+        </div>
+    </div> -->
+    <!-- Shop Slider End -->
+
+    <!-- Filter Form & Products Start -->
+    <div class="s-py-50-100" data-aos="fade-up">
+        <div class="container-fluid">
+            @php
+                $currencySymbol = currency_symbol();
+                $minPriceValue = request()->filled('min_price')
+                    ? number_format((float) request('min_price'), 2, '.', '')
+                    : '';
+                $maxPriceValue = request()->filled('max_price')
+                    ? number_format((float) request('max_price'), 2, '.', '')
+                    : '';
+                $minPricePlaceholder = number_format((float) $minPrice, 2, '.', '');
+                $maxPricePlaceholder = number_format((float) $maxPrice, 2, '.', '');
+            @endphp
+            <!-- Top Filter Form -->
+            <form method="GET" action="{{ request()->url() }}"
+                class="shop-filter-toolbar flex flex-col lg:flex-row items-start lg:items-center lg:justify-center gap-6 flex-wrap mb-[15px]"
+                data-shop-filter-form>
+                <!-- Category Select -->
+                <div
+                    class="flex items-start sm:items-center gap-[25px] flex-wrap sm:flex-nowrap sm:max-w-[420px] w-full flex-col sm:flex-row">
+                    <h4 class="font-medium leading-none text-xl flex-none">Category</h4>
+                    <select name="category" class="sm:max-w-[252px] w-full outline-select small-select">
+                        <option value="">All Categories</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->slug }}" {{ request('category') == $category->slug ? 'selected' : '' }}>
+                                {{ $category->name }} ({{ $category->products_count }})</option>
+                        @endforeach
                     </select>
                 </div>
+
+                <!-- Sort By -->
+                <div
+                    class="flex items-start sm:items-center gap-[15px] flex-wrap sm:flex-nowrap sm:max-w-[347px] w-full flex-col sm:flex-row">
+                    <h4 class="font-medium leading-none text-xl flex-none">Sort By</h4>
+                    <select name="sort_by" class="sm:max-w-[252px] w-full outline-select small-select">
+                        <option value="latest" {{ request('sort_by', 'latest') == 'latest' ? 'selected' : '' }}>Latest
+                        </option>
+                        <option value="price-asc" {{ request('sort_by') == 'price-asc' ? 'selected' : '' }}>Price Low to High
+                        </option>
+                        <option value="price-desc" {{ request('sort_by') == 'price-desc' ? 'selected' : '' }}>Price High to
+                            Low</option>
+                        <option value="name-asc" {{ request('sort_by') == 'name-asc' ? 'selected' : '' }}>Name A-Z</option>
+                        <option value="name-desc" {{ request('sort_by') == 'name-desc' ? 'selected' : '' }}>Name Z-A</option>
+                    </select>
+                </div>
+
+                <!-- Price Range -->
+                <div
+                    class="flex items-start sm:items-center gap-[15px] flex-wrap sm:flex-nowrap sm:max-w-[411px] w-full flex-col sm:flex-row">
+                    <h4 class="font-medium leading-none text-xl flex-none">Price Range</h4>
+                    <div class="shop-price-range grid grid-cols-2 gap-[12px] sm:max-w-[260px] w-full">
+                        <label for="min_price" class="shop-price-field border border-title dark:border-white-light">
+                            <span class="shop-price-field__tag">Min</span>
+                            <span class="shop-price-field__currency">{{ $currencySymbol }}</span>
+                            <input id="min_price" name="min_price" class="shop-price-field__input" data-price-field
+                                type="number" inputmode="decimal" min="0" step="0.01" value="{{ $minPriceValue }}"
+                                placeholder="{{ $minPricePlaceholder }}" autocomplete="off">
+                        </label>
+                        <label for="max_price" class="shop-price-field border border-title dark:border-white-light">
+                            <span class="shop-price-field__tag">Max</span>
+                            <span class="shop-price-field__currency">{{ $currencySymbol }}</span>
+                            <input id="max_price" name="max_price" class="shop-price-field__input" data-price-field
+                                type="number" inputmode="decimal" min="0" step="0.01" value="{{ $maxPriceValue }}"
+                                placeholder="{{ $maxPricePlaceholder }}" autocomplete="off">
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="shop-filter-submit btn btn-solid px-8 min-w-[140px]" data-text="Filter">
+                    <span>Filter</span>
+                </button>
+            </form>
+
+            <!-- Products Grid -->
+            <div class="max-w-[1720px] mx-auto">
+                <div id="products-grid"
+                    class="shop-product-grid grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 lg:gap-[30px]">
+                    @include('includes.Shop.shops-v3', ['products' => $products])
+                </div>
+
+                <!-- Pagination -->
+                <div id="pagination-container" class="flex justify-center mt-12">
+                    {{ $products->appends(request()->query())->links() }}
+                </div>
             </div>
         </div>
-
-        <div class="max-w-[1720px] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-8 pt-8 md:pt-[50px]" data-aos="fade-up" data-aos-delay="200">
-            
-            @forelse($products as $product)
-                <div class="group bg-white dark:bg-dark-secondary rounded-xl shadow-lg hover:shadow-xl transition-all">
-                    <div class="overflow-hidden h-64">
-                        <img src="{{ $product->images->first() ? asset('storage/' . $product->images->first()->path) : asset('assets/img/product/default.jpg') }}" 
-                             alt="{{ $product->name }}" 
-                             class="w-full h-full object-cover group-hover:scale-110 transition-duration-500">
-                    </div>
-                    <div class="p-6">
-                        <h3 class="font-bold text-lg mb-2">{{ $product->name }}</h3>
-                        <p class="text-gray-600 mb-2">{{ $product->category->name ?? '' }}</p>
-                        @if($product->product_type === 'quotation')
-                            <div class="mb-3">
-                                <span class="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">Quotation Product</span>
-                            </div>
-                        @endif
-                        <div class="flex items-center mb-4">
-                            @if($product->product_type === 'quotation')
-                                <span class="text-xl font-bold text-primary">Custom quotation</span>
-                            @elseif($product->sale_price)
-                                <span class="text-2xl font-bold text-primary">${{ number_format($product->sale_price, 2) }}</span>
-                                <span class="ml-2 text-lg text-gray-500 line-through">${{ number_format($product->price, 2) }}</span>
-                            @else
-                                <span class="text-2xl font-bold">${{ number_format($product->price, 2) }}</span>
-                            @endif
-                        </div>
-                        <a href="{{ route('product-details', $product->slug) }}" class="w-full btn btn-solid" data-text="View Details">
-                            <span>View Details</span>
-                        </a>
-                    </div>
-                </div>
-            @empty
-                <div class="col-span-full text-center py-12">
-                    <p>No products available.</p>
-                </div>
-            @endforelse
-
-            {{ $products->appends(request()->query())->links() }}
-        </div>
-        <div class="text-center mt-7 md:mt-12">
-            <a href="{{ url('/shop-v1') }}" class="btn btn-outline" data-text="Load More">
-                <span>Load More</span>
-            </a>
-        </div>
     </div>
-</div>
-<!-- Shop End -->
+    <!-- Products End -->
 
-<!-- includes/Home/popup.blade.php -->
-@include('includes.Home.popup')
-
-@include('includes.footer')
-  
+    @include('includes.footer')
+    @push('scripts')
+        <script src="{{ asset('assets/js/shop-filters.js') }}"></script>
+    @endpush
 @endsection

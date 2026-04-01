@@ -44,6 +44,13 @@ class CategoryController extends Controller
             $data['image'] = $request->file('image')->store('categories', 'public');
         }
 
+        // Purge any trashed category with same slug to allow reuse after delete
+        $slug = $data['slug'];
+        $trashed = Category::withTrashed()->where('slug', $slug)->first();
+        if ($trashed) {
+            $trashed->forceDelete();
+        }
+
         Category::create($data);
 
         return redirect()->route('admin.categories.index')->with('success', 'Category created successfully.');
@@ -78,6 +85,16 @@ class CategoryController extends Controller
                 Storage::disk('public')->delete($category->image);
             }
             $data['image'] = $request->file('image')->store('categories', 'public');
+        }
+
+        // Purge any trashed category with same slug (exclude current) to allow reuse after delete
+        $slug = $data['slug'];
+        $trashed = Category::withTrashed()
+            ->where('slug', $slug)
+            ->where('id', '!=', $category->id)
+            ->first();
+        if ($trashed) {
+            $trashed->forceDelete();
         }
 
         $category->update($data);

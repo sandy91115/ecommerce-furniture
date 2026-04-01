@@ -60,7 +60,7 @@ class ProductService
         return $product;
     }
 
-    public function update(int $id, array $data): bool
+    public function update(int $id, array $data): ?Product
     {
         if (isset($data['sale_price']) && $data['sale_price'] >= $data['price']) {
             throw new \InvalidArgumentException('Sale price must be less than regular price.');

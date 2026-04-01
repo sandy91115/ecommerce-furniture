@@ -31,7 +31,7 @@ class BlogController extends Controller
     public function store(BlogStoreRequest $request)
     {
         $data = $request->validated();
-        $data['tags'] = $request->tags ?? [];
+        $data['tags'] = $data['tags'] ?? [];
 
         if (isset($data['status']) && $data['status'] === 'published' && empty($data['published_at'])) {
             $data['published_at'] = now();
@@ -55,7 +55,7 @@ class BlogController extends Controller
     public function update(BlogUpdateRequest $request, Blog $blog)
     {
         $data = $request->validated();
-        $data['tags'] = $request->tags ?? [];
+        $data['tags'] = $data['tags'] ?? [];
 
         if (isset($data['status']) && $data['status'] === 'published' && empty($data['published_at'])) {
             $data['published_at'] = now();

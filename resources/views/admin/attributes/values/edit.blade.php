@@ -38,7 +38,7 @@
                 <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium">
                     Update Value
                 </button>
-                <a href="{{ route('admin.attributes.values', $value->attribute) }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-3 rounded-lg font-medium">
+                <a href="{{ route('admin.attributes.values', $value->attribute) }}" class="bg-gray-400 hover:bg-gray-400 text-gray-800 px-6 py-3 rounded-lg font-medium">
                     Cancel
                 </a>
             </div>

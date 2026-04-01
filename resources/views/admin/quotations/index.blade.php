@@ -40,7 +40,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $quotation->phone ?? 'N/A' }}</td>
                             <td class="px-6 py-4 text-sm text-gray-700 max-w-xs">
-                                {{ \Illuminate\Support\Str::limit($quotation->message, 80) }}
+                                {{ \Illuminate\Support\Str::limit(filled($quotation->message) ? $quotation->message : 'No message provided', 80) }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm">
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 

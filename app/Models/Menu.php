@@ -19,7 +19,8 @@ class Menu extends Model
         'url',
         'order',
         'status',
-        'permission'
+        'permission',
+        'is_permanent'
     ];
 
     protected $casts = [

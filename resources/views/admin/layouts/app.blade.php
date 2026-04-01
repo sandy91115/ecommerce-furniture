@@ -47,9 +47,28 @@
             --focus-ring: 0 0 0 3px rgba(99,102,241,0.5);
         }
         body { background-color: var(--bg-primary); color: var(--text-primary); }
-        .sidebar { background-color: var(--bg-secondary); }
-        .sidebar a:hover { background-color: var(--border-color); }
-        header { background-color: var(--bg-secondary); border-bottom-color: var(--border-color); }
+        .admin-shell { align-items: flex-start; }
+        .admin-sidebar {
+            background-color: var(--bg-secondary);
+            position: sticky;
+            top: 0;
+            align-self: flex-start;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 40;
+        }
+        .admin-sidebar a:hover { background-color: var(--border-color); }
+        .admin-content {
+            min-width: 0;
+            min-height: 100vh;
+        }
+        .admin-topbar {
+            background-color: var(--bg-secondary);
+            border-bottom-color: var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 30;
+        }
 
         /* Tailwind utility overrides for dark mode */
         .dark .bg-white { background-color: var(--bg-secondary) !important; }
@@ -57,7 +76,7 @@
         .dark .bg-gray-100 { background-color: var(--bg-tertiary) !important; }
         .dark .hover\:bg-gray-50:hover { background-color: var(--bg-tertiary) !important; }
         .dark .hover\:bg-gray-100:hover { background-color: var(--bg-tertiary) !important; }
-        .dark .sidebar a.bg-blue-50 { background-color: var(--bg-tertiary) !important; }
+        .dark .admin-sidebar a.bg-blue-50 { background-color: var(--bg-tertiary) !important; }
 
         /* Enhanced Tailwind overrides for complete dark mode coverage */
         .dark .text-black, 
@@ -174,13 +193,13 @@
         }
 
         /* Enhanced Dark Mode Visibility */
-        .dark .sidebar { 
+        .dark .admin-sidebar { 
             background-color: var(--bg-secondary) !important; 
         }
-        .dark .sidebar a { 
+        .dark .admin-sidebar a { 
             color: var(--text-primary) !important; 
         }
-        .dark .sidebar a:hover { 
+        .dark .admin-sidebar a:hover { 
             background-color: var(--bg-tertiary) !important; 
         }
 
@@ -202,12 +221,12 @@
         .dark .shadow-lg { box-shadow: 0 20px 25px -5px rgba(0,0,0,0.4), 0 10px 10px -5px rgba(0,0,0,0.2) !important; }
 
         /* Topbar header */
-        .dark header { background-color: var(--bg-secondary) !important; }
+        .dark .admin-topbar { background-color: var(--bg-secondary) !important; }
     </style>
 </head>
-<body class="min-h-screen flex">
+<body class="admin-shell min-h-screen flex">
     <!-- Sidebar -->
-    <div class="sidebar w-64 bg-white shadow-lg flex-shrink-0 min-h-screen flex flex-col">
+    <div class="admin-sidebar sidebar w-64 bg-white shadow-lg flex-shrink-0 min-h-screen h-screen flex flex-col">
         <div class="p-4 border-b">
             @php
                 $adminLogoPath = \App\Models\Setting::get('admin_logo_path');
@@ -227,7 +246,7 @@
                 'permission' => 'admin.access',
             ];
         @endphp
-        <nav class="mt-8 flex-1">
+        <nav class="mt-8 flex-1 pb-6">
             @foreach($primarySidebarMenus as $menu)
                 @php
                     $menuPath = ltrim(parse_url($menu->url, PHP_URL_PATH) ?? $menu->url, '/');
@@ -270,9 +289,9 @@
     </div>
 
     <!-- Main Content -->
-    <div class="flex-1 flex flex-col">
+    <div class="admin-content flex-1 flex flex-col">
         <!-- Topbar -->
-        <header class="bg-white shadow-sm border-b">
+        <header class="admin-topbar bg-white shadow-sm border-b">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
 <div class="flex items-center">
@@ -282,10 +301,7 @@
                         </button>
                     </div>
                     <div class="flex items-center space-x-4">
-                        <div class="relative">
-                            <i class="fas fa-bell text-gray-500 cursor-pointer hover:text-gray-700"></i>
-                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
-                        </div>
+                       
                         <button data-theme-toggle class="p-2 rounded-lg hover:bg-gray-100 transition" title="Toggle Dark Mode">
                             <i class="fas fa-moon text-xl text-gray-500 hover:text-gray-700 dark:text-gray-400"></i>
                         </button>
@@ -310,7 +326,7 @@
         </header>
 
         <!-- Page Content -->
-        <main class="flex-1 p-6">
+        <main class="flex-1 min-w-0 p-6">
             @if (session('success'))
                 <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
                     {{ session('success') }}
@@ -355,5 +371,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{{ asset('assets/js/admin-settings.js') }}"></script>
     @stack('scripts')
+
 </body>
 </html>

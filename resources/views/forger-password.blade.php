@@ -31,6 +31,6 @@ r')
     </div>
 </div>
   
-@include('includes.footer6')
+@include('includes.footer')
   
 @endsection

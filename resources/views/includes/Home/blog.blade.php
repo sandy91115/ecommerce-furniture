@@ -2,45 +2,45 @@
 $blogs = $latestBlogs ?? collect();
 
 if ($blogs->isEmpty()) {
-    $blogs = collect([
-        [
-            'id' => 1,
-            'image_url' => 'assets/img/shortcode/blog/blog-01.jpg',
-            'title' => 'Auctor sit elementum habitant vel tempor varius.',
-            'tags' => ['Interior'],
-            'published_at' => now(),
-        ],
-        [
-            'id' => 2,
-            'image_url' => 'assets/img/shortcode/blog/blog-02.jpg',
-            'title' => 'Consectetur purus habitasse ut diam habitant varius.',
-            'tags' => ['Chair'],
-            'published_at' => now(),
-        ],
-        [
-            'id' => 3,
-            'image_url' => 'assets/img/shortcode/blog/blog-03.jpg',
-            'title' => 'Far far away of furniture of this habitant vel tempor.',
-            'tags' => ['Vase'],
-            'published_at' => now(),
-        ],
-    ]);
+$blogs = collect([
+[
+'id' => 1,
+'image_url' => 'assets/img/shortcode/blog/blog-01.jpg',
+'title' => 'Auctor sit elementum habitant vel tempor varius.',
+'tags' => ['Interior'],
+'published_at' => now(),
+],
+[
+'id' => 2,
+'image_url' => 'assets/img/shortcode/blog/blog-02.jpg',
+'title' => 'Consectetur purus habitasse ut diam habitant varius.',
+'tags' => ['Chair'],
+'published_at' => now(),
+],
+[
+'id' => 3,
+'image_url' => 'assets/img/shortcode/blog/blog-03.jpg',
+'title' => 'Far far away of furniture of this habitant vel tempor.',
+'tags' => ['Vase'],
+'published_at' => now(),
+],
+]);
 }
 
 $blogs = $blogs->map(function ($blog) {
-    $blogId = isset($blog->id) ? $blog->id : ($blog['id'] ?? 0);
-    $blogImage = isset($blog->image_url) ? $blog->image_url : ($blog['image_url'] ?? '');
-    $blogTitle = isset($blog->title) ? $blog->title : ($blog['title'] ?? '');
-    $blogTags = isset($blog->tags) ? $blog->tags : ($blog['tags'] ?? []);
-    $blogPublished = isset($blog->published_at) ? $blog->published_at : ($blog['published_at'] ?? now());
-    
-    return [
-        'id' => $blogId,
-        'img' => $blogImage,
-        'title' => $blogTitle,
-        'tag' => $blogTags[0] ?? 'Blog',
-        'date' => $blogPublished->format('d M, Y'),
-    ];
+$blogId = isset($blog->id) ? $blog->id : ($blog['id'] ?? 0);
+$blogImage = isset($blog->image_url) ? $blog->image_url : ($blog['image_url'] ?? '');
+$blogTitle = isset($blog->title) ? $blog->title : ($blog['title'] ?? '');
+$blogTags = isset($blog->tags) ? $blog->tags : ($blog['tags'] ?? []);
+$blogPublished = isset($blog->published_at) ? $blog->published_at : ($blog['published_at'] ?? now());
+
+return [
+'id' => $blogId,
+'img' => $blogImage,
+'title' => $blogTitle,
+'tag' => $blogTags[0] ?? 'Blog',
+'date' => $blogPublished->format('d M, Y'),
+];
 })->take(5);
 @endphp
 
@@ -58,4 +58,3 @@ $blogs = $blogs->map(function ($blog) {
     </div>
 </div>
 @endforeach
-

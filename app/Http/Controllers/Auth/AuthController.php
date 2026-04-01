@@ -24,7 +24,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             $user = Auth::user();
-            if ($user->hasAnyRole(['admin', 'super_admin'])) {
+            if ($user->can('admin.access')) {
                 return redirect('/admin/dashboard');
             }
             return redirect('/dashboard');

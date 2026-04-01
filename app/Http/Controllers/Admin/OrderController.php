@@ -26,7 +26,8 @@ class OrderController extends Controller
 
     public function create()
     {
-        return view('admin.orders.create');
+        $products = \App\Models\Product::where('status', 'active')->get();
+        return view('admin.orders.create', compact('products'));
     }
 
     public function store(OrderStoreRequest $request)
@@ -39,13 +40,37 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
-        $order->load(['user', 'vendor']);
-        return view('admin.orders.show', compact('order'));
+        $order->load(['user', 'vendor', 'orderItems.product.images']);
+
+        return view('admin.orders.show', [
+            'order' => $order,
+            'snapshotItems' => collect($order->items),
+        ]);
     }
 
     public function edit(Order $order)
     {
-        return view('admin.orders.edit', compact('order'));
+        $order->load(['user', 'vendor', 'orderItems.product.images']);
+
+        $editableItems = collect($order->items);
+
+        if ($editableItems->isEmpty() && $order->orderItems->isNotEmpty()) {
+            $editableItems = $order->orderItems->map(function ($item) {
+                return [
+                    'name' => $item->product_name,
+                    'sku' => $item->product_sku,
+                    'quantity' => $item->quantity,
+                    'price' => (float) $item->price,
+                    'image' => $item->product?->images->first()?->path,
+                    'attributes' => $item->variation_data ?? [],
+                ];
+            });
+        }
+
+        return view('admin.orders.edit', [
+            'order' => $order,
+            'editableItems' => $editableItems,
+        ]);
     }
 
     public function update(OrderUpdateRequest $request, Order $order)
@@ -68,4 +93,3 @@ class OrderController extends Controller
         return view('admin.orders.pending', compact('orders'));
     }
 }
-

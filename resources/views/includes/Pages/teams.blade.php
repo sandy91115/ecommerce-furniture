@@ -1,60 +1,34 @@
 @php
 $teams = [
+   
+   
     [
-        'img' => 'assets/img/team/team-01.jpg', 
-        'name' => 'Luciana Sacchena', 
-        'title' => "Product Designer", 
-        'desc' => "Product designers are the creative architects behind the innovative solutions that shape our world.", 
-        'class' => "group sm:grid sm:grid-cols-2 bg-[#F8F5F0] dark:bg-[#1E2A35]", 
-        'data' => "", 
-        'span' => "false", 
-        'span1' => "true", 
-    ],
-    [
-        'img' => 'assets/img/team/team-02.jpg', 
-        'name' => 'Jamse Zuan', 
-        'title' => "CEO & Founder", 
-        'desc' => "As the visionary leader of our furniture eCommerce business, Emma Wilson ensures the overall strategic direction and growth of the company.", 
-        'class' => "group flex flex-col-reverse sm:grid sm:grid-cols-2 bg-[#F8F5F0] dark:bg-[#1E2A35]", 
-        'data' => "200", 
-        'span' => "true", 
-        'span1' => "false",
-    ],
-    [
-        'img' => 'assets/img/team/team-03.jpg', 
-        'name' => 'Flacxia Piano', 
-        'title' => "Interior Designer", 
-        'desc' => "Flacxia Piano ensures smooth daily operations and efficient logistics management. With his expertise in streamlining processes, he helps maintain a seamless supply chain", 
-        'class' => "group flex flex-col-reverse lg:grid lg:grid-cols-2 bg-[#F8F5F0] dark:bg-[#1E2A35] sm:flex-row-reverse lg:flex-row", 
-        'data' => "", 
-        'span' => "true", 
-        'span1' => "false",
-    ],
-    [
-        'img' => 'assets/img/team/team-04.jpg', 
-        'name' => 'Luciana Sacchena', 
-        'title' => "Photographer", 
-        'desc' => "Luciana Sacchena oversees daily operations and ensures the seamless execution of business processes. With a keen eye for logistics and a strong background", 
-        'class' => "group flex flex-col lg:grid lg:grid-cols-2 bg-[#F8F5F0] dark:bg-[#1E2A35] sm:flex-row-reverse lg:flex-row", 
-        'data' => "200", 
-        'span' => "false", 
-        'span1' => "true",
-    ],
-    [
-        'img' => 'assets/img/team/team-05.jpg', 
-        'name' => 'Nathan', 
-        'title' => "Client Communication Executive", 
-        'desc' => "As the technical lead, Nathan ensures our website is always fast, secure, and user-friendly. He leads the development team in creating an optimized shopping experience for every visitor.", 
+        'img' => 'assets/img/about/16.png', 
+        'name' => 'Prabhat Srivastava', 
+        'title' => "Founder & Director", 
+        'desc' => "With three decades of mastery in the 
+timber industry, Prabhat Srivastava leads 
+Carom Studios with a singular vision: to 
+elevate Indian manufacturing to global 
+excellence. His expertise in materials and 
+production drives our uncompromising 
+commitment to quality and 
+craftsmanship.", 
         'class' => "group sm:grid sm:grid-cols-2 bg-[#F8F5F0] dark:bg-[#1E2A35]", 
         'data' => "", 
         'span' => "false", 
         'span1' => "true",
     ],
     [
-        'img' => 'assets/img/team/team-06.jpg', 
-        'name' => 'Porlo Matiana', 
-        'title' => "Marketing Specialist", 
-        'desc' => "Porlo Matiana heads our sales team, using his expertise to meet customer needs with personalized furniture recommendations. His leadership boosts our sales growth while ensuring customer satisfaction.", 
+        'img' => 'assets/img/about/15.png', 
+        'name' => 'Rishab Srivastava', 
+        'title' => "Co-Founder & Creative Director", 
+        'desc' => "Rishab Srivastava brings creative vision to 
+Carom Studios. As our Creative Director, 
+he is the driving force behind every piece 
+of furniture we create, translating his 
+passion for design into distinctive, 
+functional pieces.", 
         'class' => "group flex flex-col-reverse sm:grid sm:grid-cols-2 bg-[#F8F5F0] dark:bg-[#1E2A35]", 
         'data' => "200", 
         'span' => "true", 

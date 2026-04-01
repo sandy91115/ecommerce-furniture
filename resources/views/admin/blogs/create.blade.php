@@ -73,11 +73,7 @@
             </div>
         </div>
 
-        <div class="mb-6">
-            <label class="block text-sm font-medium text-gray-700 mb-2">Tags (comma separated)</label>
-            <input type="text" name="tags" value="{{ old('tags') }}" placeholder="furniture, interior, modern" 
-                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-        </div>
+        @include('admin.blogs.partials.tags-field', ['tags' => old('tags'), 'fieldId' => 'create-blog-tags'])
 
         <div class="mb-8">
             <label class="block text-sm font-medium text-gray-700 mb-2">Publish Date (optional)</label>

@@ -32,6 +32,16 @@ it('redirects quotation form requests back to product details', function () {
         ->assertRedirect(route('product-details', $product->slug));
 });
 
+it('returns quotation product data for ajax form requests', function () {
+    $product = createQuotationProduct();
+
+    $this->getJson(route('quotation.form', $product))
+        ->assertOk()
+        ->assertJsonPath('success', true)
+        ->assertJsonPath('product.id', $product->id)
+        ->assertJsonPath('product.slug', $product->slug);
+});
+
 it('stores quotation requests and redirects back to the product page', function () {
     $product = createQuotationProduct([
         'name' => 'Custom Dining Table',
@@ -42,7 +52,7 @@ it('stores quotation requests and redirects back to the product page', function 
         'customer_name' => 'Amit Kumar',
         'email' => 'amit@example.com',
         'phone' => '9876543210',
-        'message' => 'Need 25 units with teak finish.',
+        'message' => '',
     ])
         ->assertRedirect(route('product-details', $product->slug))
         ->assertSessionHas('success');
@@ -52,12 +62,41 @@ it('stores quotation requests and redirects back to the product page', function 
         'customer_name' => 'Amit Kumar',
         'email' => 'amit@example.com',
         'phone' => '9876543210',
-        'message' => 'Need 25 units with teak finish.',
+        'message' => '',
         'status' => 'pending',
     ]);
 });
 
-it('does not render quote modal triggers on product details pages', function () {
+it('stores quotation requests through ajax and returns a success response', function () {
+    $product = createQuotationProduct([
+        'name' => 'Custom Wardrobe',
+        'sku' => 'WARDROBE-QUOTE-001',
+    ]);
+
+    $this->postJson(route('quotation.store', $product), [
+        'customer_name' => 'Neha Sharma',
+        'email' => 'neha@example.com',
+        'phone' => '9999999999',
+        'desired_price' => 25000,
+        'message' => 'Need delivery in Jaipur.',
+    ])
+        ->assertOk()
+        ->assertJsonPath('success', true)
+        ->assertJsonPath('quotation.product_id', $product->id)
+        ->assertJsonPath('quotation.customer_name', 'Neha Sharma');
+
+    $this->assertDatabaseHas('quotations', [
+        'product_id' => $product->id,
+        'customer_name' => 'Neha Sharma',
+        'email' => 'neha@example.com',
+        'phone' => '9999999999',
+        'desired_price' => '25000.00',
+        'message' => 'Need delivery in Jaipur.',
+        'status' => 'pending',
+    ]);
+});
+
+it('renders quote modal triggers on product details pages', function () {
     $product = createQuotationProduct([
         'name' => 'Custom Bed',
         'sku' => 'BED-QUOTE-001',
@@ -65,7 +104,7 @@ it('does not render quote modal triggers on product details pages', function () 
 
     $this->get(route('product-details', $product->slug))
         ->assertOk()
-        ->assertDontSee('window.openQuotationModal', false)
-        ->assertDontSee(route('quotation.form', $product), false)
-        ->assertDontSee('data-quote-open', false);
+        ->assertSee('data-quote-trigger', false)
+        ->assertSee('id="quotationModal"', false)
+        ->assertSee(route('quotation.store', $product), false);
 });

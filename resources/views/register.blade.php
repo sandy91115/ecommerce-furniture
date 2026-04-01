@@ -51,7 +51,7 @@
 </div>
 <!-- Register Area End -->
 
-@include('includes.footer6')
+@include('includes.footer')
   
 @csrf
 @endsection

@@ -1,114 +1,172 @@
 @extends('layouts.main')
 
+@section('title', 'Login | Furniture Store')
+
 @section('content')
-<style>
-    .login-submit-btn {
-        background: linear-gradient(90deg, #2563eb 0%, #1d4ed8 100%);
-        color: #ffffff;
-        border-color: transparent;
-    }
+<link rel="stylesheet" href="{{ asset('assets/css/login.css') }}">
 
-    .login-submit-btn:hover {
-        background: linear-gradient(90deg, #1d4ed8 0%, #1e40af 100%);
-        color: #ffffff;
-    }
+@php
+    $showcaseFeatures = [
+        [
+            'title' => 'Pick up where you left off',
+            'copy' => 'Reopen your saved wishlist, recent orders and curated furniture choices in one place.',
+        ],
+        [
+            'title' => 'Fast checkout flow',
+            'copy' => 'Stay signed in on your device and move from inspiration to purchase without friction.',
+        ],
+        [
+            'title' => 'Track orders with ease',
+            'copy' => 'Manage purchases, quotations and account details from a clean customer dashboard.',
+        ],
+    ];
+@endphp
 
-    .login-submit-btn:focus {
-        color: #ffffff;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
-    }
-</style>
-
-<div class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-100 py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
-    <div class="max-w-md w-full space-y-8">
-        <div>
-            <div class="mx-auto h-20 w-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6">
-                <i class="fas fa-sign-in-alt text-3xl text-white"></i>
-            </div>
-            <h2 class="mt-6 text-center text-3xl font-bold text-gray-900">
-                Sign in to your account
-            </h2>
-            <p class="mt-2 text-center text-lg text-gray-600">
-                Welcome back! Please sign in to your account.
-            </p>
-        </div>
-        <form class="mt-8 space-y-6 bg-white p-8 rounded-3xl shadow-2xl" method="POST" action="{{ route('login.action') }}">
-            @csrf
-            
-            <!-- Email -->
-            <div>
-                <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
-                    <i class="fas fa-envelope mr-2 text-blue-600"></i>Email Address
-                </label>
-                <input id="email" name="email" type="email" autocomplete="email" required 
-                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('email') border-red-500 @enderror" 
-                       value="{{ old('email') }}" placeholder="Enter your email">
-                @error('email')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <!-- Password -->
-            <div class="relative">
-                <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
-                    <i class="fas fa-lock mr-2 text-blue-600"></i>Password
-                </label>
-                <input id="password" name="password" type="password" autocomplete="current-password" required 
-                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 pr-12 @error('password') border-red-500 @enderror" 
-                       placeholder="Enter your password">
-                <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center" onclick="togglePassword()">
-                    <i class="fas fa-eye text-gray-500 hover:text-gray-700" id="toggleIcon"></i>
-                </button>
-                @error('password')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <!-- Remember Me -->
-            <div class="flex items-center justify-between">
-                <label for="remember" class="flex items-center">
-                    <input id="remember" name="remember" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                    <span class="ml-2 block text-sm text-gray-700">Remember me</span>
-                </label>
-            </div>
-
-            <!-- Login Button -->
-            <div>
-                <button type="submit" class="login-submit-btn group relative w-full flex justify-center py-3 px-4 border text-lg font-bold rounded-xl shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:scale-[1.02]">
-                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                        <i class="fas fa-arrow-right text-white"></i>
-                    </span>
-                    Sign In
-                </button>
-            </div>
-
-            <!-- Register Link -->
-            <div class="text-center">
-                <p class="text-sm text-gray-600">
-                    Don't have an account? 
-                    <a href="{{ route('register') }}" class="font-semibold text-blue-600 hover:text-blue-500 transition-colors duration-200">
-                        Sign up here
-                    </a>
+<section class="auth-page">
+    <div class="auth-shell">
+        <aside class="auth-showcase" style="--auth-showcase-image: url('{{ asset('assets/img/bg/login.jpg') }}');">
+            <div class="auth-showcase__content">
+                <span class="auth-showcase__eyebrow">Member Access</span>
+                <h1 class="auth-showcase__title">Welcome back to your furniture space.</h1>
+                <p class="auth-showcase__copy">
+                    Sign in to continue exploring premium pieces, manage your orders and keep your shortlist ready for checkout.
                 </p>
+
+                <div class="auth-showcase__list">
+                    @foreach ($showcaseFeatures as $feature)
+                        <article class="auth-showcase__feature">
+                            <span class="auth-showcase__feature-index">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                            <div>
+                                <h3>{{ $feature['title'] }}</h3>
+                                <p>{{ $feature['copy'] }}</p>
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
             </div>
-        </form>
+        </aside>
+
+        <div class="auth-panel">
+            <div class="auth-panel__body">
+                <span class="auth-panel__eyebrow">Sign In</span>
+                <h2 class="auth-panel__title">Access your account</h2>
+                <p class="auth-panel__copy">
+                    Use your email and password to continue shopping, save favorites and stay connected with your latest orders.
+                </p>
+
+                <form method="POST" action="{{ route('login.action') }}" class="auth-form">
+                    @csrf
+
+                    <div class="auth-field">
+                        <label class="auth-label" for="email">Email address</label>
+                        <div class="auth-input-wrap">
+                            <span class="auth-input-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <path d="M4 7.5 12 13l8-5.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/>
+                                    <rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.8"/>
+                                </svg>
+                            </span>
+                            <input
+                                class="auth-input @error('email') is-invalid @enderror"
+                                type="email"
+                                id="email"
+                                name="email"
+                                value="{{ old('email') }}"
+                                autocomplete="email"
+                                placeholder="Enter your email address"
+                                required
+                            >
+                        </div>
+                        @error('email')
+                            <p class="auth-feedback auth-feedback--error">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="auth-field">
+                        <label class="auth-label" for="password">Password</label>
+                        <div class="auth-input-wrap">
+                            <span class="auth-input-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <path d="M7.5 10V8a4.5 4.5 0 1 1 9 0v2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/>
+                                    <rect x="4" y="10" width="16" height="10" rx="3" stroke="currentColor" stroke-width="1.8"/>
+                                    <circle cx="12" cy="15" r="1.3" fill="currentColor"/>
+                                </svg>
+                            </span>
+                            <input
+                                class="auth-input @error('password') is-invalid @enderror"
+                                type="password"
+                                id="password"
+                                name="password"
+                                autocomplete="current-password"
+                                placeholder="Enter your password"
+                                required
+                            >
+                            <button type="button" class="auth-toggle" data-toggle-password="password" aria-label="Show password">
+                                <svg class="auth-toggle__icon auth-toggle__icon--show" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/>
+                                </svg>
+                                <svg class="auth-toggle__icon auth-toggle__icon--hide" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M4 4 20 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                                    <path d="M10.6 6.2A10.9 10.9 0 0 1 12 6c6.5 0 10 6 10 6a18.6 18.6 0 0 1-3.3 4.2M6.6 8.1C3.9 10 2 12 2 12s3.5 6 10 6c1.7 0 3.2-.4 4.5-1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M9.9 10a3 3 0 0 0 4.1 4.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                        @error('password')
+                            <p class="auth-feedback auth-feedback--error">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="auth-meta">
+                        <label class="auth-check" for="remember">
+                            <input type="checkbox" id="remember" name="remember">
+                            <span>Remember me on this device</span>
+                        </label>
+                        <span class="auth-meta__hint">Secure sign in for orders and wishlist access.</span>
+                    </div>
+
+                    <button type="submit" class="auth-submit">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M5 12h13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/>
+                            <path d="m13 8 4 4-4 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/>
+                        </svg>
+                        Sign in
+                    </button>
+
+                    <p class="auth-note">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M12 3 4 7v5c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V7l-8-4Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/>
+                        </svg>
+                        Your customer session stays protected while you browse, save favorites and complete checkout.
+                    </p>
+
+                    <p class="auth-footnote">
+                        New here? <a href="{{ route('register') }}" class="auth-link">Create your account</a>
+                    </p>
+                </form>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 
 <script>
-function togglePassword() {
-    const password = document.getElementById('password');
-    const icon = document.getElementById('toggleIcon');
-    if (password.type === 'password') {
-        password.type = 'text';
-        icon.classList.remove('fa-eye');
-        icon.classList.add('fa-eye-slash');
-    } else {
-        password.type = 'password';
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
-    }
-}
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('[data-toggle-password]').forEach(function (toggle) {
+        toggle.addEventListener('click', function () {
+            const input = document.getElementById(toggle.getAttribute('data-toggle-password'));
+
+            if (!input) {
+                return;
+            }
+
+            const isVisible = input.type === 'text';
+            input.type = isVisible ? 'password' : 'text';
+            toggle.classList.toggle('is-active', !isVisible);
+            toggle.setAttribute('aria-label', isVisible ? 'Show password' : 'Hide password');
+        });
+    });
+});
 </script>
 @endsection
 

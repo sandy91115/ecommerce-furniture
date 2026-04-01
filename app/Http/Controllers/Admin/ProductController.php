@@ -11,6 +11,7 @@ use App\Models\ProductImage;
 use App\Models\Category;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
@@ -47,18 +48,26 @@ class ProductController extends Controller
         $product = $this->productService->create($data);
 
         if ($request->hasFile('images')) {
-            $featuredIndex = $request->input('featured_image_index', 0); // From radio button
+            $featuredIndex = (int) $request->input('featured_image_index', 0);
             $imageFiles = $request->file('images');
-            
+            $featuredImageId = null;
+
             foreach ($imageFiles as $index => $image) {
                 $path = $image->store('products', 'public');
-                ProductImage::create([
+                $this->mirrorPublicStorageFile($path);
+                $productImage = ProductImage::create([
                     'product_id' => $product->id,
                     'path' => $path,
                     'featured' => $index == $featuredIndex,
                     'alt' => $product->name,
                 ]);
+
+                if ($index === $featuredIndex) {
+                    $featuredImageId = $productImage->id;
+                }
             }
+
+            $this->ensureSingleFeaturedImage($product, $featuredImageId);
         }
 
         return redirect()->route('admin.products.index')->with('success', 'Product created successfully.');
@@ -86,20 +95,55 @@ class ProductController extends Controller
 
         $product = $this->productService->update($product->id, $data);
 
+        if (!$product) {
+            return back()->withErrors(['error' => 'Product update failed or not found.']);
+        }
+
+        // Handle image deletion/replacement
+        if ($request->boolean('replace_images')) {
+            $product->deleteFiles();
+        } else {
+            $deleteIds = collect($request->input('delete_image', []))
+                ->filter(fn ($value) => filled($value))
+                ->map(fn ($value) => (int) $value)
+                ->unique()
+                ->values();
+
+            if ($deleteIds->isNotEmpty()) {
+                $product->images()
+                    ->whereIn('id', $deleteIds)
+                    ->get()
+                    ->each(function (ProductImage $image) {
+                        Storage::disk('public')->delete($image->path);
+                        $image->delete();
+                    });
+            }
+        }
+
+        // Add new images
+        $featuredImageId = null;
+
         if ($request->hasFile('images')) {
-            $featuredIndex = $request->input('featured_image_index', -1);
+            $featuredIndex = (int) $request->input('featured_image_index', 0);
             $imageFiles = $request->file('images');
-            
+
             foreach ($imageFiles as $index => $image) {
                 $path = $image->store('products', 'public');
-                ProductImage::create([
+                $this->mirrorPublicStorageFile($path);
+                $productImage = ProductImage::create([
                     'product_id' => $product->id,
                     'path' => $path,
                     'featured' => $index == $featuredIndex,
                     'alt' => $product->name,
                 ]);
+
+                if ($index === $featuredIndex) {
+                    $featuredImageId = $productImage->id;
+                }
             }
         }
+
+        $this->ensureSingleFeaturedImage($product->fresh(), $featuredImageId);
 
         return redirect()->route('admin.products.index')->with('success', 'Product updated successfully.');
     }
@@ -110,30 +154,10 @@ class ProductController extends Controller
         return redirect()->route('admin.products.index')->with('success', 'Product moved to Recycle Bin successfully.');
     }
 
-    public function pending()
-    {
-        $products = Product::with(['category', 'vendor'])
-            ->where('status', 'pending')
-            ->paginate(10);
-        return view('admin.products.pending', compact('products'));
-    }
-
     public function lowStock()
     {
         $products = $this->productService->lowStock();
         return view('admin.products.low-stock', compact('products'));
-    }
-
-    public function approve(Product $product)
-    {
-        $product->update(['status' => 'active']);
-        return redirect()->route('admin.products.pending')->with('success', 'Product approved.');
-    }
-
-    public function reject(Product $product)
-    {
-        $product->update(['status' => 'rejected']);
-        return redirect()->route('admin.products.pending')->with('success', 'Product rejected.');
     }
 
     public function quotationProducts()
@@ -142,5 +166,49 @@ class ProductController extends Controller
             ->where('product_type', 'quotation')
             ->paginate(10);
         return view('admin.products.quotation-products', compact('products'));
+    }
+
+    protected function mirrorPublicStorageFile(string $relativePath): void
+    {
+        $sourceRoot = storage_path('app/public');
+        $publicRoot = public_path('storage');
+
+        if (realpath($sourceRoot) === realpath($publicRoot)) {
+            return;
+        }
+
+        $normalizedPath = ltrim(str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $relativePath), DIRECTORY_SEPARATOR);
+        $sourcePath = $sourceRoot . DIRECTORY_SEPARATOR . $normalizedPath;
+        $publicPath = $publicRoot . DIRECTORY_SEPARATOR . $normalizedPath;
+
+        if (! File::exists($sourcePath)) {
+            return;
+        }
+
+        File::ensureDirectoryExists(dirname($publicPath));
+        File::copy($sourcePath, $publicPath);
+    }
+
+    protected function ensureSingleFeaturedImage(Product $product, ?int $featuredImageId = null): void
+    {
+        $images = $product->images()->orderBy('id')->get();
+
+        if ($images->isEmpty()) {
+            return;
+        }
+
+        $primaryImage = $featuredImageId
+            ? $images->firstWhere('id', $featuredImageId)
+            : ($images->firstWhere('featured', true) ?? $images->first());
+
+        if (! $primaryImage) {
+            return;
+        }
+
+        $product->images()->where('id', '!=', $primaryImage->id)->update(['featured' => false]);
+
+        if (! $primaryImage->featured) {
+            $product->images()->whereKey($primaryImage->id)->update(['featured' => true]);
+        }
     }
 }

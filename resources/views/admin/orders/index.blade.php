@@ -28,9 +28,10 @@
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
                 @forelse ($orders as $order)
-@php 
-                        $firstItem = $order->items[0] ?? null;
-                        $firstImage = $firstItem['image'] ? asset('storage/' . $firstItem['image']) : asset('assets/img/no-image.png');
+                    @php
+                        $firstItem = $order->orderItems->first();
+                        $firstImagePath = $firstItem?->product?->images->first()?->path;
+                        $firstImage = $firstImagePath ? asset('storage/' . $firstImagePath) : asset('assets/img/product/default.jpg');
                     @endphp
                     <tr class="hover:bg-gray-50">
                         <td class="px-4 py-4 whitespace-nowrap">

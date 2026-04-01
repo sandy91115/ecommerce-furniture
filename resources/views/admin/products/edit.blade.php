@@ -79,7 +79,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Price *</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Regular Price *</label>
                     <input type="number" name="price" step="0.01" min="0" value="{{ old('price', $product->price) }}" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('price') border-red-500 @enderror">
                     @error('price')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -117,9 +117,9 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Status *</label>
                     <select name="status" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('status') border-red-500 @enderror">
-                        <option value="draft" {{ old('status', $product->status) == 'draft' ? 'selected' : '' }}>Draft</option>
-                        <option value="active" {{ old('status', $product->status) == 'active' ? 'selected' : '' }}>Active</option>
-                        <option value="inactive" {{ old('status', $product->status) == 'inactive' ? 'selected' : '' }}>Inactive</option>
+<option value="pending" {{ old('status', $product->status) == 'pending' ? 'selected' : '' }}>Draft</option>
+<option value="active" {{ old('status', $product->status) == 'active' ? 'selected' : '' }}>Active</option>
+<option value="rejected" {{ old('status', $product->status) == 'rejected' ? 'selected' : '' }}>Inactive</option>
                     </select>
                     @error('status')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -182,7 +182,7 @@
                     <input type="number" name="warranty_months" min="0" value="{{ old('warranty_months', $product->warranty_months) }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('warranty_months') border-red-500 @enderror">
                     @error('warranty_months')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror>
+                    @enderror
                 </div>
 
                 <div class="flex items-center space-x-2 mt-8">
@@ -253,26 +253,71 @@
             </div>
 
             <div class="mt-6">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Current Images</label>
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
-                    @foreach($product->images as $image)
-                        <div class="relative group">
-                            <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $product->name }}" class="w-full h-32 object-cover rounded-lg">
-                            <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex items-center justify-center rounded-lg">
-                                <span class="text-white text-xs font-medium">Featured: {{ $image->featured ? 'Yes' : 'No' }}</span>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">
-                    Add New Images (Multiple)
-                    <p class="text-xs text-gray-500 mt-1">Max 5MB per image</p>
+                <label class="flex items-center mb-4">
+                    <input type="checkbox" name="replace_images" value="1" id="replace_images" {{ old('replace_images') ? 'checked' : '' }} class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-2">
+                    <span class="text-sm font-medium text-gray-700">Replace all existing images with new ones?</span>
                 </label>
+                <p class="mb-4 text-xs text-gray-500">Agar replace enable karenge to purani images remove ho jayengi. Nayi selected images me cross icon se remove kar sakte hain.</p>
+
+                <div id="currentImagesSection">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Current Images</label>
+                    @php
+                        $deletedImageIds = collect(old('delete_image', []))->map(fn ($id) => (int) $id)->all();
+                    @endphp
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+                        @forelse($product->images as $image)
+                            @php
+                                $markedForDeletion = in_array((int) $image->id, $deletedImageIds, true);
+                            @endphp
+                            <div class="relative overflow-hidden rounded-xl border bg-gray-50 shadow-sm {{ $markedForDeletion ? 'border-red-200 ring-2 ring-red-500 opacity-70' : 'border-gray-200' }}" data-existing-image-card>
+                                <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $product->name }}" class="h-44 w-full object-cover">
+
+                                <div class="absolute inset-0 flex items-center justify-center bg-red-600/75 text-sm font-semibold text-white {{ $markedForDeletion ? '' : 'hidden' }}" data-remove-overlay>
+                                    Marked for deletion
+                                </div>
+
+                                <span class="absolute left-3 top-3 inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold {{ $image->featured ? 'bg-blue-600 text-white' : 'bg-white/90 text-gray-700' }}">
+                                    {{ $image->featured ? 'Featured' : 'Current image' }}
+                                </span>
+
+                                <button
+                                    type="button"
+                                    class="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full shadow-lg transition {{ $markedForDeletion ? 'bg-red-700 text-white' : 'bg-white/90 text-red-600 hover:bg-red-600 hover:text-white' }}"
+                                    data-image-remove-toggle
+                                    aria-pressed="{{ $markedForDeletion ? 'true' : 'false' }}"
+                                    aria-label="{{ $markedForDeletion ? 'Undo remove image' : 'Remove image' }}"
+                                >
+                                    <i class="fas {{ $markedForDeletion ? 'fa-undo' : 'fa-trash-alt' }} text-sm"></i>
+                                </button>
+
+                                <div class="p-3 text-xs text-gray-600">
+                                    {{ basename($image->path) }}
+                                </div>
+
+                                <input type="checkbox" name="delete_image[]" value="{{ $image->id }}" class="sr-only" data-delete-checkbox {{ $markedForDeletion ? 'checked' : '' }}>
+                            </div>
+                        @empty
+                            <div class="col-span-full rounded-xl border border-dashed border-gray-300 px-4 py-8 text-center text-sm text-gray-500">
+                                Is product par abhi koi current image nahi hai.
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Add New Images (Optional - Multiple)
+                    <p class="text-xs text-gray-500 mt-1">Max 5MB per image. First selected will be featured.</p>
+                </label>
+                <input type="hidden" name="featured_image_index" id="featuredImageIndex" value="{{ old('featured_image_index', 0) }}">
                 <input type="file" id="imagesInput" name="images[]" multiple accept="image/*" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('images') border-red-500 @enderror">
                 @error('images')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
-                <div id="imagePreview" class="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+                <div id="imagePreview" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="col-span-full rounded-xl border border-dashed border-gray-300 px-4 py-8 text-center text-sm text-gray-500">
+                        New selected images yahan preview hongi. Cross icon se instantly remove kar sakte hain.
+                    </div>
+                </div>
             </div>
 
             <div class="mt-8 flex space-x-4">
@@ -287,29 +332,173 @@
     </div>
 </div>
 
+@push('scripts')
 <script>
-document.getElementById('imagesInput').addEventListener('change', function(e) {
-    const preview = document.getElementById('imagePreview');
-    preview.innerHTML = '';
-    
-    Array.from(e.target.files).forEach((file, index) => {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const div = document.createElement('div');
-            div.className = 'relative group';
-            div.innerHTML = `
-                <img src="${e.target.result}" class="w-full h-32 object-cover rounded-lg" />
-                <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex items-center justify-center rounded-lg transition-all">
-                    <label class="flex items-center space-x-1 text-white text-xs font-medium cursor-pointer">
-                        <input type="radio" name="featured_image_index" value="${index}" class="mr-1" />
-                        <span>Feature</span>
-                    </label>
+    (function () {
+        const input = document.getElementById('imagesInput');
+        const preview = document.getElementById('imagePreview');
+        const featuredIndexInput = document.getElementById('featuredImageIndex');
+        const replaceToggle = document.getElementById('replace_images');
+        const currentImagesSection = document.getElementById('currentImagesSection');
+
+        const updateExistingCardState = (card, marked) => {
+            const checkbox = card.querySelector('[data-delete-checkbox]');
+            const overlay = card.querySelector('[data-remove-overlay]');
+            const toggle = card.querySelector('[data-image-remove-toggle]');
+            const icon = toggle.querySelector('i');
+
+            checkbox.checked = marked;
+            card.classList.toggle('border-red-200', marked);
+            card.classList.toggle('ring-2', marked);
+            card.classList.toggle('ring-red-500', marked);
+            card.classList.toggle('opacity-70', marked);
+            overlay.classList.toggle('hidden', !marked);
+            toggle.classList.toggle('bg-red-700', marked);
+            toggle.classList.toggle('text-white', marked);
+            toggle.classList.toggle('bg-white/90', !marked);
+            toggle.classList.toggle('text-red-600', !marked);
+            toggle.setAttribute('aria-pressed', marked ? 'true' : 'false');
+            toggle.setAttribute('aria-label', marked ? 'Undo remove image' : 'Remove image');
+            icon.className = marked ? 'fas fa-undo text-sm' : 'fas fa-trash-alt text-sm';
+        };
+
+        document.querySelectorAll('[data-existing-image-card]').forEach((card) => {
+            const toggle = card.querySelector('[data-image-remove-toggle]');
+            const checkbox = card.querySelector('[data-delete-checkbox]');
+
+            updateExistingCardState(card, checkbox.checked);
+
+            toggle.addEventListener('click', () => {
+                updateExistingCardState(card, !checkbox.checked);
+            });
+        });
+
+        if (!input || !preview || !featuredIndexInput) {
+            return;
+        }
+
+        let selectedFiles = [];
+        let featuredIndex = Number(featuredIndexInput.value || 0);
+        let objectUrls = [];
+
+        const fileKey = (file) => `${file.name}-${file.size}-${file.lastModified}`;
+
+        const clearObjectUrls = () => {
+            objectUrls.forEach((url) => URL.revokeObjectURL(url));
+            objectUrls = [];
+        };
+
+        const syncInputFiles = () => {
+            const dataTransfer = new DataTransfer();
+            selectedFiles.forEach((file) => dataTransfer.items.add(file));
+            input.files = dataTransfer.files;
+            featuredIndexInput.value = selectedFiles.length ? featuredIndex : 0;
+        };
+
+        const renderEmptyState = () => {
+            preview.innerHTML = `
+                <div class="col-span-full rounded-xl border border-dashed border-gray-300 px-4 py-8 text-center text-sm text-gray-500">
+                    New selected images yahan preview hongi. Cross icon se instantly remove kar sakte hain.
                 </div>
             `;
-            preview.appendChild(div);
         };
-        reader.readAsDataURL(file);
-    });
-});
+
+        const renderPreviews = () => {
+            clearObjectUrls();
+
+            if (!selectedFiles.length) {
+                renderEmptyState();
+                syncInputFiles();
+                return;
+            }
+
+            if (featuredIndex >= selectedFiles.length) {
+                featuredIndex = 0;
+            }
+
+            preview.innerHTML = '';
+
+            selectedFiles.forEach((file, index) => {
+                const objectUrl = URL.createObjectURL(file);
+                objectUrls.push(objectUrl);
+
+                const card = document.createElement('div');
+                card.className = 'overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm';
+                card.innerHTML = `
+                    <div class="relative">
+                        <img src="${objectUrl}" alt="${file.name}" class="h-48 w-full object-cover">
+                        <button type="button" class="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-red-600 text-white shadow-lg transition hover:bg-red-700" data-remove-index="${index}" aria-label="Remove image">
+                            <i class="fas fa-times text-sm"></i>
+                        </button>
+                        <span class="absolute left-3 top-3 inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${index === featuredIndex ? 'bg-blue-600 text-white' : 'bg-white/90 text-gray-700'}">
+                            ${index === featuredIndex ? 'Featured image' : 'Selected image'}
+                        </span>
+                    </div>
+                    <div class="space-y-3 p-4">
+                        <div>
+                            <p class="truncate text-sm font-semibold text-gray-800">${file.name}</p>
+                            <p class="mt-1 text-xs text-gray-500">${(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                        </div>
+                        <button type="button" class="inline-flex items-center rounded-lg px-3 py-2 text-xs font-semibold transition ${index === featuredIndex ? 'bg-blue-50 text-blue-700 ring-1 ring-blue-200' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" data-feature-index="${index}">
+                            ${index === featuredIndex ? 'Featured selected' : 'Set as featured'}
+                        </button>
+                    </div>
+                `;
+
+                card.querySelector('[data-remove-index]').addEventListener('click', () => {
+                    selectedFiles.splice(index, 1);
+
+                    if (featuredIndex > index) {
+                        featuredIndex -= 1;
+                    } else if (featuredIndex === index) {
+                        featuredIndex = 0;
+                    }
+
+                    renderPreviews();
+                });
+
+                card.querySelector('[data-feature-index]').addEventListener('click', () => {
+                    featuredIndex = index;
+                    renderPreviews();
+                });
+
+                preview.appendChild(card);
+            });
+
+            syncInputFiles();
+        };
+
+        input.addEventListener('change', (event) => {
+            const incomingFiles = Array.from(event.target.files || []);
+
+            if (!incomingFiles.length) {
+                return;
+            }
+
+            const existingKeys = new Set(selectedFiles.map(fileKey));
+
+            incomingFiles.forEach((file) => {
+                const key = fileKey(file);
+                if (!existingKeys.has(key)) {
+                    selectedFiles.push(file);
+                    existingKeys.add(key);
+                }
+            });
+
+            renderPreviews();
+        });
+
+        if (replaceToggle && currentImagesSection) {
+            const syncReplaceState = () => {
+                currentImagesSection.classList.toggle('opacity-60', replaceToggle.checked);
+            };
+
+            replaceToggle.addEventListener('change', syncReplaceState);
+            syncReplaceState();
+        }
+
+        window.addEventListener('beforeunload', clearObjectUrls);
+    })();
 </script>
+@endpush
 @endsection

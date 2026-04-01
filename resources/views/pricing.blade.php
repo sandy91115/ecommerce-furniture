@@ -68,32 +68,7 @@
 </div>
 <!-- Partner Area End -->
 
-@include('includes.footer6')
+@include('includes.footer')
   
 @endsection
 
-<script>
-    // Pricing Switcher
-    document.addEventListener('DOMContentLoaded', function () {
-        const monthlyRadio = document.getElementById('monthly');
-        const yearlyRadio = document.getElementById('yearly');
-        const highlighter = document.querySelector('.highlighter');
-        const prices = document.querySelectorAll('.price');
-
-        const updatePrices = () => {
-        const isYearly = yearlyRadio.checked;
-    
-        prices.forEach(price => {
-            const newPrice = isYearly ? price.dataset.yearly : price.dataset.monthly;
-            price.textContent = `$${newPrice}`;
-        });
-    
-        highlighter.style.transform = isYearly ? 'translateX(100%)' : 'translateX(0)';
-        };
-    
-        monthlyRadio.addEventListener('change', updatePrices);
-        yearlyRadio.addEventListener('change', updatePrices);
-    
-        updatePrices();
-    });
-</script>

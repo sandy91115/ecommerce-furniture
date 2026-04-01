@@ -118,11 +118,12 @@
                         </div>
                     </div>
                     <div class="mt-8 flex flex-col gap-4">
-                        <a href="{{ url('/checkout') }}" class="btn btn-theme-solid w-full text-center" data-text="Proceed to Checkout">
-                            <span>Proceed to Checkout</span>
-                        </a>
-                        <a href="{{ url('/shop') }}" class="btn btn-outline w-full text-center" data-text="Continue Shopping">
+                       
+                        <a href="{{ url('/shop') }}" class="btn btn-outline w-full text-center">
                             <span>Continue Shopping</span>
+                        </a>
+                         <a href="{{ url('/checkout') }}" class="btn btn-theme-solid w-full text-center" data-text="Proceed to Checkout">
+                            <span>Proceed to Checkout</span>
                         </a>
                     </div>
                 </div>
@@ -131,71 +132,12 @@
     </div>
 </div>
 
-<script>
-function updateQuantity(id, change) {
-    const input = event.target.closest('.inc-dec').querySelector('input');
-    let quantity = parseInt(input.value) + change;
-    
-    if (quantity < 1) return;
-    
-    input.value = quantity;
-    updateCart(id, quantity);
-}
 
-function updateCart(id, quantity) {
-    fetch("{{ route('cart.update') }}", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': "{{ csrf_token() }}",
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify({ id: id, quantity: quantity })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Update row total
-            const row = document.querySelector(`button[onclick*="${id}"]`).closest('tr');
-            const priceText = row.cells[1].querySelector('h6').innerText.replace('$', '');
-            const price = parseFloat(priceText);
-            row.cells[3].querySelector('h6').innerText = '$' + (price * quantity).toFixed(2);
-            
-            // Update cart totals
-            document.getElementById('cart-subtotal').innerText = '$' + data.subtotal.toFixed(2);
-            document.getElementById('cart-tax').innerText = '$' + (data.subtotal * 0.1).toFixed(2);
-            document.getElementById('cart-total').innerText = '$' + (data.subtotal * 1.1).toFixed(2);
-            
-            // Update navbar cart count/totals if needed (optional)
-        }
-    });
-}
-
-function removeFromCart(id) {
-    if (!confirm('Are you sure you want to remove this item?')) return;
-    
-    fetch("{{ route('cart.remove') }}", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': "{{ csrf_token() }}",
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify({ id: id })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            location.reload();
-        }
-    });
-}
-</script>
         </div>    
     </div>
 </div>
 <!-- Cart Area End -->
    
-@include('includes.footer6')
+@include('includes.footer')
   
 @endsection

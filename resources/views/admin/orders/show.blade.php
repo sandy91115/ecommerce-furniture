@@ -61,23 +61,23 @@
                 <div class="space-y-4">
                     @foreach($order->items as $item)
                     <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-xl">
-                        <img src="{{ $item['image'] ? asset('storage/' . $item['image']) : asset('assets/img/no-image.png') }}" alt="{{ $item['name'] ?? 'Product' }}" class="w-20 h-20 object-cover rounded-lg flex-shrink-0">
+                        <img src="{{ $item->product->image ? asset('storage/' . $item->product->image) : asset('assets/img/no-image.png') }}" alt="{{ $item->product_name ?? 'Product' }}" class="w-20 h-20 object-cover rounded-lg flex-shrink-0">
                         <div class="flex-1 min-w-0">
-                            <h4 class="font-semibold text-gray-900">{{ $item['name'] ?? 'Product' }}</h4>
+                            <h4 class="font-semibold text-gray-900">{{ $item->product_name ?? 'Product' }}</h4>
                             @if(isset($item['sku']))
-                                <p class="text-sm text-gray-600 mb-1">SKU: {{ $item['sku'] }}</p>
+                                <p class="text-sm text-gray-600 mb-1">SKU: {{ $item->product_sku ?? 'N/A' }}</p>
                             @endif
-                            @if(!empty($item['attributes']))
+                            @if($item->variation_data)
                                 <div class="flex flex-wrap gap-1 mb-2">
-                                    @foreach($item['attributes'] as $attr)
+                                    @foreach($item->variation_data as $attr)
                                         <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">{{ $attr['attribute_name'] ?? '' }}: {{ $attr['value'] ?? '' }}</span>
                                     @endforeach
                                 </div>
                             @endif
-                            <p class="text-sm text-gray-600">Qty: {{ $item['quantity'] ?? 0 }} × ${{ number_format($item['price'] ?? 0, 2) }}</p>
+                            <p class="text-sm text-gray-600">Qty: {{ $item->quantity }} × ${{ number_format($item->price, 2) }}</p>
                         </div>
                         <div class="text-right flex-shrink-0">
-                            <p class="font-bold text-lg">${{ number_format(($item['quantity'] ?? 0) * ($item['price'] ?? 0), 2) }}</p>
+                            <p class="font-bold text-lg">${{ number_format($item->total, 2) }}</p>
                         </div>
                     </div>
                     @endforeach

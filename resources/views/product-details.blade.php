@@ -1,294 +1,467 @@
 @extends('layouts.main')
 
 @section('title', $product->seo_title ?: $product->name)
+@section('meta_description', $metaDescription)
 
-@section('content')
-@php
-    $formattedWhatsappNumber = preg_replace('/\D+/', '', (string) ($whatsappNumber ?? '')) ?: '1234567890';
-    $quoteWhatsappMessage = rawurlencode("Hi! I want a quote for {$product->name}");
-    $gallery = $product->images->isNotEmpty() ? $product->images : collect([(object) ['path' => null]]);
-    $mainImage = $gallery->first()?->path ? asset('storage/' . $gallery->first()->path) : asset('assets/img/product/default.jpg');
-    $price = $product->sale_price ?: $product->price;
-@endphp
-
-{{-- Removed sticky quotation form: now popup only on "Quote Now" button --}}
-
-<div class="bg-[#F8F5F0] dark:bg-dark-secondary py-5 md:py-[30px]">
-    <div class="container-fluid">
-        <ul class="flex items-center gap-[10px] text-base md:text-lg leading-none font-normal text-title dark:text-white max-w-[1720px] mx-auto flex-wrap">
-            <li><a href="{{ url('/') }}">Home</a></li>
-            <li>/</li>
-            <li><a href="{{ route('shop') }}">Shop</a></li>
-            <li>/</li>
-            <li class="text-primary">{{ $product->name }}</li>
-        </ul>
-    </div>
-</div>
-
-@if (session('success'))
-    <div class="container-fluid mt-8">
-        <div class="max-w-[1720px] mx-auto rounded-[20px] border border-[#1CB28E]/20 bg-[#1CB28E]/10 px-6 py-4 text-[#1C7B64]">
-            {{ session('success') }}
-        </div>
-    </div>
-@endif
-
-<div class="s-py-50">
-    <div class="container-fluid">
-        <div class="max-w-[1720px] mx-auto grid gap-8 xl:grid-cols-[minmax(0,1.15fr)_minmax(340px,0.85fr)]">
-            <div class="space-y-6">
-                <div class="rounded-[28px] border border-bdr-clr dark:border-bdr-clr-drk bg-white dark:bg-dark-secondary p-5 sm:p-6">
-                    <div class="rounded-[22px] overflow-hidden bg-[#F7F2EA] dark:bg-title">
-                        <img id="productMainImage" data-product-main-image src="{{ $mainImage }}" alt="{{ $product->name }}" class="w-full object-cover" style="min-height: 340px; max-height: 620px;" onerror="this.onerror=null; this.src='{{ asset('assets/img/product/default.jpg') }}';">
-                    </div>
-                    @if($gallery->count() > 1)
-                        <div class="grid grid-cols-4 sm:grid-cols-5 gap-3 mt-4">
-                            @foreach($gallery as $image)
-                                @php $imageUrl = $image->path ? asset('storage/' . $image->path) : asset('assets/img/product/default.jpg'); @endphp
-                                <button type="button" class="border border-bdr-clr dark:border-bdr-clr-drk rounded-[16px] overflow-hidden p-1 {{ $loop->first ? 'ring-2 ring-primary' : '' }}" data-product-thumb data-image="{{ $imageUrl }}" data-alt="{{ $product->name }} image {{ $loop->iteration }}">
-                                    <img src="{{ $imageUrl }}" alt="{{ $product->name }} thumbnail {{ $loop->iteration }}" class="w-full h-20 object-cover" onerror="this.onerror=null; this.src='{{ asset('assets/img/product/default.jpg') }}';">
-                                </button>
-                            @endforeach
-                        </div>
-                    @endif
-                </div>
-
-                <div class="rounded-[28px] border border-bdr-clr dark:border-bdr-clr-drk bg-white dark:bg-dark-secondary p-6 sm:p-8">
-                    <h3 class="text-2xl font-semibold">Product Description</h3>
-                    <div class="mt-4 text-base leading-7 text-title/75 dark:text-white/75">{!! $product->description ?: '<p>Description will be updated soon.</p>' !!}</div>
-                </div>
-            </div>
-
-            <div class="space-y-6">
-                <div class="rounded-[28px] border border-bdr-clr dark:border-bdr-clr-drk bg-white dark:bg-dark-secondary p-6 sm:p-8">
-                    <div class="flex items-center gap-3 flex-wrap">
-                        <span class="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">{{ $isQuotationProduct ? 'Quotation Product' : 'Ready to Buy' }}</span>
-                        @if($product->category)
-                            <span class="inline-flex items-center rounded-full bg-title/5 px-3 py-1 text-xs font-semibold text-title/70 dark:bg-white/10 dark:text-white/70">{{ $product->category->name }}</span>
-                        @endif
-                    </div>
-
-                    <h2 class="mt-4 font-semibold leading-tight text-3xl md:text-4xl">{{ $product->name }}</h2>
-
-                    <div class="mt-5">
-                        @if($isQuotationProduct)
-                            <h3 class="text-2xl md:text-3xl font-semibold text-primary">Starting from ${{ number_format((float) $price, 2) }}</h3>
-                            <p class="mt-2 text-title/70 dark:text-white/70">Final price depends on quantity, size, finish and delivery location.</p>
-                        @else
-                            <div class="flex items-end gap-3 flex-wrap">
-                                <h3 class="text-2xl md:text-3xl font-semibold text-primary">${{ number_format((float) $price, 2) }}</h3>
-                                @if($product->sale_price)
-                                    <span class="text-lg text-title/45 line-through dark:text-white/45">${{ number_format((float) $product->price, 2) }}</span>
-                                @endif
-                            </div>
-                            <p class="mt-2 text-title/70 dark:text-white/70">{{ $product->stock > 0 ? $product->stock . ' items available' : 'Currently out of stock' }}</p>
-                        @endif
-                    </div>
-
-                    @if($product->short_description)
-                        <p class="mt-6 text-base leading-7 text-title/75 dark:text-white/75">{!! nl2br(e(strip_tags($product->short_description))) !!}</p>
-                    @endif
-
-                    <div class="grid gap-3 mt-6 sm:grid-cols-2">
-                        @if($product->sku)<div class="rounded-[18px] bg-[#F8F5F0] dark:bg-title px-4 py-3"><span class="block text-xs uppercase tracking-[0.2em] text-title/45 dark:text-white/45">SKU</span><strong>{{ $product->sku }}</strong></div>@endif
-                        @if($product->material)<div class="rounded-[18px] bg-[#F8F5F0] dark:bg-title px-4 py-3"><span class="block text-xs uppercase tracking-[0.2em] text-title/45 dark:text-white/45">Material</span><strong>{{ $product->material->name }}</strong></div>@endif
-                        @if($product->color)<div class="rounded-[18px] bg-[#F8F5F0] dark:bg-title px-4 py-3"><span class="block text-xs uppercase tracking-[0.2em] text-title/45 dark:text-white/45">Color</span><strong>{{ $product->color->name }}</strong></div>@endif
-                        @if($product->warranty_months)<div class="rounded-[18px] bg-[#F8F5F0] dark:bg-title px-4 py-3"><span class="block text-xs uppercase tracking-[0.2em] text-title/45 dark:text-white/45">Warranty</span><strong>{{ $product->warranty_months }} months</strong></div>@endif
-                    </div>
-
-                    @if($product->attributeMaps->isNotEmpty())
-                        <div class="mt-6 flex flex-wrap gap-3">
-                            @foreach($product->attributeMaps as $attributeMap)
-                                @if($attributeMap->attribute)
-                                    <span class="inline-flex items-center rounded-full border border-bdr-clr dark:border-bdr-clr-drk px-4 py-2 text-sm">{{ $attributeMap->attribute->name }}</span>
-                                @endif
-                            @endforeach
-                        </div>
-                    @endif
-
-@if($isQuotationProduct)
-                        <div class="mt-8 rounded-[24px] border border-primary/15 bg-primary/5 p-5 sm:p-6">
-                            <h4 class="text-xl font-semibold">Get Custom Quote</h4>
-                            <p class="mt-3 text-base text-title/75 dark:text-white/75">Fill the quote form or send a WhatsApp message with quantity, size, finish and delivery city.</p>
-                            <div class="flex flex-col sm:flex-row gap-4 mt-5">
-                                <button type="button" class="btn btn-solid" data-quote-trigger data-product-id="{{ $product->id }}" data-product-name="{{ $product->name }}" data-product-price="{{ number_format((float) $price, 2) }}"><span>Quote Now</span></button>
-                                <a href="https://wa.me/{{ $formattedWhatsappNumber }}?text={{ $quoteWhatsappMessage }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline"><span>WhatsApp</span></a>
-                            </div>
-                        </div>
-                        @include('quotations.form')
-                    @else
-                        <form action="{{ route('cart.add') }}" method="POST" class="mt-8 rounded-[24px] border border-bdr-clr dark:border-bdr-clr-drk p-5 sm:p-6">
-                            @csrf
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            <label for="productQuantity" class="block text-sm font-semibold mb-3">Quantity</label>
-                            <div class="flex flex-col sm:flex-row gap-4">
-                                <div class="flex items-center rounded-[16px] border border-bdr-clr dark:border-bdr-clr-drk overflow-hidden">
-                                    <button type="button" class="px-4 py-3 text-lg" data-quantity-change="-1">-</button>
-                                    <input id="productQuantity" type="number" name="quantity" min="1" value="1" class="w-16 text-center bg-transparent outline-none">
-                                    <button type="button" class="px-4 py-3 text-lg" data-quantity-change="1">+</button>
-                                </div>
-                                <button type="submit" class="btn btn-solid {{ $product->stock < 1 ? 'pointer-events-none opacity-60' : '' }}" {{ $product->stock < 1 ? 'disabled' : '' }}><span>{{ $product->stock > 0 ? 'Add to Cart' : 'Out of Stock' }}</span></button>
-                            </div>
-                        </form>
-                    @endif
-                </div>
-
-                @if($product->extra_title || $product->extra_description)
-                    <div class="rounded-[28px] border border-bdr-clr dark:border-bdr-clr-drk bg-white dark:bg-dark-secondary p-6 sm:p-8">
-                        <h3 class="text-2xl font-semibold">{{ $product->extra_title ?: 'Additional Information' }}</h3>
-                        <div class="mt-4 text-base leading-7 text-title/75 dark:text-white/75">{!! $product->extra_description ?: '<p>More details will be shared on request.</p>' !!}</div>
-                    </div>
-                @endif
-            </div>
-        </div>
-    </div>
-</div>
-
-
-@if($products->isNotEmpty())
-    <div class="s-pb-100">
-        <div class="container-fluid">
-            <div class="max-w-[1720px] mx-auto">
-                <div class="flex items-end justify-between gap-6 flex-wrap">
-                    <div><h3 class="text-3xl md:text-4xl font-semibold">Related Products</h3></div>
-                    <a href="{{ route('shop') }}" class="btn btn-outline"><span>Browse Shop</span></a>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 sm:gap-8 mt-10">
-                    @foreach($products as $relatedProduct)
-                        @php $relatedImage = $relatedProduct->images->first()?->path ? asset('storage/' . $relatedProduct->images->first()->path) : asset('assets/img/product/default.jpg'); @endphp
-                        <div class="rounded-[24px] overflow-hidden border border-bdr-clr dark:border-bdr-clr-drk bg-white dark:bg-dark-secondary">
-                            <a href="{{ route('product-details', $relatedProduct->slug) }}"><img src="{{ $relatedImage }}" alt="{{ $relatedProduct->name }}" class="w-full h-64 object-cover" onerror="this.onerror=null; this.src='{{ asset('assets/img/product/default.jpg') }}';"></a>
-                            <div class="p-6">
-                                <h4 class="text-xl font-semibold"><a href="{{ route('product-details', $relatedProduct->slug) }}">{{ $relatedProduct->name }}</a></h4>
-                                <p class="mt-3 text-title/70 dark:text-white/70">{{ $relatedProduct->product_type === 'quotation' ? 'Custom quotation available' : '$' . number_format((float) ($relatedProduct->sale_price ?: $relatedProduct->price), 2) }}</p>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </div>
-@endif
-
-@if($isQuotationProduct)
-    @include('quotations.form')
-@endif
-
-@push('scripts')
-<script>
-(function () {
-    const modal = document.getElementById('quotationModal');
-    const form = document.getElementById('quotationForm');
-    const statusBox = document.getElementById('quotationStatus');
-    const mainImage = document.querySelector('[data-product-main-image]');
-    const thumbButtons = document.querySelectorAll('[data-product-thumb]');
-    const quantityInput = document.getElementById('productQuantity');
-
-    const setStatus = function (message, type) {
-        if (!statusBox) return;
-        statusBox.textContent = message || '';
-        statusBox.className = 'hidden rounded-[16px] px-4 py-3 text-sm font-medium';
-        if (!message) return;
-        statusBox.classList.remove('hidden');
-        statusBox.classList.add(type === 'success' ? 'bg-green-100' : 'bg-red-100', type === 'success' ? 'text-green-700' : 'text-red-700');
-    };
-
-    const closeQuotationModal = function () {
-        if (!modal) return;
-        modal.classList.add('hidden');
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-        setStatus('');
-    };
-
-    const openQuotationModal = function (trigger) {
-        if (!modal) return;
-        document.getElementById('modalProductId').value = trigger.dataset.productId || '';
-        document.getElementById('modalProductName').textContent = trigger.dataset.productName ? 'Quote for ' + trigger.dataset.productName : 'Get Quote';
-        document.getElementById('modalProductPrice').textContent = trigger.dataset.productPrice ? 'Starting from $' + trigger.dataset.productPrice : '';
-        if (form) form.reset();
-        setStatus('');
-        modal.classList.remove('hidden');
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-    };
-
-    window.closeQuotationModal = closeQuotationModal;
-    window.openQuotationModal = openQuotationModal;
-
-    document.querySelectorAll('[data-quote-trigger]').forEach(function (button) {
-        button.addEventListener('click', function () {
-            openQuotationModal(button);
-        });
-    });
-
-    if (modal) {
-        modal.querySelectorAll('[data-quotation-close]').forEach(function (button) {
-            button.addEventListener('click', closeQuotationModal);
-        });
-    }
-
-    document.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
-            closeQuotationModal();
-        }
-    });
-
-    if (form) {
-        form.addEventListener('submit', async function (event) {
-            event.preventDefault();
-            const submitButton = form.querySelector('button[type="submit"]');
-            const buttonLabel = submitButton ? submitButton.textContent.trim() : 'Send Quote Request';
-            if (submitButton) {
-                submitButton.disabled = true;
-                submitButton.textContent = 'Sending...';
-            }
-
-            try {
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
-                    body: new FormData(form)
-                });
-                const data = await response.json().catch(function () { return {}; });
-                if (!response.ok) {
-                    const firstError = data.errors ? Object.values(data.errors)[0]?.[0] : '';
-                    throw new Error(firstError || data.message || 'Unable to submit quotation request.');
-                }
-                setStatus(data.message || 'Quotation request submitted successfully.', 'success');
-                form.reset();
-                window.setTimeout(closeQuotationModal, 1200);
-            } catch (error) {
-                setStatus(error.message || 'Unable to submit quotation request.', 'error');
-            } finally {
-                if (submitButton) {
-                    submitButton.disabled = false;
-                    submitButton.textContent = buttonLabel;
-                }
-            }
-        });
-    }
-
-    thumbButtons.forEach(function (button) {
-        button.addEventListener('click', function () {
-            if (!mainImage) return;
-            mainImage.src = button.dataset.image;
-            mainImage.alt = button.dataset.alt;
-            thumbButtons.forEach(function (item) { item.classList.remove('ring-2', 'ring-primary'); });
-            button.classList.add('ring-2', 'ring-primary');
-        });
-    });
-
-    document.querySelectorAll('[data-quantity-change]').forEach(function (button) {
-        button.addEventListener('click', function () {
-            if (!quantityInput) return;
-            const nextValue = Math.max(1, (parseInt(quantityInput.value || '1', 10) || 1) + parseInt(button.dataset.quantityChange, 10));
-            quantityInput.value = nextValue;
-        });
-    });
-})();
-</script>
+@push('head')
+    <link rel="canonical" href="{{ $canonicalUrl }}">
+    <script type="application/ld+json">
+    {!! json_encode($productSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
+    </script>
 @endpush
 
-@include('includes.footer')
+@section('content')
+    @php
+        $wishlistIds = array_map('intval', $wishlistIds ?? array_keys(session('wishlist', [])));
+        $isInWishlist = in_array((int) $product->id, $wishlistIds, true);
+        $formattedWhatsappNumber = preg_replace('/\D+/', '', (string) ($whatsappNumber ?? '')) ?: '1234567890';
+        $gallery = $product->images->isNotEmpty() ? $product->images : collect([(object) ['path' => null]]);
+        $galleryItems = $gallery->map(function ($image, $index) use ($product) {
+            $imageUrl = $image->path ? asset('storage/' . $image->path) : asset('assets/img/product/default.jpg');
+
+            return [
+                'url' => $imageUrl,
+                'thumb' => $imageUrl,
+                'alt' => $product->name . ' image ' . ($index + 1),
+            ];
+        })->values();
+        $primaryImage = $galleryItems->first();
+        $price = $product->sale_price ?: $product->price;
+        $hasDiscount = $product->sale_price && (float) $product->sale_price < (float) $product->price;
+        $discountPercentage = $hasDiscount && (float) $product->price > 0
+            ? round((((float) $product->price - (float) $product->sale_price) / (float) $product->price) * 100)
+            : null;
+        $productUrl = route('product-details', $product->slug);
+        $shareUrl = rawurlencode($productUrl);
+        $shareText = rawurlencode($product->name);
+        $enquiryWhatsappMessage = rawurlencode("Hi! I want to know more about {$product->name}. {$productUrl}");
+        $quoteWhatsappMessage = rawurlencode("Hi! I want a quote for {$product->name}. {$productUrl}");
+        $productIntro = \Illuminate\Support\Str::limit(
+            trim(preg_replace('/\s+/', ' ', strip_tags($product->short_description ?: $product->description ?: 'Product details will be updated soon.'))),
+            260
+        );
+        $productDescription = $product->description ?: '<p>Description will be updated soon.</p>';
+        $productTags = collect([
+            optional($product->category)->name,
+            optional($product->material)->name,
+            optional($product->color)->name,
+        ])->merge($product->attributeMaps->map(fn($attributeMap) => optional($attributeMap->attribute)->name))
+            ->filter()
+            ->unique()
+            ->values();
+        $specifications = collect([
+            $product->material ? 'Material : ' . $product->material->name : null,
+            $product->category ? 'Category : ' . $product->category->name : null,
+            $product->color ? 'Color : ' . $product->color->name : null,
+            $product->sku ? 'SKU : ' . $product->sku : null,
+            $product->warranty_months ? 'Warranty : ' . $product->warranty_months . ' months' : null,
+            !$isQuotationProduct ? 'Availability : ' . ($product->stock > 0 ? $product->stock . ' in stock' : 'Out of stock') : null,
+        ])->filter()->values();
+        $shopName = data_get($product, 'vendor.store_name') ?: config('app.name', 'Furniture Store');
+        $vendorName = data_get($product, 'vendor.user.name') ?: 'Support Team';
+        $vendorEmail = data_get($product, 'vendor.user.email');
+        $vendorPhone = data_get($product, 'vendor.store_phone') ?: data_get($product, 'vendor.user.phone');
+        $vendorAddress = data_get($product, 'vendor.store_address');
+        $vendorExtraInfo = $product->extra_description ?: (data_get($product, 'vendor.store_description') ? nl2br(e(data_get($product, 'vendor.store_description'))) : null);
+    @endphp
+
+    <div class="bg-[#F8F5F0] dark:bg-dark-secondary py-5 md:py-[30px]">
+        <div class="container-fluid">
+            <ul
+                class="flex items-center gap-[10px] text-base md:text-lg leading-none font-normal text-title dark:text-white max-w-[1720px] mx-auto flex-wrap">
+                <li><a href="{{ url('/') }}">Home</a></li>
+                <li>/</li>
+                <li><a href="{{ route('shop') }}">Shop</a></li>
+                <li>/</li>
+                <li class="text-primary">{{ $product->name }}</li>
+            </ul>
+        </div>
+    </div>
+
+    @if (session('success'))
+        <div class="container-fluid mt-8">
+            <div
+                class="max-w-[1720px] mx-auto rounded-[20px] border border-[#1CB28E]/20 bg-[#1CB28E]/10 px-6 py-4 text-[#1C7B64]">
+                {{ session('success') }}
+            </div>
+        </div>
+    @endif
+
+    <div class="s-py-50" data-aos="fade-up" data-product-slug="{{ $product->slug }}">
+        <div class="container-fluid">
+            <div class="max-w-[1720px] mx-auto flex justify-between gap-10 flex-col lg:flex-row">
+                <div class="w-full lg:w-[58%]">
+                    <div class="relative">
+                        @if($discountPercentage)
+                            <button
+                                class="absolute top-5 left-0 p-2 !bg-[#E13939] text-lg leading-none text-white font-medium z-50">-{{ $discountPercentage }}%</button>
+                        @elseif($isQuotationProduct)
+                            <button
+                                class="absolute top-5 left-0 p-2 !bg-primary text-lg leading-none text-white font-medium z-50">Quote</button>
+                        @endif
+
+                        <div class="product-gallery" data-product-gallery
+                            data-product-images='@json($galleryItems, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT)'
+                            data-product-name="{{ e($product->name) }}"
+                            data-product-price="{{ e($isQuotationProduct ? 'Starting from ' . currency($price) : currency($price)) }}">
+                            <div class="product-gallery__main">
+                                <button type="button" class="product-gallery__stage" data-product-lightbox-open
+                                    aria-label="Open {{ $product->name }} image gallery">
+                                    <span class="product-gallery__hint">Zoom image</span>
+                                    <span class="product-gallery__zoom-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none" class="h-5 w-5">
+                                            <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.7"></circle>
+                                            <path d="M20 20L15.5 15.5" stroke="currentColor" stroke-width="1.7"
+                                                stroke-linecap="round"></path>
+                                            <path d="M11 8.5V13.5M8.5 11H13.5" stroke="currentColor" stroke-width="1.7"
+                                                stroke-linecap="round"></path>
+                                        </svg>
+                                    </span>
+                                    <span class="product-gallery__zoom-frame">
+                                        <img src="{{ $primaryImage['url'] }}" alt="{{ $primaryImage['alt'] }}"
+                                            class="product-gallery__main-image" data-product-main-image
+                                            onerror="this.onerror=null; this.src='{{ asset('assets/img/product/default.jpg') }}';">
+                                    </span>
+                                </button>
+                            </div>
+
+                            @if($galleryItems->count() > 1)
+                                <div class="product-gallery__thumbs" role="tablist" aria-label="Product image thumbnails">
+                                    @foreach($galleryItems as $image)
+                                        <button type="button" class="product-gallery__thumb {{ $loop->first ? 'is-active' : '' }}"
+                                            data-product-thumb data-index="{{ $loop->index }}" data-image-url="{{ $image['url'] }}"
+                                            data-image-alt="{{ $image['alt'] }}" aria-label="View image {{ $loop->iteration }}"
+                                            aria-pressed="{{ $loop->first ? 'true' : 'false' }}">
+                                            <img src="{{ $image['thumb'] }}" alt="{{ $image['alt'] }}"
+                                                onerror="this.onerror=null; this.src='{{ asset('assets/img/product/default.jpg') }}';">
+                                        </button>
+                                    @endforeach
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:max-w-[635px] w-full">
+                    <div class="pb-4 sm:pb-6 border-b border-bdr-clr dark:border-bdr-clr-drk">
+                        <div class="flex items-center gap-3 flex-wrap">
+                            <span
+                                class="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-black">{{ $isQuotationProduct ? 'Quotation Product' : 'Ready to Buy' }}</span>
+                            @if($product->category)
+                                <span
+                                    class="inline-flex items-center rounded-full bg-title/5 px-3 py-1 text-xs font-semibold text-title/70 dark:bg-white/10 dark:text-white/70">{{ $product->category->name }}</span>
+                            @endif
+                        </div>
+
+                        <h2 class="font-semibold leading-none md:text-4xl mt-4">{{ $product->name }}</h2>
+
+                        <div class="flex gap-4 items-center mt-[15px] flex-wrap">
+                            @if(!$isQuotationProduct && $hasDiscount)
+                                <span
+                                    class="text-lg sm:text-xl leading-none pb-[5px] text-title line-through pl-2 inline-block dark:text-white">{{ currency($product->price) }}</span>
+                            @endif
+
+                            <span class="text-2xl sm:text-3xl text-primary leading-none block">
+                                {{ $isQuotationProduct ? 'Starting from ' : '' }}{{ currency($price) }}
+                            </span>
+
+                            @if(!$isQuotationProduct)
+                                <span
+                                    class="inline-flex items-center rounded-full bg-[#F8F5F0] dark:bg-dark-secondary px-4 py-2 text-sm font-medium">
+                                    {{ $product->stock > 0 ? $product->stock . ' items available' : 'Currently out of stock' }}
+                                </span>
+                            @endif
+                        </div>
+
+                        <p class="sm:text-lg mt-5 md:mt-7">{{ $productIntro }}</p>
+                    </div>
+
+                    <div class="py-4 sm:py-6 border-b border-bdr-clr dark:border-bdr-clr-drk" data-aos="fade-up"
+                        data-aos-delay="200">
+                        @if($isQuotationProduct)
+                            <div class="rounded-[24px] bg-[#FAF2F2] dark:bg-dark-secondary p-5 sm:p-6">
+                                <h4 class="text-xl md:text-[22px] font-semibold !leading-none">Need Custom Pricing?</h4>
+                                <p class="sm:text-lg mt-3">Fill the quote form or send a WhatsApp message with quantity, size,
+                                    finish and delivery city.</p>
+                                <div class="flex gap-4 mt-4 sm:mt-6 flex-col sm:flex-row">
+                                    <button type="button" class="btn btn-solid " data-text="Quote Now" data-quote-trigger
+                                        data-product-id="{{ $product->id }}" data-product-name="{{ $product->name }}"
+                                        data-product-price="{{ number_format((float) $price, 2) }}">
+                                        <span>Quote Now</span>
+                                    </button>
+                                    <a href="https://wa.me/{{ $formattedWhatsappNumber }}?text={{ $quoteWhatsappMessage }}"
+                                        target="_blank" rel="noopener noreferrer" class="btn btn-solid " data-text="WhatsApp">
+                                        <span>WhatsApp</span>
+                                    </a>
+                                </div>
+                            </div>
+                        @else
+                            <form action="{{ route('cart.add') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+
+                                <div class="inc-dec flex items-center gap-2">
+                                    <button type="button"
+                                        class="dec w-8 h-8 bg-[#E8E9EA] dark:bg-dark-secondary flex items-center justify-center">
+                                        <svg class="fill-current text-title dark:text-white" width="14" height="2"
+                                            viewBox="0 0 14 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M10.4361 0.203613H12.0736L7.81774 0.203615H13.8729V1.80309H7.81774L3.50809 1.80309H1.87053L6.18017 1.80309H0.125V0.203615H6.18017L10.4361 0.203613Z" />
+                                        </svg>
+                                    </button>
+                                    <input id="productQuantity"
+                                        class="w-10 h-auto outline-none bg-transparent text-base md:text-lg leading-none text-title dark:text-white text-center"
+                                        type="text" name="quantity" value="1">
+                                    <button type="button"
+                                        class="inc w-8 h-8 bg-[#E8E9EA] dark:bg-dark-secondary flex items-center justify-center">
+                                        <svg class="fill-current text-title dark:text-white" width="14" height="14"
+                                            viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M6.18017 0.110352H7.81774V6.16553H13.8729V7.76501H7.81774V13.8963H6.18017V7.76501H0.125V6.16553H6.18017V0.110352Z" />
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div class="flex gap-4 mt-4 sm:mt-6 flex-col sm:flex-row">
+                                    <button type="submit" class="flex-1 btn btn-solid "
+                                        data-text="{{ $product->stock > 0 ? 'Add to Cart' : 'Out of Stock' }}" {{ $product->stock < 1 ? 'pointer-events-none opacity-60' : '' }} {{ $product->stock < 1 ? 'disabled' : '' }}>
+                                        <span>{{ $product->stock > 0 ? 'Add to Cart' : 'Out of Stock' }}</span>
+                                    </button>
+
+                                    <button type="button"
+                                        class="wishlist-btn flex-1 btn btn-solid {{ $isInWishlist ? 'added' : '' }}"
+                                        data-text="{{ $isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist' }}"
+                                        data-product-id="{{ $product->id }}">
+                                        <svg class="fill-current {{ $isInWishlist ? 'text-red-500' : 'text-title dark:text-white' }} w-5 h-5"
+                                            width="20" height="22" viewBox="0 0 24 20" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M17.3927 0.0917969C15.4463 0.0917969 13.7401 0.959692 12.4584 2.60171C12.2875 2.8207 12.1351 3.03979 12.0001 3.25198C11.865 3.03974 11.7127 2.8207 11.5417 2.60171C10.2601 0.959692 8.55381 0.0917969 6.60743 0.0917969C2.93056 0.0917969 0.300781 3.17049 0.300781 6.86477C0.300781 11.089 3.7629 15.0701 11.5265 19.7733C11.672 19.8614 11.8361 19.9055 12.0001 19.9055C12.1641 19.9055 12.3281 19.8615 12.4737 19.7733C20.2372 15.0702 23.6994 11.089 23.6994 6.86482C23.6994 3.17246 21.0717 0.0917969 17.3927 0.0917969ZM19.4564 12.1247C17.8401 13.9281 15.3977 15.827 12.0001 17.9205C8.60248 15.827 6.16002 13.9281 4.54374 12.1247C2.91873 10.3115 2.1288 8.59096 2.1288 6.86482C2.1288 4.20487 3.92637 1.91981 6.60743 1.91981C7.97277 1.91981 9.13694 2.51346 10.0676 3.6843C10.8118 4.62066 11.1254 5.58754 11.1276 5.59444C11.2466 5.97626 11.6001 6.23634 12.0001 6.23634C12.4001 6.23634 12.7536 5.97631 12.8727 5.59444C12.8756 5.58521 13.1797 4.64849 13.8994 3.72644C14.8351 2.52762 16.0105 1.91976 17.3927 1.91976C20.0766 1.91976 21.8713 4.20702 21.8713 6.86477C21.8713 8.59092 21.0814 10.3114 19.4564 12.1247Z" />
+                                        </svg>
+                                        <span>{{ $isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist' }}</span>
+                                    </button>
+                                </div>
+                            </form>
+                        @endif
+                    </div>
+
+                    @if($product->sku || $product->category || $product->material || $product->color || $product->warranty_months || $product->attributeMaps->isNotEmpty())
+                        <div class="py-4 sm:py-6 border-b border-bdr-clr dark:border-bdr-clr-drk" data-aos="fade-up"
+                            data-aos-delay="300">
+                            <div class="flex gap-x-12 gap-y-3 flex-wrap">
+                                @if($product->sku)
+                                    <h6 class="leading-none font-medium text-lg">SKU : {{ $product->sku }}</h6>
+                                @endif
+                                @if($product->category)
+                                    <h6 class="leading-none font-medium text-lg">Category : {{ $product->category->name }}</h6>
+                                @endif
+                            </div>
+
+                            <div class="flex gap-x-12 lg:gap-x-24 gap-y-3 flex-wrap mt-5 sm:mt-10">
+                                @if($product->material)
+                                    <div class="flex gap-[10px] items-center flex-wrap">
+                                        <h6 class="leading-none font-medium text-lg">Material :</h6>
+                                        <div class="flex gap-[10px]">
+                                            <span
+                                                class="px-3 py-2 text-sm leading-none bg-[#E8E9EA] dark:bg-dark-secondary text-title dark:text-white">{{ $product->material->name }}</span>
+                                        </div>
+                                    </div>
+                                @endif
+
+                                @if($product->color)
+                                    <div class="flex gap-[10px] items-center flex-wrap">
+                                        <h6 class="leading-none font-medium text-lg">Color :</h6>
+                                        <div class="flex gap-[10px] items-center">
+                                            <span
+                                                class="px-3 py-2 text-sm leading-none bg-[#E8E9EA] dark:bg-dark-secondary text-title dark:text-white">{{ $product->color->name }}</span>
+                                        </div>
+                                    </div>
+                                @endif
+
+                                @if($product->warranty_months)
+                                    <div class="flex gap-[10px] items-center flex-wrap">
+                                        <h6 class="leading-none font-medium text-lg">Warranty :</h6>
+                                        <div class="flex gap-[10px] items-center">
+                                            <span
+                                                class="px-3 py-2 text-sm leading-none bg-[#E8E9EA] dark:bg-dark-secondary text-title dark:text-white">{{ $product->warranty_months }}
+                                                months</span>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+
+                            @if($product->attributeMaps->isNotEmpty())
+                                <div class="flex gap-[10px] items-start flex-wrap mt-5 sm:mt-6">
+                                    <h6 class="leading-none font-medium text-lg pt-2">Features :</h6>
+                                    <div class="flex gap-[10px] flex-wrap">
+                                        @foreach($product->attributeMaps as $attributeMap)
+                                            @if($attributeMap->attribute)
+                                                <span
+                                                    class="px-3 py-2 text-sm leading-none bg-[#E8E9EA] dark:bg-dark-secondary text-title dark:text-white">{{ $attributeMap->attribute->name }}</span>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
+
+                    @if($productTags->isNotEmpty())
+                        <div class="py-4 sm:py-6 border-b border-bdr-clr dark:border-bdr-clr-drk" data-aos="fade-up"
+                            data-aos-delay="400">
+                            <h4 class="font-medium leading-none text-2xl">Tags :</h4>
+                            <div class="flex flex-wrap gap-[10px] md:gap-[15px] mt-5 md:mt-6">
+                                @foreach($productTags as $tag)
+                                    <span class="btn btn-theme-outline btn-xs" data-text="{{ $tag }}"><span>{{ $tag }}</span></span>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
+                    <div class="pt-4 sm:pt-6" data-aos="fade-up" data-aos-delay="500">
+                        <div class="flex items-center gap-6 flex-wrap">
+                            <h6 class="font-normal text-lg">Share : </h6>
+                            <div class="flex gap-6">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}" target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="text-paragraph duration-300 dark:text-white hover:text-primary dark:hover:text-primary">
+                                    <svg class="fill-current" width="9" height="17" viewBox="0 0 9 17" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M6.85187 2.88048H8.3125V0.327504C7.60589 0.249301 6.89543 0.211267 6.18454 0.213583C5.69283 0.185244 5.2009 0.265194 4.74322 0.447828C4.28554 0.630463 3.87319 0.911363 3.53508 1.27084C3.19696 1.63032 2.94126 2.05967 2.78589 2.52881C2.63052 2.99795 2.57925 3.49553 2.63567 3.98665V6.23546H0.3125V9.09033H2.63567V16.2674H5.4843V9.09033H7.7144L8.06849 6.23546H5.4843V4.26918C5.48543 3.44439 5.70674 2.88048 6.85187 2.88048Z" />
+                                    </svg>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ $shareText }}"
+                                    target="_blank" rel="noopener noreferrer"
+                                    class="text-paragraph duration-300 dark:text-white hover:text-primary dark:hover:text-primary">
+                                    <svg class="fill-current" width="21" height="17" viewBox="0 0 21 17" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M20.3125 1.93807C19.56 2.26226 18.7641 2.47762 17.9495 2.5775C18.8075 2.07421 19.4491 1.27744 19.7528 0.338011C18.9492 0.809117 18.0701 1.14092 17.1534 1.31907C16.5909 0.726685 15.8612 0.315117 15.0591 0.137768C14.257 -0.0395802 13.4195 0.0254805 12.6553 0.324511C11.891 0.623542 11.2354 1.14273 10.7734 1.81471C10.3114 2.48668 10.0644 3.28041 10.0644 4.09289C10.061 4.40344 10.0927 4.7134 10.1589 5.017C8.52829 4.93856 6.93277 4.52093 5.47658 3.79139C4.02038 3.06186 2.73628 2.03683 1.70816 0.783282C1.18069 1.67484 1.01735 2.73179 1.25147 3.73836C1.48559 4.74493 2.09952 5.62522 2.96794 6.19953C2.31904 6.18223 1.68386 6.01099 1.11593 5.70024V5.74404C1.117 6.6799 1.44419 7.58683 2.04242 8.3122C2.64065 9.03756 3.4734 9.53706 4.40052 9.72665C4.04967 9.81785 3.68811 9.86253 3.32535 9.85951C3.06466 9.86431 2.8042 9.84131 2.54851 9.79089C2.81297 10.5956 3.3235 11.2993 4.00969 11.805C4.69587 12.3107 5.5239 12.5935 6.37955 12.6143C4.92709 13.7358 3.13616 14.3434 1.29315 14.3399C0.965406 14.3422 0.637852 14.3236 0.3125 14.2845C2.18785 15.4772 4.37257 16.1075 6.60256 16.0991C8.13765 16.1094 9.65951 15.8181 11.0798 15.2422C12.5 14.6662 13.7904 13.8171 14.8759 12.7441C15.9614 11.671 16.8204 10.3955 17.403 8.99161C17.9857 7.58769 18.2804 6.08333 18.27 4.56589C18.27 4.38632 18.27 4.21406 18.2552 4.04179C19.0647 3.47007 19.7619 2.75716 20.3125 1.93807Z" />
+                                    </svg>
+                                </a>
+                                <a href="https://wa.me/{{ $formattedWhatsappNumber }}?text={{ rawurlencode('Check out ' . $product->name . ': ' . $productUrl) }}"
+                                    target="_blank" rel="noopener noreferrer"
+                                    class="text-paragraph duration-300 dark:text-white hover:text-primary dark:hover:text-primary">
+                                    <svg class="fill-current" width="18" height="18" viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.371-5.05 9.99 9.99 0 0 1 9.88-9.88c5.462 0 9.905 4.444 9.905 9.906a9.89 9.89 0 0 1-9.905 9.906Z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="s-py-50">
+        <div class="container-fluid">
+            <div class="max-w-[985px] mx-auto">
+                <div class="product-dtls-navtab border-y border-bdr-clr dark:border-bdr-clr-drk">
+                    <ul id="user-nav-tabs"
+                        class="text-title dark:text-white text-base sm:text-lg lg:text-xl flex leading-none gap-3 sm:gap-6 md:gap-12 lg:gap-24 justify-between sm:justify-start max-w-md sm:max-w-full">
+                        <li role="presentation"
+                            class="py-3 sm:py-5 lg:6 relative before:absolute before:w-full before:h-[1px] before:bg-title before:top-full before:left-0 before:duration-300 dark:before:bg-white before:opacity-0 active">
+                            <a class="duration-300 hover:text-primary" href="#c1">Description</a>
+                        </li>
+                        <li role="presentation"
+                            class="py-3 sm:py-5 lg:6 relative before:absolute before:w-full before:h-[1px] before:bg-title before:top-full before:left-0 before:duration-300 dark:before:bg-white before:opacity-0">
+                            <a class="duration-300 hover:text-primary" href="#c2">Vendor Info</a>
+                        </li>
+                        <li role="presentation"
+                            class="py-3 sm:py-5 lg:6 relative before:absolute before:w-full before:h-[1px] before:bg-title before:top-full before:left-0 before:duration-300 dark:before:bg-white before:opacity-0">
+                            <a class="duration-300 hover:text-primary" href="#c3">Review</a>
+                        </li>
+                        <li role="presentation"
+                            class="py-3 sm:py-5 lg:6 relative before:absolute before:w-full before:h-[1px] before:bg-title before:top-full before:left-0 before:duration-300 dark:before:bg-white before:opacity-0">
+                            <a class="duration-300 hover:text-primary" href="#c4">Shipping</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="content" class="mt-5 sm:mt-8 lg:mt-12 mx-0 sm:mr-5 md:mr-8 lg:mr-12">
+                    <div id="content1">
+                        <div class="sm:text-lg">{!! $productDescription !!}</div>
+
+                        @if($specifications->isNotEmpty())
+                            <ul class="mt-4 sm:mt-6 grid gap-4 sm:gap-5 sm:text-lg leading-none">
+                                @foreach($specifications as $specification)
+                                    <li>{{ $specification }}</li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </div>
+
+                    <div id="content2" style="display: none;">
+                        <div class="max-w-[680px] flex items-start justify-between gap-y-8 gap-x-10 flex-wrap">
+                            <div>
+                                <span class="text-primary sm:text-lg leading-none block">Shop Name</span>
+                                <h4 class="font-medium mt-2 sm:mt-3 text-xl sm:text-2xl leading-none">{{ $shopName }}</h4>
+                                <ul class="mt-4 sm:mt-6 grid gap-3 sm:text-lg">
+                                    <li>Vendor : {{ $vendorName }}</li>
+                                    @if($vendorAddress)
+                                        <li>Address : {{ $vendorAddress }}</li>
+                                    @endif
+                                    @if($vendorEmail)
+                                        <li>Mail : {{ $vendorEmail }}</li>
+                                    @endif
+                                    @if($vendorPhone)
+                                        <li>Call : {{ $vendorPhone }}</li>
+                                    @endif
+                                </ul>
+                            </div>
+
+                            @if($product->extra_title || $vendorExtraInfo)
+                                <div class="max-w-[320px]">
+                                    <span class="text-primary sm:text-lg leading-none block">More Info</span>
+                                    <h4 class="font-medium mt-2 sm:mt-3 text-xl sm:text-2xl leading-none">
+                                        {{ $product->extra_title ?: 'Additional Information' }}</h4>
+                                    <div class="mt-4 sm:mt-6 sm:text-lg">
+                                        {!! $vendorExtraInfo ?: '<p>More details will be shared on request.</p>' !!}</div>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div id="content3" style="display: none;">
+                        <div class="max-w-[905px] flex items-start xl:justify-between gap-8 flex-wrap">
+                            @include('includes.Shop.review')
+                        </div>
+                    </div>
+
+                    <div id="content4" style="display: none;">
+                        @include('includes.Shop.shipping')
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if($products->isNotEmpty())
+        <div class="s-py-50-100">
+            <div class="container-fluid">
+                <div class="max-w-[547px] mx-auto text-center">
+                    <h6 class="text-2xl sm:text-3xl md:text-4xl leading-none font-bold">Related Products</h6>
+                    <p class="mt-3">Explore complementary options that enhance your experience. Discover related products
+                        curated just for you.</p>
+                </div>
+                <div
+                    class="max-w-[1720px] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-8 pt-8 md:pt-[50px]">
+                    @include('includes.Home.new-products')
+                </div>
+            </div>
+        </div>
+    @endif
+
+
+
+    @if($isQuotationProduct)
+        @include('quotations.form')
+    @endif
+
+    @include('includes.footer')
 @endsection

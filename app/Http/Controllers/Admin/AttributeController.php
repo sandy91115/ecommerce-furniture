@@ -23,7 +23,7 @@ class AttributeController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:attributes',
+'name' => 'required|string|max:255|unique:attributes,name,NULL,id,deleted_at,NULL',
             'status' => 'required|in:active,inactive'
         ]);
 
@@ -40,7 +40,7 @@ class AttributeController extends Controller
     public function update(Request $request, Attribute $attribute)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:attributes,name,' . $attribute->id,
+'name' => 'required|string|max:255|unique:attributes,name,' . $attribute->id . ',id,deleted_at,NULL',
             'status' => 'required|in:active,inactive'
         ]);
 

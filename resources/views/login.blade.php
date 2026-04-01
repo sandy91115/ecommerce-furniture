@@ -74,21 +74,6 @@
     </div>
 </div>
 
-@include('includes.footer6')
+@include('includes.footer')
 
-<script>
-function togglePassword() {
-    const password = document.getElementById('password');
-    const icon = document.getElementById('toggleIcon');
-    if (password.type === 'password') {
-        password.type = 'text';
-        icon.classList.remove('mdi-eye-outline');
-        icon.classList.add('mdi-eye-off-outline');
-    } else {
-        password.type = 'password';
-        icon.classList.remove('mdi-eye-off-outline');
-        icon.classList.add('mdi-eye-outline');
-    }
-}
-</script>
 @endsection

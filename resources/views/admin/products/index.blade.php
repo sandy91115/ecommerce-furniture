@@ -9,10 +9,7 @@
             <h1 class="text-3xl font-bold text-gray-900">Products</h1>
             <p class="mt-1 text-sm text-gray-600">Manage your product catalog.</p>
         </div>
-        <div class="flex items-center gap-2">
-            <a href="{{ route('admin.products.pending') }}" class="inline-flex items-center px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 font-medium">
-                Pending
-            </a>
+<div class="flex items-center gap-2">
             <a href="{{ route('admin.products.create') }}" class="inline-flex items-center px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 font-medium">
                 Add Product
             </a>
@@ -41,7 +38,10 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $product->name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $product->vendor->store_name ?? 'N/A' }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $product->category->name ?? 'N/A' }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${{ number_format($product->price, 2) }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ currency($product->price) }}</td>
+
+
+
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $product->stock }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm">
                                 @php($isActive = $product->status === 'active')

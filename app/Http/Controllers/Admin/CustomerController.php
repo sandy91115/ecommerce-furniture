@@ -13,17 +13,26 @@ class CustomerController extends Controller
     public function index()
     {
         $this->authorize('customers.view');
-        $customers = User::role('customer')->orWhereDoesntHave('roles')->with('verifier')->paginate(15);
+        $customers = User::role('customer')
+            ->orWhereDoesntHave('roles')
+            ->with('verifier')
+            ->withCount('orders')
+            ->paginate(15);
+
         return view('admin.customers.index', compact('customers'));
     }
 
     public function create()
     {
+        $this->authorize('customers.create');
+
         return view('admin.customers.create');
     }
 
     public function store(Request $request)
     {
+        $this->authorize('customers.create');
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
@@ -52,12 +61,17 @@ class CustomerController extends Controller
 
     public function show(User $customer)
     {
+        $this->authorize('customers.show');
+
         $customer->loadCount('orders');
+
         return view('admin.customers.show', compact('customer'));
     }
 
     public function edit(User $customer)
     {
+        $this->authorize('customers.update');
+
         return view('admin.customers.edit', compact('customer'));
     }
 
@@ -115,7 +129,10 @@ class CustomerController extends Controller
 
     public function destroy(User $customer)
     {
+        $this->authorize('customers.update');
+
         $customer->delete();
+
         return redirect()->route('admin.customers.index')->with('success', 'Customer moved to Recycle Bin successfully.');
     }
 }
