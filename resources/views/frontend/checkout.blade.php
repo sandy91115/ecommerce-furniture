@@ -3,6 +3,12 @@
 @section('title', 'Checkout')
 
 @section('content')
+@php
+    $cartItems = session('cart', []);
+    $cartSubtotal = array_sum(array_map(fn ($item) => $item['price'] * $item['quantity'], $cartItems));
+    $cartTax = $cartSubtotal * 0.1;
+    $cartTotal = $cartSubtotal + $cartTax;
+@endphp
 <div class="s-py-100">
     <div class="container">
         <div class="max-w-4xl mx-auto" data-aos="fade-up">
@@ -18,7 +24,7 @@
 
             <h1 class="text-3xl md:text-4xl font-bold mb-12">Checkout</h1>
 
-            @if (session('cart') && count(session('cart')) > 0)
+            @if (count($cartItems) > 0)
             <div class="grid lg:grid-cols-2 gap-12">
                 <!-- Billing & Shipping Info -->
                 <div class="space-y-6">
@@ -99,7 +105,7 @@
                     <div class="p-6 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-dark-secondary shadow-sm sticky top-8">
                         <h2 class="text-2xl font-bold mb-6 dark:text-white">Your Order</h2>
                         <div class="space-y-4 mb-8">
-                            @foreach (session('cart', []) as $id => $item)
+                            @foreach ($cartItems as $id => $item)
                             <div class="flex items-center gap-4 py-3 border-b border-gray-100 last:border-b-0">
                                 <img src="{{ $item['image'] ? asset('storage/' . $item['image']) : asset('assets/img/product/default.jpg') }}" alt="{{ $item['name'] }}" class="w-16 h-16 object-cover rounded-lg" onerror="this.onerror=null; this.src=\'{{ asset(\'assets/img/product/default.jpg\') }}\'">
                                 <div class="flex-1">
@@ -115,7 +121,7 @@
                                     @endif
                                     <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Qty: {{ $item['quantity'] }}</p>
                                 </div>
-                                <span class="font-bold dark:text-white">${{ number_format($item['price'] * $item['quantity'], 2) }}</span>
+                                <span class="font-bold dark:text-white">{{ currency($item['price'] * $item['quantity']) }}</span>
                             </div>
                             @endforeach
                         </div>
@@ -123,7 +129,7 @@
                         <div class="space-y-3 mb-8">
                             <div class="flex justify-between">
                                 <span class="dark:text-white">Subtotal:</span>
-                                <span class="font-semibold">${{ number_format(array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], session('cart', []))), 2) }}</span>
+                                <span class="font-semibold">{{ currency($cartSubtotal) }}</span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="dark:text-white">Shipping:</span>
@@ -131,14 +137,14 @@
                             </div>
                             <div class="flex justify-between">
                                 <span class="dark:text-white">Tax (10%):</span>
-                                <span class="font-semibold">${{ number_format(array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], session('cart', []))) * 0.1, 2) }}</span>
+                                <span class="font-semibold">{{ currency($cartTax) }}</span>
                             </div>
                         </div>
 
                         <div class="border-t pt-6 border-gray-200">
                             <div class="flex justify-between items-center text-xl font-bold mb-6">
                                 <span class="dark:text-white">Total:</span>
-                                <span class="text-primary">${{ number_format(array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], session('cart', []))) * 1.1, 2) }}</span>
+                                <span class="text-primary">{{ currency($cartTotal) }}</span>
                             </div>
                             <button id="place-order" class="btn btn-solid w-full" data-text="Place Order">
                                 <span>Place Order</span>

@@ -83,7 +83,7 @@
                             </div>
                         </div>
                         <span class="text-base md:text-lg leading-none text-title dark:text-white font-semibold w-[80px]">{{ $order->created_at->format('M d, Y') }}</span>
-                        <span class="text-base md:text-lg leading-none text-title dark:text-white font-semibold w-[80px]">${{ number_format($order->total_amount, 2) }}</span>
+                        <span class="text-base md:text-lg leading-none text-title dark:text-white font-semibold w-[80px]">{{ currency($order->total_amount) }}</span>
                         <div class="w-[100px]">
                             <span style="background-color: {{ $statusClass }};" class="py-[7px] px-[10px] font-semibold leading-none text-white text-sm rounded inline-block">
                                 {{ $order->status?->label() ?? 'Pending' }}

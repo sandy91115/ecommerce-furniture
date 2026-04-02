@@ -17,12 +17,16 @@
         $formattedWhatsappNumber = preg_replace('/\D+/', '', (string) ($whatsappNumber ?? '')) ?: '1234567890';
         $gallery = $product->images->isNotEmpty() ? $product->images : collect([(object) ['path' => null]]);
         $galleryItems = $gallery->map(function ($image, $index) use ($product) {
-            $imageUrl = $image->path ? asset('storage/' . $image->path) : asset('assets/img/product/default.jpg');
+            $fallbackImage = asset('assets/img/product/default.jpg');
+            $hasImage = (bool) data_get($image, 'path');
+            $largeImageUrl = $hasImage ? image_url($image, 'large', $fallbackImage) : $fallbackImage;
 
             return [
-                'url' => $imageUrl,
-                'thumb' => $imageUrl,
-                'alt' => $product->name . ' image ' . ($index + 1),
+                'url' => $largeImageUrl,
+                'medium' => $hasImage ? image_url($image, 'medium', $largeImageUrl) : $largeImageUrl,
+                'thumb' => $hasImage ? image_url($image, 'thumb', $largeImageUrl) : $largeImageUrl,
+                'srcset' => $hasImage ? image_srcset($image) : '',
+                'alt' => data_get($image, 'alt') ?: $product->name . ' image ' . ($index + 1),
             ];
         })->values();
         $primaryImage = $galleryItems->first();
@@ -58,6 +62,9 @@
             !$isQuotationProduct ? 'Availability : ' . ($product->stock > 0 ? $product->stock . ' in stock' : 'Out of stock') : null,
         ])->filter()->values();
         $shopName = data_get($product, 'vendor.store_name') ?: config('app.name', 'Furniture Store');
+        $productCategoryUrl = $product->category
+            ? route('shop.category', ['category' => $product->category])
+            : route('shop');
         $vendorName = data_get($product, 'vendor.user.name') ?: 'Support Team';
         $vendorEmail = data_get($product, 'vendor.user.email');
         $vendorPhone = data_get($product, 'vendor.store_phone') ?: data_get($product, 'vendor.user.phone');
@@ -72,6 +79,10 @@
                 <li><a href="{{ url('/') }}">Home</a></li>
                 <li>/</li>
                 <li><a href="{{ route('shop') }}">Shop</a></li>
+                @if($product->category)
+                    <li>/</li>
+                    <li><a href="{{ $productCategoryUrl }}">{{ $product->category->name }}</a></li>
+                @endif
                 <li>/</li>
                 <li class="text-primary">{{ $product->name }}</li>
             </ul>
@@ -118,8 +129,11 @@
                                         </svg>
                                     </span>
                                     <span class="product-gallery__zoom-frame">
-                                        <img src="{{ $primaryImage['url'] }}" alt="{{ $primaryImage['alt'] }}"
-                                            class="product-gallery__main-image" data-product-main-image
+                                        <img src="{{ $primaryImage['medium'] ?? $primaryImage['url'] }}"
+                                            srcset="{{ $primaryImage['srcset'] }}"
+                                            sizes="(max-width: 1023px) 100vw, 58vw"
+                                            alt="{{ $primaryImage['alt'] }}" class="product-gallery__main-image"
+                                            data-product-main-image loading="eager" decoding="async"
                                             onerror="this.onerror=null; this.src='{{ asset('assets/img/product/default.jpg') }}';">
                                     </span>
                                 </button>
@@ -133,6 +147,7 @@
                                             data-image-alt="{{ $image['alt'] }}" aria-label="View image {{ $loop->iteration }}"
                                             aria-pressed="{{ $loop->first ? 'true' : 'false' }}">
                                             <img src="{{ $image['thumb'] }}" alt="{{ $image['alt'] }}"
+                                                loading="lazy" decoding="async"
                                                 onerror="this.onerror=null; this.src='{{ asset('assets/img/product/default.jpg') }}';">
                                         </button>
                                     @endforeach
@@ -148,8 +163,8 @@
                             <span
                                 class="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-black">{{ $isQuotationProduct ? 'Quotation Product' : 'Ready to Buy' }}</span>
                             @if($product->category)
-                                <span
-                                    class="inline-flex items-center rounded-full bg-title/5 px-3 py-1 text-xs font-semibold text-title/70 dark:bg-white/10 dark:text-white/70">{{ $product->category->name }}</span>
+                                <a href="{{ $productCategoryUrl }}"
+                                    class="inline-flex items-center rounded-full bg-title/5 px-3 py-1 text-xs font-semibold text-title/70 transition-colors hover:bg-primary/10 hover:text-primary dark:bg-white/10 dark:text-white/70 dark:hover:text-primary">{{ $product->category->name }}</a>
                             @endif
                         </div>
 
@@ -428,8 +443,75 @@
                     </div>
 
                     <div id="content3" style="display: none;">
-                        <div class="max-w-[905px] flex items-start xl:justify-between gap-8 flex-wrap">
-                            @include('includes.Shop.review')
+                        <div class="product-review-tab-panel review-tab-stack">
+@php
+    $productReviews = \App\Models\Review::where('product_id', $product->id)
+        ->where('status', 'approved')
+        ->with('user:id,name')
+        ->latest()
+        ->get()
+        ->map(function ($review) {
+            return [
+                'id' => $review->id,
+                'name' => $review->user->name ?? 'Anonymous',
+                'rating' => $review->rating,
+                'title' => $review->title ?? \Illuminate\Support\Str::limit((string) $review->comment, 100, ''),
+                'comment' => $review->comment,
+                'status' => $review->status,
+                'review' => $review,
+                'created_at' => $review->created_at,
+            ];
+        });
+@endphp
+@include('includes.Shop.review', ['reviews' => $productReviews, 'product' => $product])
+
+                            <!-- Review Form -->
+                            <div id="review-form" class="review-form review-form-card">
+                                <div class="review-form-head">
+                                    <div>
+                                        <span class="review-form-kicker">Share your experience</span>
+                                        <h4 class="review-form-title">Write a Review</h4>
+                                        <p class="review-form-copy">Tell other shoppers what stood out for you. Your review will be visible once the admin approves it.</p>
+                                    </div>
+                                    <p class="review-form-meta">Fields marked with * are required.</p>
+                                </div>
+
+                                <form id="reviewForm" class="review-form-grid">
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                    <div class="review-field">
+                                        <label class="review-field__label">Name *</label>
+                                        <input type="text" name="name" required value="{{ old('name', auth()->user()->name ?? '') }}" class="review-input">
+                                    </div>
+                                    <div class="review-field">
+                                        <label class="review-field__label">Email *</label>
+                                        <input type="email" name="email" required value="{{ old('email', auth()->user()->email ?? '') }}" class="review-input">
+                                    </div>
+                                    <div class="review-field review-field--full">
+                                        <label class="review-field__label">Rating *</label>
+                                        <div class="review-stars-row">
+                                            <div class="review-stars">
+                                            @for($i = 1; $i <= 5; $i++)
+                                                <input type="radio" name="rating" value="{{ $i }}" id="star{{ $i }}" class="sr-only" required>
+                                                <label for="star{{ $i }}" class="star review-star-button" data-rating="{{ $i }}" aria-label="Rate {{ $i }} out of 5">
+                                                    <svg viewBox="0 0 15 14" fill="currentColor">
+                                                        <path d="M11.1622 13.6923L7.181 11.201L3.19978 13.6922C3.05515 13.7839 2.86858 13.7769 2.72931 13.6758C2.59043 13.5751 2.52673 13.4001 2.56864 13.2337L3.70764 8.67717L0.150459 5.6612C0.0189569 5.55107 -0.0324041 5.37191 0.0206119 5.2088C0.0736279 5.04526 0.220726 4.93062 0.391668 4.9187L5.03447 4.59449L6.79065 0.23853C6.91968 -0.07951 7.44233 -0.07951 7.57136 0.23853L9.32754 4.59449L13.9703 4.9187C14.1413 4.93062 14.2884 5.04526 14.3414 5.2088C14.3944 5.37191 14.3431 5.55107 14.2115 5.6612L10.6543 8.67723L11.7933 13.2337C11.8353 13.4001 11.7716 13.5752 11.6327 13.6759C11.4905 13.7791 11.3045 13.7814 11.1622 13.6923Z"/>
+                                                    </svg>
+                                                </label>
+                                            @endfor
+                                            </div>
+                                            <span class="review-stars-hint">Tap on a star to set your rating.</span>
+                                        </div>
+                                    </div>
+                                    <div class="review-field review-field--full">
+                                        <label class="review-field__label">Your Review *</label>
+                                        <textarea name="comment" rows="4" required class="review-textarea" placeholder="What did you like, how was the finish, delivery, comfort, or quality?"></textarea>
+                                    </div>
+                                    <div class="review-field review-field--full review-submit-row">
+                                        <p class="review-submit-note">Your review is sent for moderation before it appears publicly.</p>
+                                        <button type="submit" class="review-submit-button">Submit Review</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
 

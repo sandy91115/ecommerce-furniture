@@ -15,11 +15,15 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->string('path');
+            $table->string('base_filename')->nullable();
+            $table->string('original_name')->nullable();
             $table->string('alt')->nullable();
             $table->boolean('featured')->default(false);
             $table->timestamps();
 
             $table->index(['product_id']);
+            $table->index(['product_id', 'featured']);
+            $table->index(['product_id', 'base_filename']);
         });
     }
 

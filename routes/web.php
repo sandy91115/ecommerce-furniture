@@ -8,6 +8,11 @@ use App\Http\Controllers\BlogV2Controller;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\PortfolioV2Controller;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\PublicStorageController;
+
+Route::get('/storage/{path}', [PublicStorageController::class, 'show'])
+    ->where('path', '.*')
+    ->name('public.storage');
 
 // Frontend Routes
 Route::get('/', [HomeController::class, 'index']);
@@ -67,6 +72,7 @@ Route::get('/thank-you', [HomeController::class, 'thankYou']);
 
 // Shop
 Route::get('/shop', [App\Http\Controllers\ShopController::class, 'index'])->name('shop');
+Route::get('/category/{category:slug}', [App\Http\Controllers\ShopController::class, 'index'])->name('shop.category');
 Route::get('/shop-v2', [HomeController::class, 'shopV2']);
 Route::get('/shop-v3', [HomeController::class, 'shopV3']);
 Route::get('/shop-v4', [HomeController::class, 'shopV4']);
@@ -81,7 +87,7 @@ Route::post('/quotation/{product:slug}', [App\Http\Controllers\Admin\QuotationCo
 // Blog
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
-Route::get('/blog-v2', [HomeController::class, 'blogV2'])->name('blog.v2');
+Route::get('/blog-v2', [HomeController::class, 'blogV2']);
 Route::get('/blog-details-v1/{title?}', [BlogController::class, 'show'])->name('blog-details-v1');
 Route::get('/blog-details-v2/{title?}', [BlogV2Controller::class, 'show'])->name('blog-details-v2');
 Route::get('/blog-details-v3/{title?}', [HomeController::class, 'blogDetailsV3'])->name('blog-details-v3');
@@ -138,6 +144,11 @@ Route::post('/wishlist/add/{product}', [App\Http\Controllers\WishlistController:
 Route::delete('/wishlist/remove/{product}', [App\Http\Controllers\WishlistController::class, 'remove'])->name('wishlist.remove');
 Route::post('/wishlist/toggle', [App\Http\Controllers\WishlistController::class, 'toggle'])->name('wishlist.toggle');
 
+// Review Routes
+Route::post('/reviews', [App\Http\Controllers\ReviewController::class, 'store'])->name('reviews.store');
+Route::get('/products/{product}/reviews', [App\Http\Controllers\ReviewController::class, 'frontendReviews'])->name('products.reviews');
+
+
 // Admin Routes
 Route::get('/admin', function () {
     return redirect()->route('admin.dashboard');
@@ -165,12 +176,15 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'permission:admin.ac
     Route::resource('blogs', App\Http\Controllers\Admin\BlogController::class);
     Route::resource('cms', App\Http\Controllers\Admin\CMSController::class);
     Route::resource('menus', App\Http\Controllers\Admin\MenuController::class);
+    Route::resource('partners', App\Http\Controllers\Admin\PartnerController::class)->except(['show']);
     Route::resource('contacts', App\Http\Controllers\Admin\ContactController::class)->only(['index', 'show', 'destroy']);
     Route::resource('quotations', App\Http\Controllers\Admin\QuotationController::class)->only(['index', 'show', 'update', 'destroy']);
     Route::resource('payment-methods', App\Http\Controllers\Admin\PaymentMethodController::class);
+    Route::resource('reviews', App\Http\Controllers\Admin\ReviewController::class);
+    Route::patch('reviews/{review}/approve', [App\Http\Controllers\Admin\ReviewController::class, 'approve'])->name('reviews.approve');
+    Route::patch('reviews/{review}/reject', [App\Http\Controllers\Admin\ReviewController::class, 'reject'])->name('reviews.reject');
     Route::resource('staff', App\Http\Controllers\Admin\StaffController::class);
     Route::resource('roles', App\Http\Controllers\Admin\RoleController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
-
     Route::get('settings', [App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
     Route::get('trash', [App\Http\Controllers\Admin\TrashController::class, 'index'])->name('trash.index');
     Route::post('trash/{type}/{id}/restore', [App\Http\Controllers\Admin\TrashController::class, 'restore'])->name('trash.restore');

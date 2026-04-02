@@ -245,10 +245,10 @@
             <div class="mt-6">
                 <label class="block text-sm font-medium text-gray-700 mb-2">
                     Images (Multiple) *
-                    <p class="text-xs text-gray-500 mt-1">Max 5MB per image. First image will be set as featured.</p>
+                    <p class="text-xs text-gray-500 mt-1">Allowed: JPG, JPEG, PNG. Max 2MB per image. Images are converted to WEBP in the background.</p>
                 </label>
                 <input type="hidden" name="featured_image_index" id="featuredImageIndex" value="0">
-                <input type="file" id="imagesInput" name="images[]" multiple accept="image/*" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('images') border-red-500 @enderror">
+                <input type="file" id="imagesInput" name="images[]" multiple accept=".jpg,.jpeg,.png" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('images') border-red-500 @enderror">
                 @error('images')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror

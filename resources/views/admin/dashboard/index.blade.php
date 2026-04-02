@@ -44,11 +44,11 @@
     <div class="stat-card p-6 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800">
       <div class="flex items-center">
         <div class="stat-icon p-3 rounded-xl bg-green-100 dark:bg-green-900">
-          <i class="fas fa-dollar-sign text-green-600 dark:text-green-400 text-2xl"></i>
+          <i class="fas fa-coins text-green-600 dark:text-green-400 text-2xl"></i>
         </div>
         <div class="ml-4 flex-1">
           <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase">Revenue</h3>
-          <p class="text-2xl font-bold text-gray-900 dark:text-white">${{ number_format($stats['total_revenue'], 0) }}</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ currency($stats['total_revenue'], 0) }}</p>
         </div>
       </div>
     </div>
@@ -120,7 +120,7 @@
             <tr class="border-b hover:bg-gray-50 dark:hover:bg-gray-800 transition">
               <td class="px-6 py-4 font-medium">#{{ $order->id }}</td>
               <td class="px-6 py-4">{{ $order->user->name ?? 'Guest' }}</td>
-              <td class="px-6 py-4 font-semibold text-green-600">${{ number_format($order->total_amount, 2) }}</td>
+              <td class="px-6 py-4 font-semibold text-green-600">{{ currency($order->total_amount) }}</td>
               <td class="px-6 py-4">
                 <span class="px-3 py-1 rounded-full text-xs font-medium {{ $order->status->badge() }}">
                   {{ $order->status->label() }}
@@ -154,7 +154,7 @@
               <p class="text-sm text-gray-500 dark:text-gray-400">{{ $product->sales_count }} sales</p>
             </div>
             <div class="text-right">
-              <p class="font-bold text-lg text-green-600">${{ number_format($product->price, 2) }}</p>
+              <p class="font-bold text-lg text-green-600">{{ currency($product->price) }}</p>
             </div>
           </div>
         </div>

@@ -98,10 +98,10 @@ $activeWishlistIds = array_map('intval', $wishlistIds ?? array_keys(session('wis
                         </div>
                         <div class="text-2xl font-bold text-gray-900">
                             @if($product->sale_price)
-                            ${{ number_format($product->sale_price, 2) }}
-                            <span class="text-lg text-gray-500 line-through ml-2">${{ number_format($product->price, 2) }}</span>
+                            {{ currency($product->sale_price) }}
+                            <span class="text-lg text-gray-500 line-through ml-2">{{ currency($product->price) }}</span>
                             @else
-                            ${{ number_format($product->price, 2) }}
+                            {{ currency($product->price) }}
                             @endif
                         </div>
                     </div>

@@ -46,6 +46,14 @@ class AppServiceProvider extends ServiceProvider
                 'footer_service' => \App\Models\Menu::getMenus('footer_service'),
                 'admin_sidebar' => \App\Models\Menu::getMenus('admin_sidebar'),
             ]);
+
+            // Dynamic testimonials
+            $testimonials = \App\Models\Review::where('status', 'approved')
+                ->with('user:id,name')
+                ->inRandomOrder()
+                ->limit(3)
+                ->get();
+            $view->with('testimonials', $testimonials);
         });
     }
 }

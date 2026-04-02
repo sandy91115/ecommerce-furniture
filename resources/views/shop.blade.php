@@ -1,6 +1,24 @@
 @extends('layouts.main')
 
-@section('title', 'Shop')
+@php
+    $selectedCategory = $selectedCategory ?? null;
+    $selectedCategorySlug = $selectedCategorySlug ?? request()->route('category')?->slug ?? request('category');
+    $breadcrumbCategories = $breadcrumbCategories ?? collect();
+    $categories = $categories ?? collect();
+    $minPrice = $minPrice ?? 0;
+    $maxPrice = $maxPrice ?? 1000;
+    $pageTitle = $pageTitle ?? ($selectedCategory?->name ?: 'Shop');
+    $pageDescription = $pageDescription ?? 'Explore our premium furniture collection.';
+    $canonicalUrl = $canonicalUrl ?? ($selectedCategory ? route('shop.category', ['category' => $selectedCategory]) : route('shop'));
+    $pageHeading = $selectedCategory?->name ?: 'Shop';
+@endphp
+
+@section('title', $pageTitle)
+@section('meta_description', $pageDescription)
+
+@push('head')
+    <link rel="canonical" href="{{ $canonicalUrl }}">
+@endpush
 
 @section('content')
 
@@ -9,12 +27,24 @@
     <div class="flex items-center gap-4 flex-wrap bg-overlay p-14 sm:p-16 before:bg-title before:bg-opacity-70"
         style="background-image:url('{{ asset('assets/img/shortcode/breadcumb.jpg') }}');">
         <div class="text-center w-full">
-            <h2 class="text-white text-8 md:text-[40px] font-normal leading-none text-center">Shop</h2>
+            <h2 class="text-white text-8 md:text-[40px] font-normal leading-none text-center">{{ $pageHeading }}</h2>
             <ul
                 class="flex items-center justify-center gap-[10px] text-base md:text-lg leading-none font-normal text-white mt-3 md:mt-4">
                 <li><a href="{{ url('/') }}">Home</a></li>
                 <li>/</li>
-                <li class="text-primary">Shop</li>
+                @if($breadcrumbCategories->isNotEmpty())
+                    <li><a href="{{ route('shop') }}">Shop</a></li>
+                    @foreach($breadcrumbCategories as $breadcrumbCategory)
+                        <li>/</li>
+                        @if($loop->last)
+                            <li class="text-primary">{{ $breadcrumbCategory->name }}</li>
+                        @else
+                            <li><a href="{{ route('shop.category', ['category' => $breadcrumbCategory]) }}">{{ $breadcrumbCategory->name }}</a></li>
+                        @endif
+                    @endforeach
+                @else
+                    <li class="text-primary">Shop</li>
+                @endif
             </ul>
         </div>
     </div>
@@ -57,18 +87,21 @@
                 $maxPricePlaceholder = number_format((float) $maxPrice, 2, '.', '');
             @endphp
             <!-- Top Filter Form -->
-            <form method="GET" action="{{ request()->url() }}"
+            <form method="GET" action="{{ route('shop') }}"
                 class="shop-filter-toolbar flex flex-col lg:flex-row items-start lg:items-center lg:justify-center gap-6 flex-wrap mb-[15px]"
-                data-shop-filter-form>
+                data-shop-filter-form
+                data-shop-url="{{ route('shop') }}"
+                data-category-base-url="{{ url('/category') }}"
+                data-current-category="{{ $selectedCategorySlug }}">
                 <!-- Category Select -->
                 <div
                     class="flex items-start sm:items-center gap-[25px] flex-wrap sm:flex-nowrap sm:max-w-[420px] w-full flex-col sm:flex-row">
                     <h4 class="font-medium leading-none text-xl flex-none">Category</h4>
-                    <select name="category" class="sm:max-w-[252px] w-full outline-select small-select">
+                    <select name="category" class="sm:max-w-[252px] w-full outline-select small-select" data-category-filter>
                         <option value="">All Categories</option>
                         @foreach($categories as $category)
-                            <option value="{{ $category->slug }}" {{ request('category') == $category->slug ? 'selected' : '' }}>
-                                {{ $category->name }} ({{ $category->products_count }})</option>
+                            <option value="{{ $category->slug }}" {{ $selectedCategorySlug == $category->slug ? 'selected' : '' }}>
+                                {{ $category->parent ? $category->parent->name . ' / ' : '' }}{{ $category->name }} ({{ $category->products_count }})</option>
                         @endforeach
                     </select>
                 </div>

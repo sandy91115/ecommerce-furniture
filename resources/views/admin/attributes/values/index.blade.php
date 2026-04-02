@@ -51,10 +51,10 @@
                             </td>
                         @endif
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                            <a href="{{ route('admin.attributes.values.edit', $value) }}" class="text-indigo-600 hover:text-indigo-900">
+                            <a href="{{ route('admin.attributes.values.edit', [$attribute, $value]) }}" class="text-indigo-600 hover:text-indigo-900">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
-                            <form action="{{ route('admin.attributes.values.destroy', $value) }}" method="POST" class="inline">
+                            <form action="{{ route('admin.attributes.values.destroy', [$attribute, $value]) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure?')">

@@ -48,7 +48,7 @@
                                 <span class="text-sm text-gray-500">-</span>
                             @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">${{ number_format($order->total_amount, 2) }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">{{ currency($order->total_amount) }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span class="px-3 py-1 text-xs font-semibold rounded-full {{ $order->status->badge() }}">
                                 {{ $order->status->label() }}

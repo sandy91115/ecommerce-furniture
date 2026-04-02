@@ -86,12 +86,12 @@
                 <dl class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-4">
                     <div>
                         <dt class="text-sm font-medium text-gray-500 mb-1">Regular Price</dt>
-                        <dd class="text-2xl font-bold text-gray-900">${{ number_format($product->price, 2) }}</dd>
+                        <dd class="text-2xl font-bold text-gray-900">{{ currency($product->price) }}</dd>
                     </div>
                     @if($product->sale_price)
                     <div>
                         <dt class="text-sm font-medium text-gray-500 mb-1">Sale Price</dt>
-                        <dd class="text-2xl font-bold text-green-600 line-through">${{ number_format($product->sale_price, 2) }}</dd>
+                        <dd class="text-2xl font-bold text-green-600 line-through">{{ currency($product->sale_price) }}</dd>
                     </div>
                     @endif
                     <div>

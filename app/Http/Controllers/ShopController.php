@@ -4,31 +4,64 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ShopController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, ?Category $category = null)
     {
-        $query = Product::query()
-            ->with(['category', 'images'])
-            ->where('status', 'active');
-        
-        if ($request->filled('category')) {
-            $query->whereHas('category', function ($q) use ($request) {
-                $q->where('slug', $request->category);
-            });
+        if ($category && $category->status !== 'active') {
+            abort(404);
         }
-        
+
+        $selectedCategory = $category?->loadMissing('parent');
+        $requestedCategorySlug = trim((string) $request->query('category'));
+        $hasInvalidCategoryFilter = false;
+
+        if ($requestedCategorySlug !== '' && (!$selectedCategory || $selectedCategory->slug !== $requestedCategorySlug)) {
+            $requestedCategory = Category::query()
+                ->where('status', 'active')
+                ->with('parent')
+                ->where('slug', $requestedCategorySlug)
+                ->first();
+
+            if ($requestedCategory) {
+                if (! $request->ajax()) {
+                    return redirect()->route(
+                        'shop.category',
+                        array_merge(['category' => $requestedCategory], $request->except('category')),
+                        301
+                    );
+                }
+
+                $selectedCategory = $requestedCategory;
+            } elseif (! $selectedCategory) {
+                $hasInvalidCategoryFilter = true;
+            }
+        }
+
+        $query = Product::query()
+            ->with(['category.parent', 'images'])
+            ->where('status', 'active');
+
+        if ($selectedCategory) {
+            $query->whereHas('category', function (Builder $categoryQuery) use ($selectedCategory) {
+                $categoryQuery->where('slug', $selectedCategory->slug);
+            });
+        } elseif ($hasInvalidCategoryFilter) {
+            $query->whereRaw('1 = 0');
+        }
+
         if ($request->filled('min_price')) {
             $query->whereRaw('COALESCE(sale_price, price) >= ?', [(float) $request->min_price]);
         }
-        
+
         if ($request->filled('max_price')) {
             $query->whereRaw('COALESCE(sale_price, price) <= ?', [(float) $request->max_price]);
         }
-        
+
         // Sorting
         $sortBy = $request->get('sort_by', 'latest');
         switch ($sortBy) {
@@ -49,18 +82,29 @@ class ShopController extends Controller
                 $query->latest();
                 break;
         }
-        
+
         $products = $query->paginate(12);
 
         $categories = Category::where('status', 'active')
+            ->with('parent:id,name')
             ->withCount(['products' => function ($q) {
                 $q->where('status', 'active');
             }])
-            ->take(8)
+            ->orderBy('name')
             ->get();
 
-        $minPrice = Product::where('status', 'active')->min(DB::raw('COALESCE(sale_price, price)')) ?? 0;
-        $maxPrice = Product::where('status', 'active')->max(DB::raw('COALESCE(sale_price, price)')) ?? 1000;
+        $priceRangeQuery = Product::query()->where('status', 'active');
+
+        if ($selectedCategory) {
+            $priceRangeQuery->whereHas('category', function (Builder $categoryQuery) use ($selectedCategory) {
+                $categoryQuery->where('slug', $selectedCategory->slug);
+            });
+        } elseif ($hasInvalidCategoryFilter) {
+            $priceRangeQuery->whereRaw('1 = 0');
+        }
+
+        $minPrice = $priceRangeQuery->min(DB::raw('COALESCE(sale_price, price)')) ?? 0;
+        $maxPrice = $priceRangeQuery->max(DB::raw('COALESCE(sale_price, price)')) ?? 1000;
 
         $featuredProducts = Product::where('status', 'active')
             ->where('featured', true)
@@ -78,6 +122,14 @@ class ShopController extends Controller
             $featuredProducts = $featuredProducts->concat($additional);
         }
 
+        $breadcrumbCategories = $selectedCategory ? $this->buildCategoryTrail($selectedCategory) : collect();
+        $selectedCategorySlug = $selectedCategory?->slug;
+        $pageTitle = $selectedCategory?->meta_title ?: ($selectedCategory?->name ?: 'Shop');
+        $pageDescription = $selectedCategory?->meta_description ?: 'Explore our premium furniture collection.';
+        $canonicalUrl = $selectedCategory
+            ? route('shop.category', ['category' => $selectedCategory])
+            : route('shop');
+
         if ($request->ajax()) {
             $productsGrid = view('includes.Shop.shops-v3', ['products' => $products])->render();
             $pagination = $products->appends(request()->query())->links()->toHtml();
@@ -88,7 +140,32 @@ class ShopController extends Controller
             ]);
         }
 
-        return view('shop', compact('products', 'categories', 'featuredProducts', 'minPrice', 'maxPrice'));
+        return view('shop', compact(
+            'products',
+            'categories',
+            'featuredProducts',
+            'minPrice',
+            'maxPrice',
+            'selectedCategory',
+            'selectedCategorySlug',
+            'breadcrumbCategories',
+            'pageTitle',
+            'pageDescription',
+            'canonicalUrl'
+        ));
+    }
+
+    protected function buildCategoryTrail(Category $category)
+    {
+        $trail = collect();
+        $currentCategory = $category->loadMissing('parent');
+
+        while ($currentCategory) {
+            $trail->prepend($currentCategory);
+            $currentCategory = $currentCategory->parent?->loadMissing('parent');
+        }
+
+        return $trail->values();
     }
 }
 

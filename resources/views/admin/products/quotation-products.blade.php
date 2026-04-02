@@ -38,7 +38,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $product->id }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $product->name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $product->category->name ?? 'N/A' }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${{ number_format($product->price, 2) }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ currency($product->price) }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm">
                                 @php($isActive = $product->status === 'active')
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $isActive ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">

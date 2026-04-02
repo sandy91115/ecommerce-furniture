@@ -270,7 +270,7 @@
                                 $markedForDeletion = in_array((int) $image->id, $deletedImageIds, true);
                             @endphp
                             <div class="relative overflow-hidden rounded-xl border bg-gray-50 shadow-sm {{ $markedForDeletion ? 'border-red-200 ring-2 ring-red-500 opacity-70' : 'border-gray-200' }}" data-existing-image-card>
-                                <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $product->name }}" class="h-44 w-full object-cover">
+                                <img src="{{ image_url($image, 'medium') }}" alt="{{ $image->alt ?: $product->name }}" class="h-44 w-full object-cover">
 
                                 <div class="absolute inset-0 flex items-center justify-center bg-red-600/75 text-sm font-semibold text-white {{ $markedForDeletion ? '' : 'hidden' }}" data-remove-overlay>
                                     Marked for deletion
@@ -291,7 +291,7 @@
                                 </button>
 
                                 <div class="p-3 text-xs text-gray-600">
-                                    {{ basename($image->path) }}
+                                    {{ $image->original_name ?: basename($image->path) }}
                                 </div>
 
                                 <input type="checkbox" name="delete_image[]" value="{{ $image->id }}" class="sr-only" data-delete-checkbox {{ $markedForDeletion ? 'checked' : '' }}>
@@ -306,10 +306,10 @@
 
                 <label class="block text-sm font-medium text-gray-700 mb-2">
                     Add New Images (Optional - Multiple)
-                    <p class="text-xs text-gray-500 mt-1">Max 5MB per image. First selected will be featured.</p>
+                    <p class="text-xs text-gray-500 mt-1">Allowed: JPG, JPEG, PNG. Max 2MB per image. New uploads are converted to WEBP in the background.</p>
                 </label>
                 <input type="hidden" name="featured_image_index" id="featuredImageIndex" value="{{ old('featured_image_index', 0) }}">
-                <input type="file" id="imagesInput" name="images[]" multiple accept="image/*" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('images') border-red-500 @enderror">
+                <input type="file" id="imagesInput" name="images[]" multiple accept=".jpg,.jpeg,.png" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('images') border-red-500 @enderror">
                 @error('images')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror

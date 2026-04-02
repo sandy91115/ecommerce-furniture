@@ -7137,32 +7137,32 @@ img.mfp-img {
 }
 .main-menu ul li:hover > a,
 .sub-menu .active > a {
-  color: rgba(187, 151, 109, 1) !important;
+  color: #FFD700 !important;
 }
 
 
 .main-menu ul li > a.active span,
 .main-menu ul li > a.active span:before{
-  background-color: rgba(187, 151, 109, 1) !important;
+  background-color: #FFD700 !important;
 }
 
 .parent-parent-menu-item .sub-menu a:hover,
 .sub-menu a.active {
-  color: rgba(187, 151, 109, 1) !important;
+  color: #FFD700 !important;
 }
 
 .hdr-v2-menu ul li:hover > a,
 .sub-menu .active > a {
-  color: rgba(187, 151, 109, 1) !important;
+  color: #FFD700 !important;
 }
 
 .hdr-v2-menu ul li > a.active{
-  color: rgba(187, 151, 109, 1) !important;
+  color: #FFD700 !important;
 }
 
 .hdr-v2-menu ul li > a.active span,
 .hdr-v2-menu ul li > a.active span:before{
-  background-color: rgba(187, 151, 109, 1) !important;
+  background-color: #FFD700 !important;
 }
 
 .main-menu ul li a span{
@@ -7270,11 +7270,11 @@ img.mfp-img {
   }
   .main-menu > ul > li:hover > a{
     --tw-text-opacity: 1;
-    color: rgb(187 151 109 / var(--tw-text-opacity));
+    color: #FFD700 !important;
   }
   .main-menu > ul > li:hover > a span{
     --tw-bg-opacity: 1;
-    background-color: rgb(187 151 109 / var(--tw-bg-opacity));
+    background-color: #FFD700 !important;
   }
   .main-menu > ul > li:hover > a span::before{
     opacity: 0;
@@ -7306,7 +7306,7 @@ img.mfp-img {
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
   }
-  .main-menu .sub-menu li::before{
+.main-menu .sub-menu li::before{
     position: absolute;
     left: -30px;
     top: 50%;
@@ -7317,7 +7317,7 @@ img.mfp-img {
         -ms-transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
             transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
     --tw-bg-opacity: 1;
-    background-color: rgb(187 151 109 / var(--tw-bg-opacity));
+    background-color: #FFD700 !important;
     -webkit-transition-property: all;
     -o-transition-property: all;
     transition-property: all;
@@ -7368,8 +7368,11 @@ img.mfp-img {
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
   }
-  .main-menu .sub-menu,
+.main-menu .sub-menu,
   .main-menu .mega-menu {
+    z-index: 999 !important;
+    position: absolute !important;
+    overflow: visible !important;
     -webkit-box-shadow: 0px 30px 50px -10px rgba(0, 0, 0, 0.15);
             box-shadow: 0px 30px 50px -10px rgba(0, 0, 0, 0.15);
     -webkit-transform-origin: top;
@@ -7398,7 +7401,7 @@ img.mfp-img {
   .main-menu .sub-menu a:hover,
   .main-menu .mega-menu a:hover{
     --tw-text-opacity: 1;
-    color: rgb(187 151 109 / var(--tw-text-opacity));
+    color: #FFD700 !important;
   }
   .main-menu .sub-menu a:is(.dark *),
   .main-menu .mega-menu a:is(.dark *){

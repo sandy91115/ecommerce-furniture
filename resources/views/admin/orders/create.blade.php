@@ -84,7 +84,7 @@
                         <select id="item-product" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                             <option value="">Select Product</option>
                             @foreach($products as $product)
-                            <option value="{{ $product->id }}" data-name="{{ $product->name }}" data-sku="{{ $product->sku }}" data-price="{{ $product->price }}">{{ $product->name }} ({{ number_format($product->price, 2) }})</option>
+                            <option value="{{ $product->id }}" data-name="{{ $product->name }}" data-sku="{{ $product->sku }}" data-price="{{ $product->price }}">{{ $product->name }} ({{ currency($product->price) }})</option>
                             @endforeach
                         </select>
                     </div>
@@ -100,7 +100,7 @@
                 </div>
                 <div class="mt-3 flex items-center justify-between rounded-lg bg-white px-4 py-3 text-sm text-gray-600">
                     <span>Current Item Total</span>
-                    <span id="current-item-total" class="font-semibold text-gray-900">$0.00</span>
+                    <span id="current-item-total" class="font-semibold text-gray-900">{{ currency(0) }}</span>
                 </div>
             </div>
             <textarea name="items" id="items-json" style="display: none;" class="w-full p-3 border border-gray-300 rounded-xl">@json(old('items', []))</textarea>
@@ -126,6 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const jsonField = document.getElementById('items-json');
     const totalField = document.querySelector('input[name="total_amount"]');
     const currentItemTotal = document.getElementById('current-item-total');
+    const currencySymbol = @json(currency_symbol());
 
     items = items.map(normalizeItem).filter(Boolean);
 
@@ -172,6 +173,10 @@ document.addEventListener('DOMContentLoaded', function() {
         clearForm();
     });
 
+    function formatCurrency(value) {
+        return currencySymbol + Number(value).toFixed(2);
+    }
+
     function updatePreview() {
         preview.innerHTML = '';
 
@@ -186,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
             row.innerHTML = `
                 <div class="flex items-center space-x-3">
                     <span class="font-medium">${item.product_name || 'Product #' + item.product_id}</span>
-                    <span class="text-sm text-gray-600">Qty: ${item.quantity} × $${item.price.toFixed(2)} = $${(item.quantity * item.price).toFixed(2)}</span>
+                    <span class="text-sm text-gray-600">Qty: ${item.quantity} × ${formatCurrency(item.price)} = ${formatCurrency(item.quantity * item.price)}</span>
                 </div>
                 <button type="button" onclick="removeItem(${index})" class="text-red-600 hover:text-red-800 font-medium">Remove</button>
             `;
@@ -211,7 +216,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateCurrentItemTotal() {
         const quantity = parseInt(quantityInput.value, 10) || 0;
         const price = parseFloat(priceInput.value) || 0;
-        currentItemTotal.textContent = '$' + (quantity * price).toFixed(2);
+        currentItemTotal.textContent = formatCurrency(quantity * price);
     }
 
     function clearForm() {

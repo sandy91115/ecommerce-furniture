@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/helpers/image_helpers.php';
+
 if (! function_exists('currency_symbol')) {
     /**
      * Get the active currency symbol from settings.

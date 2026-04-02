@@ -173,3 +173,36 @@
 .dark table {
   --tw-ring-color: rgba(99,102,241,0.5);
 }
+
+/* Reviews Star Icon Fixes */
+.admin-nav-link {
+  display: flex !important;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.admin-nav-link .mdi-star {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 1.25rem !important;
+  line-height: 1.25 !important;
+  flex-shrink: 0 !important;
+  color: #fbbf24 !important;
+  transition: all 0.2s ease;
+}
+
+.admin-nav-link:hover .mdi-star {
+  transform: scale(1.1);
+  color: #f59e0b !important;
+}
+
+.dark .admin-nav-link .mdi-star {
+  color: #facc15 !important;
+}
+
+.dark .admin-nav-link:hover .mdi-star {
+  color: #eab308 !important;
+}

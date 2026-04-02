@@ -37,7 +37,7 @@ class ProductUpdateRequest extends FormRequest
             'assembly_required' => 'boolean',
             'seo_title' => 'nullable|string|max:255',
             'seo_description' => 'nullable|string|max:500',
-            'images.*' => 'nullable|image|max:5120',
+'images.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'replace_images' => 'nullable|boolean',
             'delete_image' => 'nullable|array',
             'delete_image.*' => 'integer|exists:product_images,id',

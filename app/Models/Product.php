@@ -125,12 +125,6 @@ class Product extends Model
 
     public function deleteFiles(): void
     {
-        foreach ($this->images as $image) {
-            if ($image->path) {
-                Storage::disk('public')->delete($image->path);
-            }
-        }
-
-        $this->images()->delete();
+        app(\App\Services\ImageUploadService::class)->deleteProductImages($this);
     }
 }

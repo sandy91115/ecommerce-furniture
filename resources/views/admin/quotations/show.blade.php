@@ -26,7 +26,7 @@
                 </div>
                 <div>
                     <h4 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">{{ $quotation->product->name }}</h4>
-                    <p class="text-gray-600 dark:text-gray-400">${{ number_format($quotation->product->sale_price ?? $quotation->product->price, 2) }}</p>
+                    <p class="text-gray-600 dark:text-gray-400">{{ currency($quotation->product->sale_price ?? $quotation->product->price) }}</p>
                     <a href="{{ route('product-details', $quotation->product->slug) }}" target="_blank" class="inline-flex items-center mt-2 px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-lg font-medium text-sm transition-colors">
                         View Product
                     </a>
@@ -52,7 +52,7 @@
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Desired Price</label>
-                    <p class="text-lg font-semibold text-primary">${{ number_format($quotation->desired_price ?? 0, 2) }}</p>
+                    <p class="text-lg font-semibold text-primary">{{ currency($quotation->desired_price ?? 0) }}</p>
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Message</label>

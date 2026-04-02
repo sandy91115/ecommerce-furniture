@@ -3,7 +3,11 @@ document.addEventListener('DOMContentLoaded', function () {
   const productsGrid = document.getElementById('products-grid');
   const paginationContainer = document.getElementById('pagination-container');
   const priceFields = form ? form.querySelectorAll('[data-price-field]') : [];
+  const categoryField = form ? form.querySelector('[data-category-filter]') : null;
   const selectFields = form ? form.querySelectorAll('select') : [];
+  const shopUrl = form ? form.dataset.shopUrl || form.action : '';
+  const categoryBaseUrl = form ? (form.dataset.categoryBaseUrl || '').replace(/\/$/, '') : '';
+  const currentCategorySlug = form ? (form.dataset.currentCategory || '').trim() : '';
 
   if (!form || !productsGrid || !paginationContainer) {
     return;
@@ -49,14 +53,45 @@ document.addEventListener('DOMContentLoaded', function () {
       });
   }
 
+  function buildUrl() {
+    const formData = new FormData(form);
+    const params = new URLSearchParams();
+    const selectedCategory = categoryField ? String(categoryField.value || '').trim() : '';
+
+    formData.forEach((value, key) => {
+      const normalizedValue = String(value).trim();
+
+      if (key === 'category' || normalizedValue === '') {
+        return;
+      }
+
+      params.append(key, normalizedValue);
+    });
+
+    const baseUrl = selectedCategory && categoryBaseUrl
+      ? `${categoryBaseUrl}/${encodeURIComponent(selectedCategory)}`
+      : shopUrl;
+
+    const queryString = params.toString();
+    return queryString ? `${baseUrl}?${queryString}` : baseUrl;
+  }
+
+  function shouldNavigate() {
+    const selectedCategory = categoryField ? String(categoryField.value || '').trim() : '';
+    return selectedCategory !== currentCategorySlug;
+  }
+
   function handleFilter(e) {
     if (e) {
       e.preventDefault();
     }
 
-    const params = new URLSearchParams(new FormData(form));
-    const queryString = params.toString();
-    const url = queryString ? `${form.action}?${queryString}` : form.action;
+    const url = buildUrl();
+
+    if (shouldNavigate()) {
+      window.location.href = url;
+      return;
+    }
 
     fetchResults(url)
       .then(data => updateResults(data, url))
@@ -85,7 +120,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
   form.addEventListener('submit', handleFilter);
 
+  if (categoryField) {
+    categoryField.addEventListener('change', handleFilter);
+  }
+
   selectFields.forEach(field => {
+    if (field === categoryField) {
+      return;
+    }
+
     field.addEventListener('change', debouncedFilter);
   });
 

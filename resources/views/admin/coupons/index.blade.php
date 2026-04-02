@@ -54,7 +54,7 @@
                         </span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {{ $coupon->type === 'percentage' ? $coupon->value . '%' : '$' . number_format($coupon->value, 2) }}
+                        {{ $coupon->type === 'percentage' ? $coupon->value . '%' : currency($coupon->value) }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         {{ $coupon->used_count }} / {{ $coupon->max_uses }}

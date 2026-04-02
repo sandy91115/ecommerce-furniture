@@ -82,7 +82,7 @@
                             <p class="text-title dark:text-white mt-1">Total Orders</p>
                         </div>
                         <div class="text-center p-6 bg-white dark:bg-dark-secondary rounded-lg shadow">
-                            <h4 class="text-2xl font-bold text-primary">${{ number_format($total_spent, 2) }}</h4>
+                            <h4 class="text-2xl font-bold text-primary">{{ currency($total_spent) }}</h4>
                             <p class="text-title dark:text-white mt-1">Total Spent</p>
                         </div>
                         <div class="text-center p-6 bg-white dark:bg-dark-secondary rounded-lg shadow">
@@ -172,7 +172,7 @@
                                 </div>
                             </div>
 
-                            <span class="text-base md:text-lg leading-none text-title dark:text-white font-semibold text-left w-[60px]">${{ number_format($order->total_amount, 2) }}</span>
+                            <span class="text-base md:text-lg leading-none text-title dark:text-white font-semibold text-left w-[60px]">{{ currency($order->total_amount) }}</span>
 
                             <div class="w-[100px]">                                <a href="#" style="background-color: {{ $statusClass }};" class="py-[7px] px-[10px] font-semibold leading-none text-white text-sm rounded">
                                     {{ $order->status?->label() ?? 'Pending' }}

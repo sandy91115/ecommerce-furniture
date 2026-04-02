@@ -13,7 +13,8 @@
     <link rel="icon" href="{{ $adminFaviconUrl }}" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('assets/css/admin-dashboard.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -341,7 +342,8 @@
                     </ul>
                 </div>
             @endif
-            @yield('content')
+@yield('content')
+
         </main>
     </div>
 

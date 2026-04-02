@@ -82,7 +82,7 @@
                                 </div>
                             </div>
 
-                            <span class="text-base md:text-lg leading-none text-title dark:text-white font-semibold text-left w-[60px]">${{ number_format($order->total_amount, 2) }}</span>
+                            <span class="text-base md:text-lg leading-none text-title dark:text-white font-semibold text-left w-[60px]">{{ currency($order->total_amount) }}</span>
 
                             <div class="w-[100px]">
                                 <a href="#" style="background-color: {{ $statusClass }};" class="py-[7px] px-[10px] font-semibold leading-none text-white text-sm rounded">

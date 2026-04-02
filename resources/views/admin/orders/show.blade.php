@@ -74,10 +74,10 @@
                                     @endforeach
                                 </div>
                             @endif
-                            <p class="text-sm text-gray-600">Qty: {{ $item->quantity }} × ${{ number_format($item->price, 2) }}</p>
+                            <p class="text-sm text-gray-600">Qty: {{ $item->quantity }} × {{ currency($item->price) }}</p>
                         </div>
                         <div class="text-right flex-shrink-0">
-                            <p class="font-bold text-lg">${{ number_format($item->total, 2) }}</p>
+                            <p class="font-bold text-lg">{{ currency($item->total) }}</p>
                         </div>
                     </div>
                     @endforeach

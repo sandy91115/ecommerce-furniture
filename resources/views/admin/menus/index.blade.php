@@ -21,11 +21,7 @@
         </select>
     </div>
 
-    @if(session('success'))
-        <div class="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
-            {{ session('success') }}
-        </div>
-    @endif
+
 
     <!-- Add New Menu Modal Trigger -->
     <button type="button" onclick="openModal('addModal')" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 mb-6">

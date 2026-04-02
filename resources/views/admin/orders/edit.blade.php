@@ -27,7 +27,7 @@
 
         <div class="mb-6">
             <label class="block text-sm font-medium text-gray-700 mb-2">Total Amount</label>
-            <p class="p-3 bg-gray-50 rounded-xl font-bold text-2xl">${{ number_format($order->total_amount, 2) }}</p>
+            <p class="p-3 bg-gray-50 rounded-xl font-bold text-2xl">{{ currency($order->total_amount) }}</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -76,10 +76,10 @@
                                 @endforeach
                             </div>
                         @endif
-                        <p class="text-sm text-gray-600">Qty: {{ $item['quantity'] ?? 0 }} × ${{ number_format($item['price'] ?? 0, 2) }}</p>
+                        <p class="text-sm text-gray-600">Qty: {{ $item['quantity'] ?? 0 }} × {{ currency($item['price'] ?? 0) }}</p>
                     </div>
                     <div class="text-right flex-shrink-0">
-                        <p class="font-bold">${{ number_format(($item['quantity'] ?? 0) * ($item['price'] ?? 0), 2) }}</p>
+                        <p class="font-bold">{{ currency(($item['quantity'] ?? 0) * ($item['price'] ?? 0)) }}</p>
                     </div>
                 </div>
                 @endforeach
@@ -92,4 +92,3 @@
     </form>
 </div>
 @endsection
-

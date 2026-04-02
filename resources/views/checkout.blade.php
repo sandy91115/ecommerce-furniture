@@ -203,14 +203,14 @@
                                 @endif
                             </div>
                         </div>
-                        <h6 class="leading-none text-lg font-bold">${{ number_format($item['price'] * $item['quantity'], 2) }}</h6>
+                        <h6 class="leading-none text-lg font-bold">{{ currency($item['price'] * $item['quantity']) }}</h6>
                     </div>
                     @endforeach
                 </div>
                 <div class="mt-6 pt-6 border-t border-bdr-clr dark:border-bdr-clr-drk text-right flex justify-end flex-col w-full ml-auto mr-0">
                     <div class="flex justify-between flex-wrap text-base sm:text-lg text-title dark:text-white font-medium">
                         <span>Sub Total:</span>
-                        <span>${{ number_format($subtotal, 2) }}</span>
+                        <span>{{ currency($subtotal) }}</span>
                     </div>
                     <div class="flex justify-between flex-wrap text-base sm:text-lg text-title dark:text-white font-medium mt-3">
                         <span>Shipping:</span>
@@ -218,13 +218,13 @@
                     </div>
                     <div class="flex justify-between flex-wrap text-base sm:text-lg text-title dark:text-white font-medium mt-3">
                         <span>Tax (10%):</span>
-                        <span> ${{ number_format($tax, 2) }}</span>
+                        <span>{{ currency($tax) }}</span>
                     </div>
                 </div>
                 <div class="mt-6 pt-6 border-t border-bdr-clr dark:border-bdr-clr-drk">
                     <div class="flex justify-between flex-wrap font-semibold leading-none text-2xl md:text-3xl">
                         <span>Total:</span>
-                        <span>&nbsp;${{ number_format($total, 2) }}</span>
+                        <span>{{ currency($total) }}</span>
                     </div>
                 </div>
             </div> 

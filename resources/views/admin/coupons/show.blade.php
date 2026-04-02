@@ -31,7 +31,7 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Type</label>
                         <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-full bg-{{ $coupon->type === 'percentage' ? 'green' : 'blue' }}-100 text-{{ $coupon->type === 'percentage' ? 'green' : 'blue' }}-800">
-                            {{ ucfirst($coupon->type) }} {{ $coupon->type === 'percentage' ? $coupon->value.'%' : '$'.number_format($coupon->value, 2) }}
+                            {{ ucfirst($coupon->type) }} {{ $coupon->type === 'percentage' ? $coupon->value.'%' : currency($coupon->value) }}
                         </span>
                     </div>
                     <div>
@@ -61,12 +61,12 @@
             <div class="space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Min Order Amount</label>
-                    <div class="text-lg text-gray-900">${{ number_format($coupon->min_order_amount ?? 0, 2) }}</div>
+                    <div class="text-lg text-gray-900">{{ currency($coupon->min_order_amount ?? 0) }}</div>
                 </div>
                 @if($coupon->max_discount_amount)
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Max Discount Amount</label>
-                    <div class="text-lg text-gray-900">${{ number_format($coupon->max_discount_amount, 2) }}</div>
+                    <div class="text-lg text-gray-900">{{ currency($coupon->max_discount_amount) }}</div>
                 </div>
                 @endif
             </div>

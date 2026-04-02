@@ -34,10 +34,10 @@
         <div class="lg:pt-6 pt-5 flex gap-3 md:gap-4 flex-col">
             <h4 class="font-medium leading-none dark:text-white text-lg">
                 @if($product->sale_price)
-                {{ "$" . number_format($product->sale_price, 2) }}
-                <span class="text-title/50 line-through pl-2 inline-block">{{ "$" . number_format($product->price, 2) }}</span>
+                {{ currency($product->sale_price) }}
+                <span class="text-title/50 line-through pl-2 inline-block">{{ currency($product->price) }}</span>
                 @else
-                {{ "$" . number_format($product->price, 2) }}
+                {{ currency($product->price) }}
                 @endif
             </h4>
             <div>
@@ -116,10 +116,10 @@
         <div class="lg:pt-6 pt-5 flex gap-3 md:gap-4 flex-col">
             <h4 class="font-medium leading-none dark:text-white text-lg">
                 @if($product->sale_price)
-                {{ "$" . number_format($product->sale_price, 2) }}
-                <span class="text-title/50 line-through pl-2 inline-block">{{ "$" . number_format($product->price, 2) }}</span>
+                {{ currency($product->sale_price) }}
+                <span class="text-title/50 line-through pl-2 inline-block">{{ currency($product->price) }}</span>
                 @else
-                {{ "$" . number_format($product->price, 2) }}
+                {{ currency($product->price) }}
                 @endif
             </h4>
             <div>

@@ -42,7 +42,7 @@
     @php
         $imageUrl = filter_var($item['image'], FILTER_VALIDATE_URL) ? $item['image'] : asset($item['image']);
     @endphp
-    <a class="category-card group relative block overflow-hidden" href="{{ url('/product-category') }}"
+    <a class="category-card group relative block overflow-hidden" href="{{ route('shop.category', ['category' => $item['slug']]) }}"
         style="aspect-ratio: 4 / 5;">
         <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             src="{{ $imageUrl }}" alt="{{ $item['title'] }}">

@@ -43,7 +43,7 @@
                                 <p class="uppercase tracking-[0.24em] text-xs font-semibold" style="color: {{ $color }};">
                                     Featured Pick</p>
                                 <h4 class="leading-none mt-2 font-semibold text-2xl md:text-3xl" style="color: {{ $color }};">
-                                    ${{ number_format((float) $price, 0) }}</h4>
+                                    {{ currency($price, 0) }}</h4>
                                 <p class="mt-2 text-lg md:text-xl font-semibold text-title dark:text-white">
                                     {{ Str::limit($product->name, 28) }}</p>
                             </div>

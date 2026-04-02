@@ -3,6 +3,12 @@
 @section('title', 'Shopping Cart')
 
 @section('content')
+@php
+    $cartItems = session('cart', []);
+    $cartSubtotal = array_sum(array_map(fn ($item) => $item['price'] * $item['quantity'], $cartItems));
+    $cartTax = $cartSubtotal * 0.1;
+    $cartTotal = $cartSubtotal + $cartTax;
+@endphp
 <div class="s-py-100">
     <div class="container">
         <div class="max-w-2xl mx-auto" data-aos="fade-up">
@@ -18,9 +24,9 @@
 
             <h1 class="text-3xl md:text-4xl font-bold mb-12">Shopping Cart</h1>
 
-            @if (session('cart') && count(session('cart')) > 0)
+            @if (count($cartItems) > 0)
             <div class="space-y-6">
-                @foreach (session('cart') as $id => $item)
+                @foreach ($cartItems as $id => $item)
                 <div class="flex gap-6 p-6 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-dark-secondary shadow-sm">
                     <a href="{{ route('product-details', $item['slug']) }}" class="w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden flex-shrink-0">
                         <img src="{{ isset($item['image']) && $item['image'] ? asset('storage/' . $item['image']) : asset('assets/img/product/default.jpg') }}" alt="{{ $item['name'] }}" class="w-full h-full object-cover" onerror="this.src='{{ asset('assets/img/product/default.jpg') }}';">
@@ -44,7 +50,7 @@
                                 <label class="text-sm font-medium dark:text-white">Qty:</label>
                                 <input type="number" value="{{ $item['quantity'] }}" min="1" class="w-16 h-10 border border-gray-300 dark:border-gray-600 rounded-lg text-center dark:bg-dark-secondary dark:text-white" onchange="updateCart('{{ $id }}', this.value)">
                             </div>
-                            <span class="text-2xl font-bold text-primary">${{ number_format($item['price'] * $item['quantity'], 2) }}</span>
+                            <span class="text-2xl font-bold text-primary">{{ currency($item['price'] * $item['quantity']) }}</span>
                             <button onclick="removeFromCart('{{ $id }}')" class="text-red-500 hover:text-red-700 font-medium">Remove</button>
                         </div>
                     </div>
@@ -59,15 +65,15 @@
                 <div class="space-y-3 mb-6">
                     <div class="flex justify-between text-lg">
                         <span class="dark:text-white">Subtotal:</span>
-                        <span class="font-semibold">${{ number_format(array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], session('cart', []))), 2) }}</span>
+                        <span class="font-semibold">{{ currency($cartSubtotal) }}</span>
                     </div>
                     <div class="flex justify-between text-lg">
                         <span class="dark:text-white">Tax (10%):</span>
-                        <span class="font-semibold">${{ number_format(array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], session('cart', []))) * 0.1, 2) }}</span>
+                        <span class="font-semibold">{{ currency($cartTax) }}</span>
                     </div>
                     <div class="border-t pt-3 flex justify-between text-2xl font-bold text-primary">
                         <span>Total:</span>
-                        <span>${{ number_format(array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], session('cart', []))) * 1.1, 2) }}</span>
+                        <span>{{ currency($cartTotal) }}</span>
                     </div>
                 </div>
                 <div class="flex gap-4">

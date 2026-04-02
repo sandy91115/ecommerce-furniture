@@ -15,7 +15,7 @@
         ])
         ->orderBy('name')
         ->get();
-    $selectedCategorySlug = request('category');
+    $selectedCategorySlug = request()->route('category')?->slug ?? request('category');
     $totalProducts = \App\Models\Product::where('status', 'active')->count();
 @endphp
 
@@ -39,19 +39,19 @@
                       <li><a href="/" class="sub-menu-item">Home</a></li>
                     {{-- Shop Categories Dropdown --}}
                     <li class="relative parent-parent-menu-item shop-menu-item">
-                        <a href="/shop" class="home-link nav-shop-link inline-flex items-center px-3 rounded-full transition-all duration-200 hover:bg-primary/10 hover:text-primary{{ request()->is('shop') ? ' active' : '' }}" @if(request()->is('shop')) aria-current="page" @endif>
+                        <a href="/shop" class="home-link nav-shop-link inline-flex items-center px-3 rounded-full transition-all duration-200 hover:bg-primary/10 hover:text-primary{{ request()->routeIs('shop', 'shop.category') ? ' active' : '' }}" @if(request()->routeIs('shop', 'shop.category')) aria-current="page" @endif>
                             Shop
                           
                         </a>
                         <ul class="sub-menu shop-dropdown-menu lg:absolute z-50 lg:top-full lg:left-0 lg:min-w-[340px] lg:w-max lg:max-w-[420px] lg:max-h-[420px] lg:overflow-y-auto lg:invisible lg:transition-all lg:bg-white lg:dark:bg-title lg:py-[15px] lg:pr-[30px]">
                             @foreach($navCategories as $category)
                             <li class="shop-dropdown-group">
-                                <a href="{{ route('shop', ['category' => $category->slug]) }}" class="sub-menu-item shop-dropdown-parent block whitespace-nowrap{{ $selectedCategorySlug === $category->slug ? ' active' : '' }}">{{ $category->name }}</a>
+                                <a href="{{ route('shop.category', ['category' => $category]) }}" class="sub-menu-item shop-dropdown-parent block whitespace-nowrap{{ $selectedCategorySlug === $category->slug ? ' active' : '' }}">{{ $category->name }}</a>
                                 @if($category->children->isNotEmpty())
                                 <ul class="shop-dropdown-children">
                                     @foreach($category->children as $childCategory)
                                     <li>
-                                        <a href="{{ route('shop', ['category' => $childCategory->slug]) }}" class="sub-menu-item shop-dropdown-child block whitespace-nowrap{{ $selectedCategorySlug === $childCategory->slug ? ' active' : '' }}">{{ $childCategory->name }}</a>
+                                        <a href="{{ route('shop.category', ['category' => $childCategory]) }}" class="sub-menu-item shop-dropdown-child block whitespace-nowrap{{ $selectedCategorySlug === $childCategory->slug ? ' active' : '' }}">{{ $childCategory->name }}</a>
                                     </li>
                                     @endforeach
                                 </ul>
@@ -245,7 +245,7 @@
                             $isMobileCategoryActive = $selectedCategorySlug === $category->slug || filled($mobileActiveChild);
                         @endphp
                         <div class="site-category-item{{ $isMobileCategoryActive ? ' is-active' : '' }}">
-                            <a href="{{ route('shop', ['category' => $category->slug]) }}" class="site-category-link site-category-link--mobile" @if($isMobileCategoryActive) aria-current="page" @endif>
+                            <a href="{{ route('shop.category', ['category' => $category]) }}" class="site-category-link site-category-link--mobile" @if($isMobileCategoryActive) aria-current="page" @endif>
                                 <span>{{ $category->name }}</span>
                             </a>
                         </div>
@@ -268,7 +268,7 @@
                         @endphp
 
                         <div class="site-category-item{{ $isCategoryActive ? ' is-active' : '' }}">
-                            <a href="{{ route('shop', ['category' => $category->slug]) }}" class="site-category-link" @if($isCategoryActive) aria-current="page" @endif>
+                            <a href="{{ route('shop.category', ['category' => $category]) }}" class="site-category-link" @if($isCategoryActive) aria-current="page" @endif>
                                 <span>{{ $category->name }}</span>
                                 @if($category->children->isNotEmpty())
                                 <span class="site-category-caret" aria-hidden="true"></span>
@@ -279,19 +279,19 @@
                             <div class="site-category-panel">
                                 <div class="site-category-panel__copy">
                                     <span class="site-category-panel__eyebrow">Curated Collection</span>
-                                    <a href="{{ route('shop', ['category' => $category->slug]) }}" class="site-category-panel__title">{{ $category->name }}</a>
+                                    <a href="{{ route('shop.category', ['category' => $category]) }}" class="site-category-panel__title">{{ $category->name }}</a>
                                     <p class="site-category-panel__meta">{{ $category->active_products_count }} products ready to explore.</p>
 
                                     <div class="site-category-panel__links">
                                         @foreach($category->children as $childCategory)
-                                        <a href="{{ route('shop', ['category' => $childCategory->slug]) }}" class="site-category-panel__link{{ $selectedCategorySlug === $childCategory->slug ? ' is-active' : '' }}">
+                                        <a href="{{ route('shop.category', ['category' => $childCategory]) }}" class="site-category-panel__link{{ $selectedCategorySlug === $childCategory->slug ? ' is-active' : '' }}">
                                             <span>{{ $childCategory->name }}</span>
                                             <span class="site-category-panel__count">{{ $childCategory->active_products_count }}</span>
                                         </a>
                                         @endforeach
                                     </div>
 
-                                    <a href="{{ route('shop', ['category' => $category->slug]) }}" class="site-category-panel__cta">Explore {{ $category->name }}</a>
+                                    <a href="{{ route('shop.category', ['category' => $category]) }}" class="site-category-panel__cta">Explore {{ $category->name }}</a>
                                 </div>
 
                                 <div class="site-category-panel__media{{ $categoryImageUrl ? ' has-image' : '' }}" @if($categoryImageUrl) style="background-image: linear-gradient(180deg, rgba(26, 26, 26, 0.14), rgba(26, 26, 26, 0.55)), url('{{ $categoryImageUrl }}');" @endif>

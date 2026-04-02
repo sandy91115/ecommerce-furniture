@@ -12,7 +12,12 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::with('children')->whereNull('parent_id')->get();
+$categories = Category::withCount('products')
+            ->with(['children' => function ($query) {
+                $query->withCount('products');
+            }])
+            ->whereNull('parent_id')
+            ->get();
         return view('admin.categories.index', compact('categories'));
     }
 
