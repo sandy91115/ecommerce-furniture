@@ -203,29 +203,45 @@ function removeFromWishlist(id) {
         .catch(err => console.error('Error:', err));
 }
 
+function getCsrfToken() {
+    return window.Laravel?.cart?.csrfToken || document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+}
 
-if (typeof removeFromCart !== 'function') {
-    function removeFromCart(id) {
-        if (!confirm('Are you sure you want to remove this item?')) return;
 
-        fetch("{{ route('cart.remove') }}", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': "{{ csrf_token() }}",
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                id: id
-            })
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    location.reload();
-                }
-            });
+function removeFromCart(id) {
+    if (!confirm('Are you sure you want to remove this item?')) return;
+
+    if (!window.Laravel?.cart?.removeUrl) {
+        alert('Cart configuration not loaded');
+        return;
     }
+
+    fetch(window.Laravel.cart.removeUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': getCsrfToken(),
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            id: id
+        })
+    })
+    .then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert(data.message || 'Remove failed');
+        }
+    })
+    .catch(err => {
+        console.error('Remove error:', err);
+        alert('Error removing item. Please try again.');
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -262,70 +278,45 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+// Cart quantity update (cart page) - now uses Laravel globals
 function updateQuantity(id, change) {
-    const input = event.target.closest('.inc-dec').querySelector('input');
-    let quantity = parseInt(input.value) + change;
-
-    if (quantity < 1) return;
+    const input = event.target.closest('.inc-dec')?.querySelector('input') || event.target.parentElement.querySelector('input');
+    if (!input) return;
+    
+    let quantity = parseInt(input.value || 1) + change;
+    if (quantity < 1) quantity = 1;
 
     input.value = quantity;
     updateCart(id, quantity);
 }
 
 function updateCart(id, quantity) {
-    fetch("{{ route('cart.update') }}", {
+    if (!window.Laravel?.cart) {
+        console.error('Cart config not loaded');
+        return;
+    }
+
+    fetch(window.Laravel.cart.updateUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': "{{ csrf_token() }}",
+            'X-CSRF-TOKEN': getCsrfToken(),
             'Accept': 'application/json'
         },
-        body: JSON.stringify({ id: id, quantity: quantity })
+        body: JSON.stringify({ id, quantity })
     })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Update row total
-                const row = document.querySelector(`button[onclick*="${id}"]`).closest('tr');
-                const priceText = row.cells[1].querySelector('h6').innerText.replace('$', '');
-                const price = parseFloat(priceText);
-                row.cells[3].querySelector('h6').innerText = '$' + (price * quantity).toFixed(2);
-
-                // Update cart totals
-                document.getElementById('cart-subtotal').innerText = '$' + data.subtotal.toFixed(2);
-                document.getElementById('cart-tax').innerText = '$' + (data.subtotal * 0.1).toFixed(2);
-                document.getElementById('cart-total').innerText = '$' + (data.subtotal * 1.1).toFixed(2);
-
-                // Update navbar cart count/totals if needed (optional)
-            }
-        });
+    .then(res => res.json())
+    .catch(console.error);
 }
 
-function removeFromCart(id) {
-    if (!confirm('Are you sure you want to remove this item?')) return;
-
-    fetch("{{ route('cart.remove') }}", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': "{{ csrf_token() }}",
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify({ id: id })
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload();
-            }
-        });
+const addCouponCode = document.querySelector('.add-coupon-code');
+const couponWrapper = document.querySelector('.coupon-wrapper');
+if (addCouponCode && couponWrapper) {
+    addCouponCode.addEventListener('click', () => {
+        couponWrapper.classList.toggle('hidden');
+        couponWrapper.classList.toggle('flex');
+    });
 }
-const addCouponCode = document.querySelector('.add-coupon-code')
-const couponWrapper = document.querySelector('.coupon-wrapper')
-addCouponCode.addEventListener('click', () => {
-    couponWrapper.classList.toggle('hidden');
-    couponWrapper.classList.toggle('flex');
-})
 
 
 
@@ -359,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const formData = new FormData(checkoutForm);
 
-            fetch("{{ route('checkout.process') }}", {
+            fetch('/checkout', {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -389,6 +380,10 @@ document.addEventListener('DOMContentLoaded', function () {
 function togglePassword() {
     const password = document.getElementById('password');
     const icon = document.getElementById('toggleIcon');
+    if (!password || !icon) {
+        return;
+    }
+
     if (password.type === 'password') {
         password.type = 'text';
         icon.classList.remove('mdi-eye-outline');
@@ -402,14 +397,27 @@ function togglePassword() {
 
 // Simulate loading delay
 setTimeout(() => {
-    document.getElementById('loading-skeleton').style.display = 'none';
-    document.getElementById('main-content').style.display = 'block';
+    const loadingSkeleton = document.getElementById('loading-skeleton');
+    const mainContent = document.getElementById('main-content');
+
+    if (!loadingSkeleton || !mainContent) {
+        return;
+    }
+
+    loadingSkeleton.style.display = 'none';
+    mainContent.style.display = 'block';
 }, 800);
 
 // Sales Chart
 document.addEventListener('DOMContentLoaded', function () {
-    const ctx = document.getElementById('salesChart').getContext('2d');
-    const salesChartData = @json($salesChartData);
+    const salesChartCanvas = document.getElementById('salesChart');
+    const salesChartData = window.salesChartData;
+
+    if (!salesChartCanvas || typeof Chart === 'undefined' || !salesChartData) {
+        return;
+    }
+
+    const ctx = salesChartCanvas.getContext('2d');
 
     new Chart(ctx, {
         type: 'line',

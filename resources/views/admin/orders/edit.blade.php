@@ -63,7 +63,7 @@
             <div class="space-y-4">
                 @foreach($order->items as $item)
                 <div class="flex items-start gap-4 p-4 bg-gray-50 rounded-xl">
-                    <img src="{{ $item['image'] ? asset('storage/' . $item['image']) : asset('assets/img/no-image.png') }}" alt="{{ $item['name'] ?? 'Product' }}" class="w-16 h-16 object-cover rounded-lg flex-shrink-0">
+                    <img src="{{ image_url($item['image'] ?? null, fallback: asset('assets/img/no-image.png')) }}" alt="{{ $item['name'] ?? 'Product' }}" class="w-16 h-16 object-cover rounded-lg flex-shrink-0">
                     <div class="flex-1 min-w-0">
                         <h4 class="font-semibold text-gray-900">{{ $item['name'] ?? 'Product' }}</h4>
                         @if(isset($item['sku']))

@@ -77,6 +77,21 @@
                     <input type="number" name="sale_price" step="0.01" min="0" value="{{ old('sale_price') }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('sale_price') border-red-500 @enderror">
                     @error('sale_price')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+@enderror
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Tax Slab *</label>
+                    <select name="tax_slab" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('tax_slab') border-red-500 @enderror">
+                        <option value="">Select Tax Slab</option>
+                        <option value="nil_rate" {{ old('tax_slab') == 'nil_rate' ? 'selected' : '' }}>0% (Nil Rate)</option>
+                        <option value="5" {{ old('tax_slab') == '5' ? 'selected' : '' }}>5% Slab</option>
+                        <option value="18" {{ old('tax_slab') == '18' ? 'selected' : '' }}>18% Slab</option>
+                        <option value="40" {{ old('tax_slab') == '40' ? 'selected' : '' }}>40% Slab</option>
+                        <option value="special_rates" {{ old('tax_slab') == 'special_rates' ? 'selected' : '' }}>Special Rates</option>
+                    </select>
+                    @error('tax_slab')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
 

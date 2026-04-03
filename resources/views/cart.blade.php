@@ -35,12 +35,12 @@
                         </tr>
                     </thead>
                     <tbody class="table-body">
-                        @forelse($cart as $id => $item)
-                        <tr>
+@forelse($cart as $id => $item)
+                        <tr data-row-id="{{ $id }}">
                             <td class="md:w-[42%]">
                                 <div class="flex items-center gap-3 md:gap-4 lg:gap-6 cart-product">
                                     <div class="w-14 sm:w-20 flex-none">
-                                        <img src="{{ isset($item['image']) && $item['image'] ? asset('storage/' . $item['image']) : asset('assets/img/product/default.jpg') }}" alt="{{ $item['name'] }}" onerror="this.src='{{ asset('assets/img/product/default.jpg') }}';">
+                                        <img src="{{ image_url($item['image']) }}" alt="{{ $item['name'] }}">
                                     </div>
                                     <div class="flex-1">
                                         <h6 class="leading-none font-medium text-lg">{{ $item['category'] ?? 'Product' }}</h6>
@@ -67,10 +67,31 @@
                                             <path d="M10.4361 0.203613H12.0736L7.81774 0.203615H13.8729V1.80309H7.81774L3.50809 1.80309H1.87053L6.18017 1.80309H0.125V0.203615H6.18017L10.4361 0.203613Z"/>
                                         </svg>
                                     </button>
-                                    <input class="w-6 h-auto outline-none bg-transparent text-base mg:text-lg leading-none text-title dark:text-white text-center" type="text" value="{{ $item['quantity'] }}" readonly>
+    <input id="qty-{{ $id }}" class="w-6 h-auto outline-none bg-transparent text-base mg:text-lg leading-none text-title dark:text-white text-center" type="number" min="1" value="{{ $item['quantity'] }}">
                                     <button type="button" onclick="updateQuantity('{{ $id }}', 1)" class="inc w-8 h-8 bg-[#E8E9EA] dark:bg-dark-secondary flex items-center justify-center">
                                         <svg class="fill-current text-title dark:text-white" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M6.18017 0.110352H7.81774V6.16553H13.8729V7.76501H7.81774V13.8963H6.18017V7.76501H0.125V6.16553H6.18017V0.110352Z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                 <div class="inc-dec flex items-center gap-2">
+                                    <button type="button"
+                                        class="dec w-8 h-8 bg-[#E8E9EA] dark:bg-dark-secondary flex items-center justify-center">
+                                        <svg class="fill-current text-title dark:text-white" width="14" height="2"
+                                            viewBox="0 0 14 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M10.4361 0.203613H12.0736L7.81774 0.203615H13.8729V1.80309H7.81774L3.50809 1.80309H1.87053L6.18017 1.80309H0.125V0.203615H6.18017L10.4361 0.203613Z" />
+                                        </svg>
+                                    </button>
+                                    <input id="productQuantity"
+                                        class="w-10 h-auto outline-none bg-transparent text-base md:text-lg leading-none text-title dark:text-white text-center"
+                                        type="text" name="quantity" value="1">
+                                    <button type="button"
+                                        class="inc w-8 h-8 bg-[#E8E9EA] dark:bg-dark-secondary flex items-center justify-center">
+                                        <svg class="fill-current text-title dark:text-white" width="14" height="14"
+                                            viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M6.18017 0.110352H7.81774V6.16553H13.8729V7.76501H7.81774V13.8963H6.18017V7.76501H0.125V6.16553H6.18017V0.110352Z" />
                                         </svg>
                                     </button>
                                 </div>
@@ -93,9 +114,78 @@
                                 <a href="{{ route('shop') }}" class="btn btn-theme-solid mt-4" data-text="Start Shopping"><span>Start Shopping</span></a>
                             </td>
                         </tr>
-                        @endforelse
+@endforelse
                     </tbody>
                 </table>
+
+<script>
+function updateQuantity(id, change) {
+    const qtyInput = document.getElementById('qty-' + id);
+    let newQty = parseInt(qtyInput.value) + change;
+    if (newQty < 1) return;
+    
+    fetch('/cart/update', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({
+            id: id,
+            quantity: newQty
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            qtyInput.value = newQty;
+            // Update row total - find cell with price * qty
+            const row = qtyInput.closest('tr');
+            const priceCell = row.querySelector('td:nth-child(2) h6');
+            const price = parseFloat(priceCell.textContent.replace('$', '').replace(',', ''));
+            const totalCell = row.querySelector('td:nth-child(4) h6');
+            totalCell.textContent = '$' + (price * newQty).toFixed(2).replace(/\.00$/, '');
+            
+            // Update totals
+            document.getElementById('cart-subtotal').textContent = data.subtotal || '$0.00';
+            document.getElementById('cart-tax').textContent = data.tax || '$0.00';
+            document.getElementById('cart-total').textContent = data.total || '$0.00';
+        } else {
+            location.reload();
+        }
+    })
+    .catch(() => location.reload());
+}
+
+function removeFromCart(id) {
+    if (confirm('Are you sure you want to remove this item?')) {
+        fetch('/cart/remove', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ id: id })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.querySelector(`tr[data-row-id="${id}"]`).remove();
+                document.getElementById('cart-subtotal').textContent = data.subtotal || '$0.00';
+                document.getElementById('cart-tax').textContent = data.tax || '$0.00';
+                document.getElementById('cart-total').textContent = data.total || '$0.00';
+                
+                if (document.querySelectorAll('tr[data-row-id]').length === 0) {
+                    location.reload();
+                }
+            } else {
+                location.reload();
+            }
+        })
+        .catch(() => location.reload());
+    }
+}
+</script>
             </div>
 
             <div class="lg:w-[350px] xl:w-[400px]">
@@ -107,7 +197,16 @@
                             <span id="cart-subtotal">${{ number_format($subtotal, 2) }}</span>
                         </div>
                         <div class="flex justify-between flex-wrap text-base sm:text-lg text-title dark:text-white font-medium mt-3">
-                            <span>Tax (10%):</span>
+                            <form action="{{ route('tax.store') }}" method="POST" class="flex items-center">
+                                @csrf
+                                <label for="tax_rate" class="mr-2">Tax:</label>
+                                <select name="tax_rate" id="tax_rate" onchange="this.form.submit()">
+                                    <option value="0.05" @if(session('tax_rate', 0.1) == 0.05) selected @endif>5%</option>
+                                    <option value="0.1" @if(session('tax_rate', 0.1) == 0.1) selected @endif>10%</option>
+                                    <option value="0.18" @if(session('tax_rate', 0.1) == 0.18) selected @endif>18%</option>
+                                    <option value="0.4" @if(session('tax_rate', 0.1) == 0.4) selected @endif>40%</option>
+                                </select>
+                            </form>
                             <span id="cart-tax">${{ number_format($tax, 2) }}</span>
                         </div>
                     </div>

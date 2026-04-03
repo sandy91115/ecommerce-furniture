@@ -1701,10 +1701,14 @@ const toggleInput =  document.querySelector('.switcher input');
 
 if(localStorage.colorScheme === 'dark') {
     document.documentElement.setAttribute('class', 'dark');
-    toggleInput.checked = true;
+    if (toggleInput) {
+        toggleInput.checked = true;
+    }
 }else {
     document.documentElement.setAttribute('class', 'light');
-    toggleInput.checked = false;
+    if (toggleInput) {
+        toggleInput.checked = false;
+    }
 }
 
 function switchTheme(e) {
@@ -1716,7 +1720,9 @@ function switchTheme(e) {
     localStorage.setItem('colorScheme', 'light');
   }
 }
-toggleSwitch.addEventListener('change', switchTheme, false);
+if (toggleSwitch) {
+    toggleSwitch.addEventListener('change', switchTheme, false);
+}
 
 
 

@@ -2,21 +2,21 @@
     $categorys = $categories ?? collect([
         [
             'id' => 1,
-            'image' => 'assets/img/home-v1/pdct-cgry-01.jpg',
+'image' => 'assets/img/product/default.jpg',
             'name' => '5 items',
             'title' => "New Seat Tools",
             'slug' => 'new-seat-tools'
         ],
         [
             'id' => 2,
-            'image' => 'assets/img/home-v1/pdct-cgry-02.jpg',
+'image' => 'assets/img/product/default.jpg',
             'name' => '13 items',
             'title' => "Flexible Sofa",
             'slug' => 'flexible-sofa'
         ],
         [
             'id' => 3,
-            'image' => 'assets/img/home-v1/pdct-cgry-03.jpg',
+'image' => 'assets/img/product/default.jpg',
             'name' => '23 items',
             'title' => "Interior Item",
             'slug' => 'interior-item'
@@ -25,7 +25,7 @@
 
     if (isset($categories) && $categories->count() > 0) {
         $categorys = $categories->map(function ($category) {
-            $imagePath = $category->image ? asset('storage/' . $category->image) : asset('assets/img/product/default.jpg');
+$imagePath = $category->image ? asset('storage/' . $category->image) : asset('assets/img/product/default.jpg');
             $itemCount = $category->products_count ?? $category->products()->where('status', 'active')->count();
             return [
                 'id' => $category->id,
@@ -44,7 +44,7 @@
     @endphp
     <a class="category-card group relative block overflow-hidden" href="{{ route('shop.category', ['category' => $item['slug']]) }}"
         style="aspect-ratio: 4 / 5;">
-        <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy"
             src="{{ $imageUrl }}" alt="{{ $item['title'] }}">
         <div class="absolute bottom-7 left-0 px-5 transform w-full flex justify-start">
             <div class="category-card__panel p-[15px] bg-white dark:bg-title w-auto">

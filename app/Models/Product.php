@@ -22,6 +22,7 @@ class Product extends Model
         'sku',
         'price',
         'sale_price',
+        'tax_slab',
         'stock',
         'short_description',
         'description',

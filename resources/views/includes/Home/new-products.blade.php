@@ -24,13 +24,8 @@
 <div class="home-new-product-card group">
     <div class="home-new-product-card__media">
         <a href="{{ $productLink }}" class="home-new-product-card__image-link">
-            @if($primaryImage)
-                <img class="home-new-product-card__image" src="{{ asset('storage/' . $primaryImage->path) }}"
+                <img class="home-new-product-card__image" src="{{ image_url($primaryImage) }}" loading="lazy"
                     alt="{{ $product->name }}">
-            @else
-                <img class="home-new-product-card__image" src="{{ asset('assets/img/product/default.jpg') }}"
-                    alt="{{ $product->name }}">
-            @endif
         </a>
 
         @if($badgeText)
@@ -92,5 +87,4 @@
         </ul>
     </div>
 </div> 
-
 

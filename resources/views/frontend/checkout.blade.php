@@ -4,10 +4,12 @@
 
 @section('content')
 @php
-    $cartItems = session('cart', []);
-    $cartSubtotal = array_sum(array_map(fn ($item) => $item['price'] * $item['quantity'], $cartItems));
-    $cartTax = $cartSubtotal * 0.1;
-    $cartTotal = $cartSubtotal + $cartTax;
+    $cartItems = $cartItems ?? session('cart', []);
+    $cartSummary = cart_summary($cartItems);
+    $cartSubtotal = $cartSummary['subtotal'];
+    $cartTax = $cartSummary['tax'];
+    $cartTotal = $cartSummary['total'];
+    $cartTaxLabel = $cartSummary['tax_label'];
 @endphp
 <div class="s-py-100">
     <div class="container">
@@ -107,7 +109,7 @@
                         <div class="space-y-4 mb-8">
                             @foreach ($cartItems as $id => $item)
                             <div class="flex items-center gap-4 py-3 border-b border-gray-100 last:border-b-0">
-                                <img src="{{ $item['image'] ? asset('storage/' . $item['image']) : asset('assets/img/product/default.jpg') }}" alt="{{ $item['name'] }}" class="w-16 h-16 object-cover rounded-lg" onerror="this.onerror=null; this.src=\'{{ asset(\'assets/img/product/default.jpg\') }}\'">
+                                <img src="{{ image_url($item['image']) }}" alt="{{ $item['name'] }}" class="w-16 h-16 object-cover rounded-lg">
                                 <div class="flex-1">
                                     <h4 class="font-semibold dark:text-white">{{ $item['name'] }}</h4>
                                     @if(!empty($item['attributes']))
@@ -136,7 +138,7 @@
                                 <span>Free</span>
                             </div>
                             <div class="flex justify-between">
-                                <span class="dark:text-white">Tax (10%):</span>
+                                <span class="dark:text-white">{{ $cartTaxLabel }}:</span>
                                 <span class="font-semibold">{{ currency($cartTax) }}</span>
                             </div>
                         </div>

@@ -62,13 +62,23 @@ class ImageUploadService
 
             $altText = $this->resolveAltText($originalName, $altTexts[$index] ?? null);
 
-            ProcessProductImage::dispatch(
-                productId: $productId,
-                tempPath: $tempPath,
-                originalName: $originalName,
-                altText: $altText,
-                isFeatured: $index === $featuredIndex,
-            )->afterCommit();
+            if ($this->shouldProcessSynchronously()) {
+                $this->processQueuedProductImage(
+                    productId: $productId,
+                    tempPath: $tempPath,
+                    originalName: $originalName,
+                    altText: $altText,
+                    isFeatured: $index === $featuredIndex,
+                );
+            } else {
+                ProcessProductImage::dispatch(
+                    productId: $productId,
+                    tempPath: $tempPath,
+                    originalName: $originalName,
+                    altText: $altText,
+                    isFeatured: $index === $featuredIndex,
+                )->afterCommit();
+            }
 
             $queuedImages[] = [
                 'product_id' => $productId,
@@ -225,6 +235,11 @@ class ImageUploadService
     public function getVariantWidths(): array
     {
         return self::VARIANTS;
+    }
+
+    private function shouldProcessSynchronously(): bool
+    {
+        return app()->environment(['local', 'testing']) || config('queue.default') === 'sync';
     }
 
     /**

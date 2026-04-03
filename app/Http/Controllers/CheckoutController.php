@@ -25,11 +25,15 @@ class CheckoutController extends Controller
             return redirect()->route('shop')->with('error', 'Your cart is empty');
         }
 
-        $subtotal = $this->cartService->total();
-        $tax = $subtotal * 0.10; // 10% tax
-        $total = $subtotal + $tax;
+        $summary = $this->cartService->summary($cartItems);
 
-        return view('checkout', compact('cartItems', 'subtotal', 'tax', 'total'));
+        return view('checkout', [
+            'cartItems' => $cartItems,
+            'subtotal' => $summary['subtotal'],
+            'tax' => $summary['tax'],
+            'total' => $summary['total'],
+            'taxLabel' => $summary['tax_label'],
+        ]);
     }
 
     public function process(Request $request)
@@ -58,7 +62,7 @@ class CheckoutController extends Controller
         $orderData = [
             'user_id' => Auth::id(),
             'order_number' => 'ORD-' . strtoupper(uniqid()),
-            'total_amount' => $this->cartService->total() * 1.1,
+            'total_amount' => $this->cartService->grandTotal(),
             'status' => 'pending',
             'payment_status' => 'pending',
             'shipping_address' => $address,

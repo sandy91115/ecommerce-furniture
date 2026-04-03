@@ -39,6 +39,7 @@ class ProductStoreRequest extends FormRequest
             'images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
             'product_type' => 'required|in:sell,quotation',
             'extra_title' => 'nullable|string|max:255',
+            'tax_slab' => 'required|string|in:0,nil_rate,5,18,40,special_rates',
             'extra_description' => 'nullable|string',
         ];
     }

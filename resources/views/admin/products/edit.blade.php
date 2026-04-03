@@ -93,6 +93,21 @@
                     <input type="number" name="sale_price" step="0.01" min="0" value="{{ old('sale_price', $product->sale_price) }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('sale_price') border-red-500 @enderror">
                     @error('sale_price')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+@enderror
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Tax Slab *</label>
+                    <select name="tax_slab" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('tax_slab') border-red-500 @enderror">
+                        <option value="">Select Tax Slab</option>
+                        <option value="nil_rate" {{ old('tax_slab', $product->tax_slab ?? '') == 'nil_rate' ? 'selected' : '' }}>0% (Nil Rate)</option>
+                        <option value="5" {{ old('tax_slab', $product->tax_slab ?? '') == '5' ? 'selected' : '' }}>5% Slab</option>
+                        <option value="18" {{ old('tax_slab', $product->tax_slab ?? '') == '18' ? 'selected' : '' }}>18% Slab</option>
+                        <option value="40" {{ old('tax_slab', $product->tax_slab ?? '') == '40' ? 'selected' : '' }}>40% Slab</option>
+                        <option value="special_rates" {{ old('tax_slab', $product->tax_slab ?? '') == 'special_rates' ? 'selected' : '' }}>Special Rates</option>
+                    </select>
+                    @error('tax_slab')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -100,7 +115,7 @@
                     <label class="block text-sm font-medium text-gray-700 mb-2">Stock *</label>
                     <input type="number" name="stock" min="0" value="{{ old('stock', $product->stock) }}" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('stock') border-red-500 @enderror">
                     @error('stock')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -257,7 +272,8 @@
                     <input type="checkbox" name="replace_images" value="1" id="replace_images" {{ old('replace_images') ? 'checked' : '' }} class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-2">
                     <span class="text-sm font-medium text-gray-700">Replace all existing images with new ones?</span>
                 </label>
-                <p class="mb-4 text-xs text-gray-500">Agar replace enable karenge to purani images remove ho jayengi. Nayi selected images me cross icon se remove kar sakte hain.</p>
+                <p class="mb-4 text-xs text-gray-500">If you enable replace, the old images will be removed. You can remove the newly selected images using the cross icon.</p>
+                
 
                 <div id="currentImagesSection">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Current Images</label>
@@ -298,7 +314,8 @@
                             </div>
                         @empty
                             <div class="col-span-full rounded-xl border border-dashed border-gray-300 px-4 py-8 text-center text-sm text-gray-500">
-                                Is product par abhi koi current image nahi hai.
+                                
+                                In this product there are no any image right now.
                             </div>
                         @endforelse
                     </div>
@@ -315,7 +332,7 @@
                 @enderror
                 <div id="imagePreview" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     <div class="col-span-full rounded-xl border border-dashed border-gray-300 px-4 py-8 text-center text-sm text-gray-500">
-                        New selected images yahan preview hongi. Cross icon se instantly remove kar sakte hain.
+                       The newly selected images will be previewed here. You can remove them instantly using the cross icon.
                     </div>
                 </div>
             </div>

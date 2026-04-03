@@ -8,11 +8,11 @@ $isInWishlist = in_array((int) $product->id, $activeWishlistIds, true);
 @endphp
 <div class="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden">
     <div class="h-64 overflow-hidden relative bg-gradient-to-br from-gray-50 to-gray-100">
-        @if($product->images->first())
-        <img src="{{ asset('storage/' . $product->images->first()->image) }}"
+@if($product->images->first())
+        <img src="{{ image_url($product->images->first()->image) }}" loading="lazy"
             alt="{{ $product->name }}"
             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-        @else
+    @else
         <div class="w-full h-full flex items-center justify-center">
             <i class="fas fa-cube text-4xl text-gray-400"></i>
         </div>

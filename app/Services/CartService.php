@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Services;
 
 use Illuminate\Support\Facades\Session;
@@ -7,6 +6,11 @@ use App\Models\Product;
 
 class CartService
 {
+    public function tax()
+    {
+        return $this->summary()['tax'];
+    }
+
     public function count()
     {
         $cart = $this->get();
@@ -52,11 +56,12 @@ class CartService
                 'id' => $productId,
                 'name' => $product->name,
                 'price' => $product->sale_price ?: $product->price,
-                'image' => $product->images->where('featured', true)->first()?->path ?? $product->images->first()?->path,
+                'image' => image_path($product->images->where('featured', true)->first() ?? $product->images->first()),
                 'quantity' => $quantity,
                 'variation_id' => $variationId,
                 'attributes' => $selectedAttributes,
                 'slug' => $product->slug,
+                'tax_slab' => $product->tax_slab,
             ];
         }
 
@@ -94,10 +99,22 @@ class CartService
 
     public function total()
     {
-        $cart = $this->get();
-        return array_sum(array_map(function ($item) {
-            return $item['price'] * $item['quantity'];
-        }, $cart));
+        return $this->summary()['subtotal'];
+    }
+
+    public function grandTotal()
+    {
+        return $this->summary()['total'];
+    }
+
+    public function taxLabel()
+    {
+        return $this->summary()['tax_label'];
+    }
+
+    public function summary(?array $cart = null): array
+    {
+        return cart_summary($cart ?? $this->get());
     }
 
     public function items()

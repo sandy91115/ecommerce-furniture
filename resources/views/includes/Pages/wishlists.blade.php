@@ -10,7 +10,7 @@ $wishlistItems = $wishlistProducts ?? collect([]);
                 $wishlistImagePath = $product->images->first()?->path;
                 $wishlistImageUrl = $wishlistImagePath ? asset('storage/' . $wishlistImagePath) : asset('assets/img/product/default.jpg');
             @endphp
-            <img class="w-full transform duration-300 group-hover:scale-110" src="{{ $wishlistImageUrl }}" alt="{{ $product->name }}" onerror="this.src='{{ asset('assets/img/product/default.jpg') }}'">
+            <img class="w-full transform duration-300 group-hover:scale-110" src="{{ $wishlistImageUrl }}" alt="{{ $product->name }}" onerror="this.onerror=null; this.src='{{ asset('assets/img/product/default.jpg') }}'">
 
             <div class="absolute z-10 top-[57%] left-[65%] transform -translate-y-2/4 -translate-x-2/4 flex gap-2">
                 <form action="{{ route('cart.add') }}" method="POST" class="inline">

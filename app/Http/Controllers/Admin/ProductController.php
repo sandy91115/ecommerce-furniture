@@ -55,7 +55,7 @@ class ProductController extends Controller
             );
         }
 
-        return redirect()->route('admin.products.index')->with('success', 'Product created successfully. Images processing in background.');
+        return redirect()->route('admin.products.index')->with('success', 'Product created successfully.');
     }
 
     public function show(Product $product)
@@ -110,7 +110,7 @@ class ProductController extends Controller
             );
         }
 
-        return redirect()->route('admin.products.index')->with('success', 'Product updated successfully. New images processing in background.');
+        return redirect()->route('admin.products.index')->with('success', 'Product updated successfully.');
     }
 
     public function destroy(Product $product)

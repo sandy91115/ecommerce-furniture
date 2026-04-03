@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/helpers/image_helpers.php';
+require_once __DIR__ . '/helpers/tax_helpers.php';
 
 if (! function_exists('currency_symbol')) {
     /**

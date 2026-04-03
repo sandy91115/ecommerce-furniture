@@ -149,7 +149,7 @@
                         <li class="flex items-center justify-between gap-5 py-[15px] sm:py-[15px] border-b border-bdr-clr dark:border-bdr-clr-drk">
                             <div class="flex items-center gap-3 md:gap-4 lg:gap-6 ordered-product w-[270px] sm:w-[310px] xl:w-[330px]">
                                 <div class="w-16 sm:w-[90px] flex-none">
-                                    <img src="{{ asset($firstItem['image'] ?? 'assets/img/product/default.jpg') }}" alt="{{ $productName ?? 'Order Item' }}">
+                                    <img src="{{ image_url($firstItem['image'] ?? null) }}" alt="{{ $productName ?? 'Order Item' }}">
                                 </div>
                                 <div class="flex-1">
                                     @php 

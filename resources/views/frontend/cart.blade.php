@@ -4,10 +4,12 @@
 
 @section('content')
 @php
-    $cartItems = session('cart', []);
-    $cartSubtotal = array_sum(array_map(fn ($item) => $item['price'] * $item['quantity'], $cartItems));
-    $cartTax = $cartSubtotal * 0.1;
-    $cartTotal = $cartSubtotal + $cartTax;
+    $cartItems = $cart ?? session('cart', []);
+    $cartSummary = cart_summary($cartItems);
+    $cartSubtotal = $cartSummary['subtotal'];
+    $cartTax = $cartSummary['tax'];
+    $cartTotal = $cartSummary['total'];
+    $cartTaxLabel = $cartSummary['tax_label'];
 @endphp
 <div class="s-py-100">
     <div class="container">
@@ -29,7 +31,7 @@
                 @foreach ($cartItems as $id => $item)
                 <div class="flex gap-6 p-6 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-dark-secondary shadow-sm">
                     <a href="{{ route('product-details', $item['slug']) }}" class="w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden flex-shrink-0">
-                        <img src="{{ isset($item['image']) && $item['image'] ? asset('storage/' . $item['image']) : asset('assets/img/product/default.jpg') }}" alt="{{ $item['name'] }}" class="w-full h-full object-cover" onerror="this.src='{{ asset('assets/img/product/default.jpg') }}';">
+                        <img src="{{ image_url($item['image']) }}" alt="{{ $item['name'] }}" class="w-full h-full object-cover">
                     </a>
                     <div class="flex-1 min-w-0">
                         <h3 class="text-xl font-semibold dark:text-white mb-2">
@@ -48,7 +50,19 @@
                         <div class="flex items-center gap-4 flex-wrap">
                             <div class="flex items-center gap-2">
                                 <label class="text-sm font-medium dark:text-white">Qty:</label>
-                                <input type="number" value="{{ $item['quantity'] }}" min="1" class="w-16 h-10 border border-gray-300 dark:border-gray-600 rounded-lg text-center dark:bg-dark-secondary dark:text-white" onchange="updateCart('{{ $id }}', this.value)">
+                                <div class="inc-dec flex items-center gap-2">
+                                    <button type="button" onclick="updateQuantity('{{ $id }}', -1)" class="dec w-8 h-8 bg-[#E8E9EA] dark:bg-dark-secondary flex items-center justify-center">
+                                        <svg class="fill-current text-title dark:text-white" width="14" height="2" viewBox="0 0 14 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M10.4361 0.203613H12.0736L7.81774 0.203615H13.8729V1.80309H7.81774L3.50809 1.80309H1.87053L6.18017 1.80309H0.125V0.203615H6.18017L10.4361 0.203613Z" />
+                                        </svg>
+                                    </button>
+                                    <input id="cartQty{{ $id }}" class="w-10 h-auto outline-none bg-transparent text-base md:text-lg leading-none text-title dark:text-white text-center" type="text" value="{{ $item['quantity'] }}" onchange="updateCart('{{ $id }}', this.value)" min="1">
+                                    <button type="button" onclick="updateQuantity('{{ $id }}', 1)" class="inc w-8 h-8 bg-[#E8E9EA] dark:bg-dark-secondary flex items-center justify-center">
+                                        <svg class="fill-current text-title dark:text-white" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M6.18017 0.110352H7.81774V6.16553H13.8729V7.76501H7.81774V13.8963H6.18017V7.76501H0.125V6.16553H6.18017V0.110352Z" />
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
                             <span class="text-2xl font-bold text-primary">{{ currency($item['price'] * $item['quantity']) }}</span>
                             <button onclick="removeFromCart('{{ $id }}')" class="text-red-500 hover:text-red-700 font-medium">Remove</button>
@@ -68,7 +82,7 @@
                         <span class="font-semibold">{{ currency($cartSubtotal) }}</span>
                     </div>
                     <div class="flex justify-between text-lg">
-                        <span class="dark:text-white">Tax (10%):</span>
+                        <span class="dark:text-white">{{ $cartTaxLabel }}:</span>
                         <span class="font-semibold">{{ currency($cartTax) }}</span>
                     </div>
                     <div class="border-t pt-3 flex justify-between text-2xl font-bold text-primary">
@@ -103,21 +117,32 @@
 </div>
 
 <script>
-    function updateCart(id, quantity) {
-        fetch('/cart/update', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({
-                id: id,
-                quantity: parseInt(quantity)
-            })
-        }).then(response => response.json()).then(data => {
-            location.reload();
-        });
-    }
+function updateQuantity(id, change) {
+    const input = document.getElementById('cartQty' + id);
+    if (!input) return;
+    
+    let quantity = parseInt(input.value || 1) + change;
+    if (quantity < 1) quantity = 1;
+    
+    input.value = quantity;
+    updateCart(id, quantity);
+}
+
+function updateCart(id, quantity) {
+    fetch('/cart/update', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({
+            id: id,
+            quantity: parseInt(quantity)
+        })
+    }).then(response => response.json()).then(data => {
+        location.reload();
+    });
+}
 
     function removeFromCart(id) {
         if (confirm('Remove this item?')) {

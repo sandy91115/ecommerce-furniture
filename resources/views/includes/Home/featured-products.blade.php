@@ -3,11 +3,11 @@
     <div class="group">
         <div class="relative overflow-hidden">
             <a href="{{ route('product-details', ['slug' => $product->slug]) }}">
-                @if($product->images->first())
-                <img class="w-full transform group-hover:scale-110 duration-300 sm:max-h-[320px] object-cover" src="{{ asset('storage/' . $product->images->first()->path) }}" alt="{{ $product->name }}">
-                @else
-                <img class="w-full transform group-hover:scale-110 duration-300 sm:max-h-[320px] object-cover" src="{{ asset('assets/img/no-image.png') }}" alt="{{ $product->name }}">
-                @endif
+@if($product->images->first())
+                <img class="w-full transform group-hover:scale-110 duration-300 sm:max-h-[320px] object-cover" loading="lazy" src="{{ image_url($product->images->first()) }}" alt="{{ $product->name }}">
+            @else
+                <img class="w-full transform group-hover:scale-110 duration-300 sm:max-h-[320px] object-cover" loading="lazy" src="{{ image_url(null) }}" alt="{{ $product->name }}">
+            @endif
             </a>
 
             <div class="absolute z-10 top-[80%] right-3 transform -translate-y-[40%] opacity-0 duration-300 transition-all group-hover:-translate-y-1/2 group-hover:opacity-100 flex flex-col items-end gap-3">
@@ -86,10 +86,10 @@
         <div class="relative overflow-hidden flex-1">
             <a href="{{ route('product-details', ['slug' => $product->slug]) }}">
                 @if($product->images->first())
-                <img class="w-full transform group-hover:scale-110 duration-300 h-full object-cover" src="{{ asset('storage/' . $product->images->first()->path) }}" alt="{{ $product->name }}">
-                @else
-                <img class="w-full transform group-hover:scale-110 duration-300 h-full object-cover" src="{{ asset('assets/img/no-image.png') }}" alt="{{ $product->name }}">
-                @endif
+                <img class="w-full transform group-hover:scale-110 duration-300 h-full object-cover" loading="lazy" src="{{ image_url($product->images->first()) }}" alt="{{ $product->name }}">
+            @else
+                <img class="w-full transform group-hover:scale-110 duration-300 h-full object-cover" loading="lazy" src="{{ image_url(null) }}" alt="{{ $product->name }}">
+            @endif
             </a>
 
             <div class="absolute z-10 top-[62%] right-3 transform -translate-y-[40%] opacity-0 duration-300 transition-all group-hover:-translate-y-1/2 group-hover:opacity-100 flex flex-col items-end gap-3">

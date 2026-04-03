@@ -110,11 +110,10 @@
                             @forelse($wishlistItems ?? [] as $product)
                             <div class="wishlist-item pb-[15px] mb-[15px] border-b border-bdr-clr dark:border-bdr-clr-drk relative group/item">
                                 <a href="{{ route('product-details', $product->slug) }}" class="flex items-center gap-[15px]">
-                                    @php
-                                    $wishlistImagePath = $product->images->first()?->path;
-                                    $wishlistImageUrl = $wishlistImagePath ? asset('storage/' . $wishlistImagePath) : asset('assets/img/product/default.jpg');
+@php
+                                    $wishlistImageUrl = image_url($product->images->first());
                                     @endphp
-                                    <img class="w-[70px] flex-shrink-0 object-cover rounded-lg" src="{{ $wishlistImageUrl }}" alt="{{ $product->name }}" onerror="this.src='{{ asset('assets/img/product/default.jpg') }}'">
+                                    <img class="w-[70px] flex-shrink-0 object-cover rounded-lg" src="{{ $wishlistImageUrl }}" alt="{{ $product->name }}">
                                     <div class="flex-1 min-w-0">
                                         <div class="flex items-center gap-2 mb-2">
                                             <span class="text-[14px] text-gray-600 dark:text-gray-400">Product</span>
@@ -163,7 +162,7 @@
                             <div class="hdr-cart-item">
                                 <div class="cart-dropdown-item flex gap-[15px] relative pb-[15px] mb-[15px] border-b border-bdr-clr dark:border-bdr-clr-drk group">
                                     <a href="{{ route('product-details', $item['slug']) }}" class="cart-dropdown-thumb block flex-none overflow-hidden rounded-lg">
-                                        <img class="cart-dropdown-thumb-image w-full h-full object-cover" src="{{ !empty($item['image']) ? asset('storage/' . $item['image']) : asset('assets/img/product/default.jpg') }}" alt="{{ $item['name'] }}" onerror="this.src='{{ asset('assets/img/product/default.jpg') }}'">
+                                        <img class="cart-dropdown-thumb-image w-full h-full object-cover" src="{{ image_url($item['image'] ?? null) }}" alt="{{ $item['name'] }}" onerror="this.onerror=null; this.src='{{ asset('assets/img/product/default.jpg') }}'">
                                     </a>
                                     <div class="cart-dropdown-details flex-1">
                                         <div class="cart-dropdown-meta flex items-center gap-2">

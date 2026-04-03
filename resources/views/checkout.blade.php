@@ -186,7 +186,7 @@
                     <div class="flex items-center justify-between gap-5">
                         <div class="flex items-center gap-3 md:gap-4 lg:gap-6 cart-product flex-wrap">
                             <div class="w-16 sm:w-[70px] flex-none">
-                                <img src="{{ $item['image'] ? asset('storage/' . $item['image']) : asset('assets/img/product/default.jpg') }}" alt="{{ $item['name'] }}" class="w-16 sm:w-[70px] flex-none" onerror="this.onerror=null; this.src='{{ asset('assets/img/product/default.jpg') }}'">
+                                <img src="{{ image_url($item['image'] ?? null) }}" alt="{{ $item['name'] }}" class="w-16 sm:w-[70px] flex-none" onerror="this.onerror=null; this.src='{{ asset('assets/img/product/default.jpg') }}'">
                             </div>
                             <div class="flex-1">
                                 <h6 class="leading-none font-medium text-lg">{{ $item['category'] ?? 'Product' }}</h6>
@@ -217,7 +217,7 @@
                         <span>Free</span>
                     </div>
                     <div class="flex justify-between flex-wrap text-base sm:text-lg text-title dark:text-white font-medium mt-3">
-                        <span>Tax (10%):</span>
+                        <span>{{ $taxLabel ?? 'Tax' }}:</span>
                         <span>{{ currency($tax) }}</span>
                     </div>
                 </div>

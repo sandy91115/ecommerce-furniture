@@ -21,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        require_once app_path('helpers/tax_helpers.php');
+        
         Gate::before(function ($user, string $ability) {
             return $user->hasRole('super_admin') ? true : null;
         });

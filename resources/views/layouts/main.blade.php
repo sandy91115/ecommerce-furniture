@@ -147,6 +147,17 @@
 
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
     <script src="{{ asset('assets/js/base.js') }}"></script>
+    
+    <script src="{{ asset('assets/js/cart-functions.js') }}"></script>
+    
+    <script>
+    window.Laravel = window.Laravel || {};
+    window.Laravel.cart = {
+        removeUrl: '/cart/remove',
+        updateUrl: '/cart/update',
+        csrfToken: '{{ csrf_token() }}'
+    };
+    </script>
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <!-- Product Lightbox JS -->
