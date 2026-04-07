@@ -1,5 +1,60 @@
 
 
+  // Simulate loading delay
+setTimeout(() => {    const skeleton = document.getElementById('loading-skeleton');
+        const mainContent = document.getElementById('main-content');   if (skeleton && mainContent) {     skeleton.style.display = 'none';      mainContent.style.display = 'block';    }  }, 800);
+
+  // Sales Chart
+document.addEventListener('DOMContentLoaded', function() {
+       const canvas = document.getElementById('salesChart');    if (!canvas || typeof Chart === 'undefined') return;
+           const ctx = canvas.getContext('2d');    const salesChartData = window.salesChartData || {};
+    
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: Object.keys(salesChartData),
+        datasets: [{
+          label: 'Revenue',
+          data: Object.values(salesChartData),
+          borderColor: 'rgb(59, 130, 246)',
+          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+          tension: 0.4,
+          fill: true,
+          pointBackgroundColor: 'rgb(59, 130, 246)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgb(59, 130, 246)'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(0,0,0,0.05)'
+            }
+          },
+          x: {
+            grid: {
+              display: false
+            }
+          }
+        },
+        animation: {
+          duration: 2000,
+          easing: 'easeInOutQuart'
+        }
+      }
+    });
+  });
+
     const currentUrl = new URL(window.location.href);
     const normalizePath = (pathname) => pathname.replace(/\/$/, '') || '/';
     const hasMatchingParams = (targetUrl, activeUrl) => {
@@ -531,10 +586,11 @@ function closeModal(modalId) {
 
 // Pricing Switcher
 document.addEventListener('DOMContentLoaded', function () {
-    const monthlyRadio = document.getElementById('monthly');
-    const yearlyRadio = document.getElementById('yearly');
-    const highlighter = document.querySelector('.highlighter');
-    const prices = document.querySelectorAll('.price');
+  const monthlyRadio = document.getElementById('monthly');
+  const yearlyRadio = document.getElementById('yearly');
+  if (!monthlyRadio || !yearlyRadio) return;
+  const highlighter = document.querySelector('.highlighter');
+  const prices = document.querySelectorAll('.price');
 
     const updatePrices = () => {
         const isYearly = yearlyRadio.checked;

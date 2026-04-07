@@ -3,6 +3,13 @@
 @section('title', 'Dashboard')
 
 @section('content')
+<noscript>
+  <style>
+    #loading-skeleton { display: none !important; }
+    #main-content { display: block !important; }
+  </style>
+</noscript>
+
 <!-- Loading Skeleton -->
 <div id="loading-skeleton" class="space-y-6">
   <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
@@ -170,62 +177,74 @@
 
 @push('scripts')
 <script>
-  // Simulate loading delay
-  setTimeout(() => {
-    document.getElementById('loading-skeleton').style.display = 'none';
-    document.getElementById('main-content').style.display = 'block';
-  }, 800);
+window.salesChartData = @json($salesChartData ?? []);
 
-  // Sales Chart
-  document.addEventListener('DOMContentLoaded', function() {
-    const ctx = document.getElementById('salesChart').getContext('2d');
-    const salesChartData = @json($salesChartData);
-    
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: Object.keys(salesChartData),
-        datasets: [{
-          label: 'Revenue',
-          data: Object.values(salesChartData),
-          borderColor: 'rgb(59, 130, 246)',
-          backgroundColor: 'rgba(59, 130, 246, 0.1)',
-          tension: 0.4,
-          fill: true,
-          pointBackgroundColor: 'rgb(59, 130, 246)',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgb(59, 130, 246)'
-        }]
+document.addEventListener('DOMContentLoaded', function () {
+  const loadingSkeleton = document.getElementById('loading-skeleton');
+  const mainContent = document.getElementById('main-content');
+
+  window.setTimeout(function () {
+    if (loadingSkeleton) {
+      loadingSkeleton.style.display = 'none';
+    }
+
+    if (mainContent) {
+      mainContent.style.display = 'block';
+    }
+  }, 300);
+
+  const salesChartCanvas = document.getElementById('salesChart');
+  const salesChartData = window.salesChartData || {};
+
+  if (!salesChartCanvas || typeof Chart === 'undefined') {
+    return;
+  }
+
+  new Chart(salesChartCanvas.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: Object.keys(salesChartData),
+      datasets: [{
+        label: 'Revenue',
+        data: Object.values(salesChartData),
+        borderColor: 'rgb(59, 130, 246)',
+        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+        tension: 0.4,
+        fill: true,
+        pointBackgroundColor: 'rgb(59, 130, 246)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgb(59, 130, 246)'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false
+        }
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: {
+            color: 'rgba(0,0,0,0.05)'
+          }
+        },
+        x: {
+          grid: {
             display: false
           }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            grid: {
-              color: 'rgba(0,0,0,0.05)'
-            }
-          },
-          x: {
-            grid: {
-              display: false
-            }
-          }
-        },
-        animation: {
-          duration: 2000,
-          easing: 'easeInOutQuart'
         }
+      },
+      animation: {
+        duration: 2000,
+        easing: 'easeInOutQuart'
       }
-    });
+    }
   });
+});
 </script>
 @endpush
 @endsection
