@@ -6132,11 +6132,29 @@ svg [stroke="#bb976d"] {
   }
 
   .header-area .site-category-rail {
-    z-index: 1 !important;
+    z-index: 10010 !important;
+    overflow: visible !important;
+  }
+
+  .header-area .site-category-rail .container-fluid,
+  .header-area .site-category-rail__inner,
+  .header-area .site-category-rail__list,
+  .header-area .site-category-item {
+    overflow: visible !important;
   }
 
   .header-area .site-category-rail .site-category-panel {
-    display: none !important;
+    display: block !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  .header-area .site-category-item:hover > .site-category-panel,
+  .header-area .site-category-item:focus-within > .site-category-panel {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
   }
 
   .header-area .shop-dropdown-menu,
