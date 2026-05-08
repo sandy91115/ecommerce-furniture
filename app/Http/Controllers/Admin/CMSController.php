@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+<<<<<<< HEAD
 use App\Models\CmsPage;
 use App\Models\Menu;
 use App\Models\SeoMetadata;
 use App\Services\Seo\SeoMetadataService;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
 class CMSController extends Controller
 {
@@ -18,21 +21,28 @@ class CMSController extends Controller
 
     public function index()
     {
+<<<<<<< HEAD
         $this->authorize('cms.view');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $pages = $this->cmsService->getAllPages();
         return view('admin.cms.index', compact('pages'));
     }
 
     public function create()
     {
+<<<<<<< HEAD
         $this->authorize('cms.create');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         return view('admin.cms.create');
     }
 
     public function store(\App\Http\Requests\Admin\CmsStoreRequest $request)
     {
+<<<<<<< HEAD
         $this->authorize('cms.create');
 
         $data = $request->validated();
@@ -47,18 +57,26 @@ class CMSController extends Controller
         ]);
 
         return redirect()->route('admin.cms.index')->with('success', 'Page created successfully.');
+=======
+        $this->cmsService->createPage($request->validated());
+        return redirect()->route('admin.cms.index')->with('success', 'CMS Page created successfully.');
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 
     public function show($id)
     {
+<<<<<<< HEAD
         $this->authorize('cms.view');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $page = $this->cmsService->findPage($id);
         return view('admin.cms.show', compact('page'));
     }
 
     public function edit($id)
     {
+<<<<<<< HEAD
         $this->authorize('cms.update');
 
         $page = $this->cmsService->findPage($id);
@@ -68,10 +86,15 @@ class CMSController extends Controller
             ->first();
 
         return view('admin.cms.edit', compact('page', 'seoMetadata'));
+=======
+        $page = $this->cmsService->findPage($id);
+        return view('admin.cms.edit', compact('page'));
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 
     public function update(\App\Http\Requests\Admin\CmsUpdateRequest $request, $id)
     {
+<<<<<<< HEAD
         $this->authorize('cms.update');
 
         $data = $request->validated();
@@ -164,17 +187,25 @@ class CMSController extends Controller
         $data['content'] = json_encode($content, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
         return $data;
+=======
+        $this->cmsService->updatePage($id, $request->validated());
+        return redirect()->route('admin.cms.index')->with('success', 'CMS Page updated successfully.');
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 
     public function destroy($id)
     {
         $this->authorize('cms.delete');
         $this->cmsService->deletePage($id);
+<<<<<<< HEAD
         return redirect()->route('admin.cms.index')->with('success', 'Page moved to Recycle Bin successfully.');
     }
 
     private function isFixedPage(CmsPage $page, array $titleSlugs): bool
     {
         return in_array(Str::slug($page->title), $titleSlugs, true);
+=======
+        return redirect()->route('admin.cms.index')->with('success', 'CMS Page moved to Recycle Bin successfully.');
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 }

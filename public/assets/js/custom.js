@@ -383,6 +383,7 @@ document.addEventListener('DOMContentLoaded', function () {
         placeOrderBtn.addEventListener('click', function (e) {
             e.preventDefault();
 
+<<<<<<< HEAD
             const paymentError = document.getElementById('payment-method-error');
             const paymentMethod = document.querySelector('input[name="payment_method"]:checked');
             if (paymentError) {
@@ -402,6 +403,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     : field.value.trim() !== '';
 
                 if (!valid) {
+=======
+            // Basic validation
+            const requiredFields = checkoutForm.querySelectorAll('[required]');
+            let isValid = true;
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     isValid = false;
                     field.classList.add('border-red-500');
                 } else {
@@ -427,6 +435,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     'Accept': 'application/json'
                 }
             })
+<<<<<<< HEAD
                 .then(response => response.json().then(data => ({ ok: response.ok, status: response.status, data })))
                 .then(({ ok, data }) => {
                     if (!ok) {
@@ -434,6 +443,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         throw new Error(firstError || data.message || 'Please check the checkout form.');
                     }
 
+=======
+                .then(response => response.json())
+                .then(data => {
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     if (data.success) {
                         window.location.href = data.redirect;
                     } else {
@@ -444,7 +457,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 .catch(error => {
                     console.error('Error:', error);
+<<<<<<< HEAD
                     alert(error.message || 'An error occurred. Please try again.');
+=======
+                    alert('An error occurred. Please try again.');
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     placeOrderBtn.disabled = false;
                     placeOrderBtn.querySelector('span').innerText = 'Place Order';
                 });

@@ -55,8 +55,13 @@
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
+<<<<<<< HEAD
                             <span class="px-3 py-1 text-xs font-semibold rounded-full {{ $order->paymentStatusBadge() }}">
                                 {{ $order->paymentStatusLabel() }}
+=======
+                            <span class="px-3 py-1 text-xs font-semibold rounded-full {{ $order->payment_status == 'paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                                {{ ucfirst($order->payment_status) }}
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $order->created_at->format('M d, Y') }}</td>

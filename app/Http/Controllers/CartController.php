@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\CartService;
 use Illuminate\Support\Facades\Session;
+<<<<<<< HEAD
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
 class CartController extends Controller
 {
@@ -29,7 +32,10 @@ class CartController extends Controller
 
         $quantity = (int) ($data['quantity'] ?? $data['qty']);
         $attributes = $data['attribute'] ?? [];
+<<<<<<< HEAD
         $redirectTo = $request->input('redirect_to');
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
         $cart = $this->cartService->add($data['product_id'], $quantity, null, $attributes);
 
@@ -44,10 +50,13 @@ class CartController extends Controller
             ]);
         }
 
+<<<<<<< HEAD
         if (is_string($redirectTo) && Str::startsWith($redirectTo, '/') && ! Str::startsWith($redirectTo, '//')) {
             return redirect($redirectTo);
         }
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         return redirect()->route('frontend.cart')
             ->with('success', 'Product added to cart successfully!');
     }
@@ -59,6 +68,7 @@ class CartController extends Controller
             'quantity' => 'required|integer|min:1'
         ]);
 
+<<<<<<< HEAD
         try {
             $this->cartService->update($request->id, $request->quantity);
         } catch (ValidationException $exception) {
@@ -69,6 +79,11 @@ class CartController extends Controller
         }
 
         return response()->json($this->cartPayload('Cart updated successfully.'));
+=======
+        $this->cartService->update($request->id, $request->quantity);
+
+        return response()->json(['success' => true]);
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 
     public function remove(Request $request)
@@ -79,6 +94,7 @@ class CartController extends Controller
 
         $this->cartService->remove($request->id);
 
+<<<<<<< HEAD
         return response()->json($this->cartPayload('Product removed from cart.'));
     }
 
@@ -96,5 +112,8 @@ class CartController extends Controller
             'total' => currency($summary['total']),
             'is_empty' => empty($cart),
         ];
+=======
+        return response()->json(['success' => true]);
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 }

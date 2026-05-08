@@ -1,18 +1,31 @@
 @extends('admin.layouts.app')
 
+<<<<<<< HEAD
 @section('title', 'Create Page')
+=======
+@section('title', 'Create CMS Page')
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
 @section('content')
 <div class="space-y-6">
     <div class="flex items-center justify-between">
         <div>
+<<<<<<< HEAD
             <h1 class="text-3xl font-bold text-gray-900">Create Page</h1>
             <p class="mt-1 text-sm text-gray-500">Create a new dynamic page for your website</p>
+=======
+            <h1 class="text-3xl font-bold text-gray-900">Create CMS Page</h1>
+            <p class="mt-1 text-sm text-gray-500">Create a new CMS page for your website</p>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         </div>
         <div class="flex space-x-3">
             <a href="{{ route('admin.cms.index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none">
                 <i class="fas fa-arrow-left mr-2"></i>
+<<<<<<< HEAD
                 Back to Pages
+=======
+                Back to CMS
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             </a>
         </div>
     </div>
@@ -90,6 +103,7 @@
                     @enderror
                 </div>
             </div>
+<<<<<<< HEAD
 
             @include('admin.seo.partials.advanced-fields', [
                 'seoMetadata' => null,
@@ -99,6 +113,8 @@
                 'canonicalFallback' => '',
                 'schemaType' => 'WebPage',
             ])
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         </div>
         <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end space-x-3">
             <a href="{{ route('admin.cms.index') }}" class="px-6 py-3 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50">

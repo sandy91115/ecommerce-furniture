@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\ProductUpdateRequest;
 use App\Services\ImageUploadService;
 use App\Models\Category;
 use App\Models\Product;
+<<<<<<< HEAD
 use App\Models\Review;
 use App\Models\SeoMetadata;
 use App\Models\User;
@@ -16,6 +17,10 @@ use App\Services\Seo\SeoMetadataService;
 use App\Services\ProductExcelService;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
+=======
+use App\Models\Vendor;
+use App\Services\ProductService;
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
@@ -32,12 +37,16 @@ class ProductController extends Controller
 
     public function index()
     {
+<<<<<<< HEAD
         $this->authorize('products.view');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $products = $this->productService->all();
         return view('admin.products.index', compact('products'));
     }
 
+<<<<<<< HEAD
     public function export(ProductExcelService $excelService)
     {
         $this->authorize('products.view');
@@ -80,6 +89,11 @@ class ProductController extends Controller
         $this->authorize('products.create');
 
         $categories = $this->categoryOptions();
+=======
+    public function create()
+    {
+        $categories = Category::where('status', 'active')->whereNull('parent_id')->get();
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $materials = \App\Models\Material::all();
         $colors = \App\Models\Color::all();
         // Single-vendor: no vendors dropdown
@@ -88,6 +102,7 @@ class ProductController extends Controller
 
     public function store(ProductStoreRequest $request)
     {
+<<<<<<< HEAD
         $this->authorize('products.create');
 
         $data = $request->validated();
@@ -101,6 +116,12 @@ class ProductController extends Controller
         $product = $this->productService->create($data);
         $this->syncSeoMetadata($product, $seoMeta);
         $this->syncInlineReviews($product, $reviewRows);
+=======
+        $data = $request->validated();
+        $data['slug'] = $data['slug'] ?? Str::slug($data['name']);
+
+        $product = $this->productService->create($data);
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
         if ($request->hasFile('images')) {
             $this->imageService->queueProductImages(
@@ -116,14 +137,18 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
+<<<<<<< HEAD
         $this->authorize('products.view');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $product->load(['images', 'category', 'vendor']);
         return view('admin.products.show', compact('product'));
     }
 
     public function edit(Product $product)
     {
+<<<<<<< HEAD
         $this->authorize('products.update');
 
         $product->load('reviews.user');
@@ -136,10 +161,18 @@ class ProductController extends Controller
         $materials = \App\Models\Material::all();
         $colors = \App\Models\Color::all();
         return view('admin.products.edit', compact('product', 'categories', 'vendors', 'materials', 'colors', 'seoMetadata'));
+=======
+        $categories = Category::where('status', 'active')->whereNull('parent_id')->get();
+        $vendors = Schema::hasTable('vendors') ? Vendor::where('status', 'active')->get() : collect([]); // Single-vendor mode: empty vendors list
+        $materials = \App\Models\Material::all();
+        $colors = \App\Models\Color::all();
+        return view('admin.products.edit', compact('product', 'categories', 'vendors', 'materials', 'colors'));
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 
     public function update(ProductUpdateRequest $request, Product $product)
     {
+<<<<<<< HEAD
         $this->authorize('products.update');
 
         $data = $request->validated();
@@ -163,6 +196,10 @@ class ProductController extends Controller
 
         $data['slug'] = $data['slug'] ?? Str::slug($data['name']);
         $data = $this->normalizeProductStructuredData($data);
+=======
+        $data = $request->validated();
+        $data['slug'] = $data['slug'] ?? Str::slug($data['name']);
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
         $product = $this->productService->update($product->id, $data);
 
@@ -170,9 +207,12 @@ class ProductController extends Controller
             return back()->withErrors(['error' => 'Product update failed or not found.']);
         }
 
+<<<<<<< HEAD
         $this->syncInlineReviews($product, $reviewRows, $deleteReviewIds);
         $this->syncSeoMetadata($product, $seoMeta);
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         if ($request->boolean('replace_images')) {
             $this->imageService->deleteProductImages($product);
         } else {
@@ -188,8 +228,11 @@ class ProductController extends Controller
                     ->get()
                     ->each(fn ($image) => $this->imageService->deleteImage($image));
             }
+<<<<<<< HEAD
 
             $this->syncImageSeoMetadata($product, $imageMeta, $featuredExistingImageId ? (int) $featuredExistingImageId : null, $deleteIds->all());
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         }
 
         if ($request->hasFile('images')) {
@@ -206,30 +249,40 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
+<<<<<<< HEAD
         $this->authorize('products.delete');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $this->productService->delete($product->id);
         return redirect()->route('admin.products.index')->with('success', 'Product moved to Recycle Bin successfully.');
     }
 
     public function lowStock()
     {
+<<<<<<< HEAD
         $this->authorize('products.view');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $products = $this->productService->lowStock();
         return view('admin.products.low-stock', compact('products'));
     }
 
     public function quotationProducts()
     {
+<<<<<<< HEAD
         $this->authorize('products.view');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $products = Product::with(['category', 'vendor'])
             ->where('product_type', 'quotation')
             ->paginate(10);
         return view('admin.products.quotation-products', compact('products'));
     }
 
+<<<<<<< HEAD
     private function categoryOptions()
     {
         $categories = Category::query()
@@ -390,5 +443,9 @@ class ProductController extends Controller
 
         app(SeoMetadataService::class)->syncForModel($product, $seoMeta, $fallback);
     }
+=======
+
+
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
 }

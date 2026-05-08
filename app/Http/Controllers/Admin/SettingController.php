@@ -12,14 +12,18 @@ class SettingController extends Controller
 {
     public function index()
     {
+<<<<<<< HEAD
         $this->authorize('settings.view');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $settings = [
             'admin_logo_path' => Setting::get('admin_logo_path'),
             'admin_favicon_path' => Setting::get('admin_favicon_path'),
             'admin_theme_mode' => Setting::get('admin_theme_mode', 'light'),
             'site_logo_path' => Setting::get('site_logo_path'),
             'site_favicon_path' => Setting::get('site_favicon_path'),
+<<<<<<< HEAD
             'home_featured_promo_enabled' => Setting::get(Setting::HOME_FEATURED_PROMO_ENABLED, true),
             'home_featured_promo_label' => Setting::get(Setting::HOME_FEATURED_PROMO_LABEL, 'Custom Orders'),
             'home_featured_promo_title' => Setting::get(Setting::HOME_FEATURED_PROMO_TITLE, 'Need a made-to-measure piece?'),
@@ -27,6 +31,8 @@ class SettingController extends Controller
             'home_featured_promo_button_text' => Setting::get(Setting::HOME_FEATURED_PROMO_BUTTON_TEXT, 'Request Custom Order'),
             'home_featured_promo_button_url' => Setting::get(Setting::HOME_FEATURED_PROMO_BUTTON_URL, route('quotation-products.index')),
             'home_featured_promo_image_path' => Setting::get(Setting::HOME_FEATURED_PROMO_IMAGE_PATH),
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             'site_name' => Setting::get('site_name', 'Furnixar'),
             'admin_email' => Setting::get('admin_email', 'admin@furnixar.com'),
             'whatsapp_number' => Setting::get('whatsapp_number', '1234567890'),
@@ -45,8 +51,11 @@ class SettingController extends Controller
 
     public function update(Request $request)
     {
+<<<<<<< HEAD
         $this->authorize('settings.update');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         if ($request->expectsJson()) {
             $data = $request->validate([
                 'admin_theme_mode' => 'required|in:light,dark',
@@ -64,23 +73,33 @@ class SettingController extends Controller
             'admin_theme_mode' => 'required|in:light,dark',
             'currency' => 'required|string|max:10',
             'currency_symbol' => 'required|string|max:5',
+<<<<<<< HEAD
             'home_featured_promo_enabled' => 'boolean',
             'home_featured_promo_label' => 'nullable|string|max:80',
             'home_featured_promo_title' => 'nullable|string|max:140',
             'home_featured_promo_description' => 'nullable|string|max:300',
             'home_featured_promo_button_text' => 'nullable|string|max:80',
             'home_featured_promo_button_url' => 'nullable|string|max:500',
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             // Razorpay validation
             'razorpay_key' => 'nullable|string|max:255',
             'razorpay_secret' => 'nullable|string|max:255',
             'razorpay_webhook' => 'nullable|url|max:500',
             'razorpay_enabled' => 'boolean',
             'razorpay_show_checkout' => 'boolean',
+<<<<<<< HEAD
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'site_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'site_favicon' => 'nullable|image|mimes:ico,png,jpg|max:2048',
             'admin_favicon' => 'nullable|image|mimes:ico,png,jpg|max:2048',
             'home_featured_promo_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
+=======
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'site_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'site_favicon' => 'nullable|image|mimes:ico,png,jpg|max:2048',
+            'admin_favicon' => 'nullable|image|mimes:ico,png,jpg|max:2048',
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         ]);
 
         // Update text settings
@@ -90,12 +109,15 @@ class SettingController extends Controller
         Setting::updateOrCreate(['key' => 'admin_theme_mode'], ['value' => $request->admin_theme_mode]);
         Setting::updateOrCreate(['key' => 'currency'], ['value' => $request->currency]);
         Setting::updateOrCreate(['key' => 'currency_symbol'], ['value' => $request->currency_symbol]);
+<<<<<<< HEAD
         Setting::updateOrCreate(['key' => Setting::HOME_FEATURED_PROMO_ENABLED], ['value' => $request->boolean('home_featured_promo_enabled') ? '1' : '0']);
         Setting::updateOrCreate(['key' => Setting::HOME_FEATURED_PROMO_LABEL], ['value' => $request->home_featured_promo_label ?: 'Custom Orders']);
         Setting::updateOrCreate(['key' => Setting::HOME_FEATURED_PROMO_TITLE], ['value' => $request->home_featured_promo_title ?: 'Need a made-to-measure piece?']);
         Setting::updateOrCreate(['key' => Setting::HOME_FEATURED_PROMO_DESCRIPTION], ['value' => $request->home_featured_promo_description ?: 'Share your size, finish and resin color requirements. Our team will help craft a coffee table for your space.']);
         Setting::updateOrCreate(['key' => Setting::HOME_FEATURED_PROMO_BUTTON_TEXT], ['value' => $request->home_featured_promo_button_text ?: 'Request Custom Order']);
         Setting::updateOrCreate(['key' => Setting::HOME_FEATURED_PROMO_BUTTON_URL], ['value' => $request->home_featured_promo_button_url ?: route('quotation-products.index')]);
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
         // Update Razorpay settings
         Setting::updateOrCreate(['key' => 'razorpay_key'], ['value' => $request->razorpay_key]);
@@ -110,8 +132,12 @@ class SettingController extends Controller
             if ($oldLogo && File::exists(storage_path('app/public/' . $oldLogo))) {
                 File::delete(storage_path('app/public/' . $oldLogo));
             }
+<<<<<<< HEAD
             $path = $request->file('logo')->storePublicly('admin', 'public');
             $this->mirrorPublicUpload($path);
+=======
+            $path = $request->file('logo')->store('admin', 'public');
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             Setting::updateOrCreate(['key' => 'admin_logo_path'], ['value' => $path]);
         }
 
@@ -121,8 +147,12 @@ class SettingController extends Controller
             if ($oldFavicon && File::exists(storage_path('app/public/' . $oldFavicon))) {
                 File::delete(storage_path('app/public/' . $oldFavicon));
             }
+<<<<<<< HEAD
             $path = $request->file('site_favicon')->storePublicly('logos', 'public');
             $this->mirrorPublicUpload($path);
+=======
+            $path = $request->file('site_favicon')->store('logos', 'public');
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             Setting::updateOrCreate(['key' => 'site_favicon_path'], ['value' => $path]);
         }
 
@@ -132,6 +162,7 @@ class SettingController extends Controller
             if ($oldLogo && File::exists(storage_path('app/public/' . $oldLogo))) {
                 File::delete(storage_path('app/public/' . $oldLogo));
             }
+<<<<<<< HEAD
             $path = $request->file('site_logo')->storePublicly('logos', 'public');
             $this->mirrorPublicUpload($path);
             Setting::updateOrCreate(['key' => 'site_logo_path'], ['value' => $path]);
@@ -148,19 +179,30 @@ class SettingController extends Controller
             Setting::updateOrCreate(['key' => Setting::HOME_FEATURED_PROMO_IMAGE_PATH], ['value' => $path]);
         }
 
+=======
+            $path = $request->file('site_logo')->store('logos', 'public');
+            Setting::updateOrCreate(['key' => 'site_logo_path'], ['value' => $path]);
+        }
+
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         // Handle Admin Favicon upload
         if ($request->hasFile('admin_favicon')) {
             $oldFavicon = Setting::get('admin_favicon_path');
             if ($oldFavicon && File::exists(storage_path('app/public/' . $oldFavicon))) {
                 File::delete(storage_path('app/public/' . $oldFavicon));
             }
+<<<<<<< HEAD
             $path = $request->file('admin_favicon')->storePublicly('admin', 'public');
             $this->mirrorPublicUpload($path);
+=======
+            $path = $request->file('admin_favicon')->store('admin', 'public');
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             Setting::updateOrCreate(['key' => 'admin_favicon_path'], ['value' => $path]);
         }
 
         return redirect()->back()->with('success', 'Settings updated successfully!');
     }
+<<<<<<< HEAD
 
     private function mirrorPublicUpload(string $path): void
     {
@@ -175,4 +217,6 @@ class SettingController extends Controller
         File::copy($source, $destination);
         @chmod($destination, 0644);
     }
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 }

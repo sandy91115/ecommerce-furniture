@@ -3,7 +3,11 @@
 @section('title', 'Login | Furniture Store')
 
 @section('content')
+<<<<<<< HEAD
 <link rel="stylesheet" href="{{ versioned_asset('assets/css/login.css') }}">
+=======
+<link rel="stylesheet" href="{{ asset('assets/css/login.css') }}">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
 @php
     $showcaseFeatures = [
@@ -22,7 +26,11 @@
     ];
 @endphp
 
+<<<<<<< HEAD
 <section class="auth-page auth-page--login">
+=======
+<section class="auth-page">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     <div class="auth-shell">
         <aside class="auth-showcase" style="--auth-showcase-image: url('{{ asset('assets/img/bg/login.jpg') }}');">
             <div class="auth-showcase__content">

@@ -7,7 +7,10 @@ use App\Models\Category;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+<<<<<<< HEAD
 use App\Services\Seo\SeoManager;
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
 class ShopController extends Controller
 {
@@ -128,9 +131,14 @@ class ShopController extends Controller
         $pageTitle = $selectedCategory?->meta_title ?: ($selectedCategory?->name ?: 'Shop');
         $pageDescription = $selectedCategory?->meta_description ?: 'Explore our premium furniture collection.';
         $canonicalUrl = $selectedCategory
+<<<<<<< HEAD
             ? route('shop.category', ['category' => $selectedCategory->slug])
             : route('shop');
         $seo = app(SeoManager::class)->forShop($selectedCategory);
+=======
+            ? route('shop.category', ['category' => $selectedCategory])
+            : route('shop');
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
         if ($request->ajax()) {
             $productsGrid = view('includes.Shop.shops-v3', ['products' => $products])->render();
@@ -153,8 +161,12 @@ class ShopController extends Controller
             'breadcrumbCategories',
             'pageTitle',
             'pageDescription',
+<<<<<<< HEAD
             'canonicalUrl',
             'seo'
+=======
+            'canonicalUrl'
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         ));
     }
 

@@ -37,11 +37,16 @@
                         <a class="duration-300 hover:text-primary" href="{{ url('/order-history') }}">Order History</a>
                     </li>
                     <li class="py-3 lg:py-6 pl-6 lg:pl-12">
+<<<<<<< HEAD
                         <a class="duration-300 hover:text-primary" href="{{ route('quotation-history') }}">Quotation Product</a>
                     </li>
                     <!-- <li class="py-3 lg:py-6 pl-6 lg:pl-12">
                         <a class="duration-300 hover:text-primary" href="{{ url('/wishlist') }}">Wishlist</a>
                     </li> -->
+=======
+                        <a class="duration-300 hover:text-primary" href="{{ url('/wishlist') }}">Wishlist</a>
+                    </li>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     <li class="pt-3 lg:pt-6 pl-6 lg:pl-12"><a class="duration-300 hover:text-primary" href="{{ url('/login') }}">Logout</a></li>
                 </ul>
             </div>
@@ -55,17 +60,35 @@
                         <!-- Table Heading -->
                         <li class="title flex items-center justify-between gap-5 pb-[10px] sm:pb-5 border-b border-bdr-clr dark:border-bdr-clr-drk">
                             <span class="cart-product-title text-lg md:text-xl font-semibold leading-none text-title dark:text-white block w-[270px] sm:w-[310px] xl:w-[330px]">Product</span>
+<<<<<<< HEAD
                             <span class="text-lg md:text-xl font-semibold leading-none text-title dark:text-white w-[120px]">Order Status</span>
                             <span class="text-lg md:text-xl font-semibold leading-none text-title dark:text-white w-[120px]">Payment</span>
                             <span class="text-lg md:text-xl font-semibold leading-none text-title dark:text-white w-[60px]">Price</span>
+=======
+                            <span class="text-lg md:text-xl font-semibold leading-none text-title dark:text-white w-[60px]">Price</span>
+                            <span class="text-lg md:text-xl font-semibold leading-none text-title dark:text-white w-[100px]">Status</span>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                             <span class="text-lg md:text-xl font-semibold leading-none text-title dark:text-white w-[72px]">Date</span>
                         </li>
                         @foreach($orders as $order)
                         @php 
                             $items = is_array($order->items) ? $order->items : json_decode($order->items ?? '[]', true);
                             $firstItem = $items[0] ?? [];
+<<<<<<< HEAD
                             $statusClass = $order->status?->color() ?? '#31A051';
                             $paymentClass = $order->paymentStatusColor();
+=======
+                            $statusClass = match($order->status) {
+                                \App\Enums\OrderStatus::PENDING => '#EC991D',
+                                \App\Enums\OrderStatus::PROCESSING => '#EC991D',
+                                \App\Enums\OrderStatus::SHIPPED => '#007BFF',
+                                \App\Enums\OrderStatus::DELIVERED => '#31A051',
+                                \App\Enums\OrderStatus::CANCELLED => '#E13939',
+                                \App\Enums\OrderStatus::RETURNED => '#E13939',
+                                \App\Enums\OrderStatus::REFUNDED => '#E13939',
+                                default => '#31A051'
+                            };
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                         @endphp
                         <li class="flex items-center justify-between gap-5 py-[15px] sm:py-[15px] border-b border-bdr-clr dark:border-bdr-clr-drk">
                             <div class="flex items-center gap-3 md:gap-4 lg:gap-6 ordered-product w-[270px] sm:w-[310px] xl:w-[330px]">
@@ -78,6 +101,7 @@
                                 </div>
                             </div>
 
+<<<<<<< HEAD
                             <span style="background-color: {{ $statusClass }};" class="py-[7px] px-[10px] font-semibold leading-none text-white text-sm rounded w-[120px]">
                                 {{ $order->status?->label() ?? 'Pending' }}
                             </span>
@@ -88,6 +112,16 @@
 
                             <span class="text-base md:text-lg leading-none text-title dark:text-white font-semibold text-left w-[60px]">{{ currency($order->total_amount) }}</span>
 
+=======
+                            <span class="text-base md:text-lg leading-none text-title dark:text-white font-semibold text-left w-[60px]">{{ currency($order->total_amount) }}</span>
+
+                            <div class="w-[100px]">
+                                <a href="#" style="background-color: {{ $statusClass }};" class="py-[7px] px-[10px] font-semibold leading-none text-white text-sm rounded">
+{{ $order->status?->label() ?? 'Pending' }}
+                                </a>
+                            </div>
+
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                             <span class="text-sm text-title dark:text-white w-[72px]">{{ $order->created_at->format('M d, Y') }}</span>
                         </li>
                         @endforeach

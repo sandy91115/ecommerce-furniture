@@ -3,7 +3,11 @@
 @section('title', 'Create Product')
 
 @section('content')
+<<<<<<< HEAD
 <div class="mx-auto">
+=======
+<div class="max-w-7xl mx-auto">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     <div class="flex items-center justify-between gap-4 mb-6">
         <div>
             <h1 class="text-3xl font-bold text-gray-900">Create New Product</h1>
@@ -19,13 +23,22 @@
         <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data" id="productForm">
             @csrf
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<<<<<<< HEAD
+=======
+                <!-- Single-vendor mode: vendor automatically set -->
+
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Category *</label>
                     <select name="category_id" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('category_id') border-red-500 @enderror">
                         <option value="">Select Category</option>
                         @foreach($categories as $category)
                         <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+<<<<<<< HEAD
                             {{ $category->option_label ?? $category->name }}
+=======
+                            {{ $category->name }}
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                         </option>
                         @endforeach
                     </select>
@@ -79,6 +92,7 @@
                 </div>
 
                 <div>
+<<<<<<< HEAD
                     <label class="block text-sm font-medium text-gray-700 mb-2">Display Rating</label>
                     <input type="number" name="product_rating" step="0.1" min="0" max="5" value="{{ old('product_rating') }}" placeholder="e.g. 4.7" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('product_rating') border-red-500 @enderror">
                     @error('product_rating')
@@ -95,6 +109,8 @@
                 </div>
 
                 <div>
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     <label class="block text-sm font-medium text-gray-700 mb-2">Tax Slab *</label>
                     <select name="tax_slab" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('tax_slab') border-red-500 @enderror">
                         <option value="">Select Tax Slab</option>
@@ -124,7 +140,14 @@
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
+<<<<<<< HEAD
                    <div>
+=======
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                <div>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     <label class="block text-sm font-medium text-gray-700 mb-2">Status *</label>
                     <select name="status" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('status') border-red-500 @enderror">
                         <option value="pending" {{ old('status', 'pending') == 'pending' ? 'selected' : '' }}>Draft</option>
@@ -135,13 +158,51 @@
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
+<<<<<<< HEAD
  <div>
+=======
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Material</label>
+                    <select name="material_id" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('material_id') border-red-500 @enderror">
+                        <option value="">Select Material</option>
+                        @foreach($materials as $material)
+                        <option value="{{ $material->id }}" {{ old('material_id') == $material->id ? 'selected' : '' }}>
+                            {{ $material->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                    @error('material_id')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Color</label>
+                    <select name="color_id" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('color_id') border-red-500 @enderror">
+                        <option value="">Select Color</option>
+                        @foreach($colors as $color)
+                        <option value="{{ $color->id }}" {{ old('color_id') == $color->id ? 'selected' : '' }}>
+                            {{ $color->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                    @error('color_id')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                <div>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     <label class="block text-sm font-medium text-gray-700 mb-2">Warranty (months)</label>
                     <input type="number" name="warranty_months" min="0" value="{{ old('warranty_months') }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('warranty_months') border-red-500 @enderror">
                     @error('warranty_months')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
+<<<<<<< HEAD
             </div>
 
             <!--<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">-->
@@ -150,6 +211,14 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
                
+=======
+
+                <div class="flex items-center space-x-2 mt-8">
+                    <input type="hidden" name="assembly_required" value="0">
+                    <input type="checkbox" name="assembly_required" value="1" {{ old('assembly_required') ? 'checked' : '' }} class="rounded border-gray-300">
+                    <label class="text-sm font-medium text-gray-700">Assembly Required</label>
+                </div>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
                 <div class="flex items-center space-x-2 mt-8">
                     <input type="hidden" name="featured" value="0">
@@ -166,14 +235,22 @@
                             <span class="ml-2 text-sm font-medium text-gray-700">Sell</span>
                         </label>
                         <label class="flex items-center">
+<<<<<<< HEAD
                             <input type="radio" name="product_type" value="quotation" {{ old('product_type') == 'quotation' ? 'checked' : '' }} required class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+=======
+                            <input type="radio" name="product_type" value="quotation" {{ old('product_type') == 'quotation' ? 'checked' : '' }} class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                             <span class="ml-2 text-sm font-medium text-gray-700">Quotation</span>
                         </label>
                     </div>
                     @error('product_type')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
+<<<<<<< HEAD
                     <p class="text-xs text-gray-500 mt-1">Sell products can be purchased directly. Quotation products show the quote request flow.</p>
+=======
+                    <p class="text-xs text-gray-500 mt-1">Sell: Regular product for cart/purchase. Quotation: Special inquiry form for customers.</p>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 </div>
             </div>
 
@@ -195,6 +272,7 @@
                 </div>
             </div>
 
+<<<<<<< HEAD
             @include('admin.seo.partials.advanced-fields', [
                 'seoMetadata' => null,
                 'includeTitleFields' => false,
@@ -203,6 +281,16 @@
                 'canonicalFallback' => '',
                 'schemaType' => 'Product',
             ])
+=======
+            <div class="mt-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Dimensions (JSON)</label>
+                <textarea name="dimensions" rows="3" placeholder='{"length": 200, "width": 100, "height": 80, "unit": "cm"}' class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('dimensions') border-red-500 @enderror">{{ old('dimensions') }}</textarea>
+                @error('dimensions')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+                <p class="text-xs text-gray-500 mt-1">Example: {"length": 200, "width": 100, "height": 80, "unit": "cm"}</p>
+            </div>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
             <div class="mt-6">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Short Description *</label>
@@ -220,6 +308,10 @@
                 @enderror
             </div>
 
+<<<<<<< HEAD
+=======
+            <!-- Extra Info (Optional) -->
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             <div class="mt-6">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Extra Info Title (Optional)</label>
                 <input type="text" name="extra_title" value="{{ old('extra_title') }}" placeholder="e.g., Refund Policy" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
@@ -237,6 +329,7 @@
             </div>
 
             <div class="mt-6">
+<<<<<<< HEAD
                 <label class="block text-sm font-medium text-gray-700 mb-2">Care And Maintenance (Optional)</label>
                 <textarea id="care_and_maintenance" name="care_and_maintenance" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('care_and_maintenance') border-red-500 @enderror">{{ old('care_and_maintenance') }}</textarea>
                 @error('care_and_maintenance')
@@ -256,6 +349,8 @@
             @include('admin.products.partials.inline-reviews')
 
             <div class="mt-6">
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 <label class="block text-sm font-medium text-gray-700 mb-2">
                     Images (Multiple) *
                     <p class="text-xs text-gray-500 mt-1">Allowed: JPG, JPEG, PNG. Max 2MB per image. Images are converted to WEBP in the background.</p>
@@ -350,7 +445,11 @@
                         <button type="button" class="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-red-600 text-white shadow-lg transition hover:bg-red-700" data-remove-index="${index}" aria-label="Remove image">
                             <i class="fas fa-times text-sm"></i>
                         </button>
+<<<<<<< HEAD
                         <span class="absolute left-3 top-3 inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold shadow-sm ${index === featuredIndex ? 'bg-blue-600 text-white' : 'bg-white/95 text-slate-900 ring-1 ring-black/5 dark:bg-slate-950/85 dark:text-white dark:ring-white/30'}">
+=======
+                        <span class="absolute left-3 top-3 inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${index === featuredIndex ? 'bg-blue-600 text-white' : 'bg-white/90 text-gray-700'}">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                             ${index === featuredIndex ? 'Featured image' : 'Selected image'}
                         </span>
                     </div>
@@ -362,10 +461,13 @@
                         <button type="button" class="inline-flex items-center rounded-lg px-3 py-2 text-xs font-semibold transition ${index === featuredIndex ? 'bg-blue-50 text-blue-700 ring-1 ring-blue-200' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" data-feature-index="${index}">
                             ${index === featuredIndex ? 'Featured selected' : 'Set as featured'}
                         </button>
+<<<<<<< HEAD
                         <label class="block text-xs font-semibold text-gray-600">
                             Image Alt Text
                             <input type="text" name="image_alts[${index}]" value="" placeholder="Auto: product + material + category" class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
                         </label>
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     </div>
                 `;
 

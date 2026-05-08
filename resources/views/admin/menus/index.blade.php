@@ -12,7 +12,11 @@
             <h1 class="text-3xl font-bold text-gray-900">Menu Manager</h1>
             <p class="text-gray-600 mt-1">Manage header, footer, and sidebar menus</p>
         </div>
+<<<<<<< HEAD
     <select id="menuTypeFilter" onchange="window.location.href = '{{ route('admin.menus.index') }}?type=' + this.value" class="p-2 border border-gray-300 rounded-lg">
+=======
+    <select id="menuTypeFilter" onchange="window.location.href = '/admin/menus?type=' + this.value" class="p-2 border border-gray-300 rounded-lg">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             <option value="all">All Menus</option>
             @foreach($menuTypes as $type)
                 <option value="{{ $type }}" {{ $type == request('type') ? 'selected' : '' }}>
@@ -51,10 +55,14 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4">
+<<<<<<< HEAD
                                 <div class="font-medium text-gray-900 flex items-center gap-2">
                                     <span>{{ $menu->title }}</span>
                                    
                                 </div>
+=======
+                                <div class="font-medium text-gray-900">{{ $menu->title }}</div>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                                 @if($menu->children->count() > 0)
                                     <div class="text-sm text-gray-500">Has {{ $menu->children->count() }} sub-items</div>
                                 @endif
@@ -85,6 +93,7 @@
                                     class="text-blue-600 hover:text-blue-900">
                                     <i class="fas fa-edit"></i>
                                 </button>
+<<<<<<< HEAD
                                 @if($menu->is_permanent)
                                     <span class="text-gray-400" title="Permanent menu items cannot be deleted">
                                         <i class="fas fa-lock"></i>
@@ -99,6 +108,16 @@
                                         </button>
                                     </form>
                                 @endif
+=======
+                                <form method="POST" action="{{ route('admin.menus.destroy', $menu) }}" class="inline"
+                                    onsubmit="return confirm('Delete this menu?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:text-red-900">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                             </td>
                         </tr>
                     @endforeach
@@ -129,6 +148,7 @@
                         class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div class="mb-6">
+<<<<<<< HEAD
                     <label class="block text-sm font-medium text-gray-700 mb-2">CMS Page (Optional)</label>
                     <select name="cms_page_id" data-page-select data-title-field="input[name='title']" data-url-field="input[name='url']"
                         class="w-full p-3 border border-gray-300 rounded-lg">
@@ -141,6 +161,8 @@
                     </select>
                 </div>
                 <div class="mb-6">
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     <label class="block text-sm font-medium text-gray-700 mb-2">URL</label>
                     <input type="text" name="url" placeholder="/about or https://example.com/about"
                         class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
@@ -150,7 +172,11 @@
                     <select name="parent_id" class="w-full p-3 border border-gray-300 rounded-lg">
                         <option value="">None (Top Level)</option>
                         @foreach($allMenus as $parentMenu)
+<<<<<<< HEAD
                             <option value="{{ $parentMenu->id }}" data-menu-type="{{ $parentMenu->menu_type }}">— {{ $parentMenu->title }}</option>
+=======
+                            <option value="{{ $parentMenu->id }}">— {{ $parentMenu->title }}</option>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                         @endforeach
                     </select>
                 </div>
@@ -203,6 +229,7 @@
                         class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div class="mb-6">
+<<<<<<< HEAD
                     <label class="block text-sm font-medium text-gray-700 mb-2">CMS Page (Optional)</label>
                     <select id="edit_cms_page_id" name="cms_page_id" data-page-select data-title-field="#edit_title" data-url-field="#edit_url"
                         class="w-full p-3 border border-gray-300 rounded-lg">
@@ -215,6 +242,8 @@
                     </select>
                 </div>
                 <div class="mb-6">
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     <label class="block text-sm font-medium text-gray-700 mb-2">URL</label>
                     <input id="edit_url" type="text" name="url" placeholder="/about or https://example.com/about"
                         class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
@@ -224,7 +253,11 @@
                     <select id="edit_parent_id" name="parent_id" class="w-full p-3 border border-gray-300 rounded-lg">
                         <option value="">None (Top Level)</option>
                         @foreach($allMenus as $parentMenu)
+<<<<<<< HEAD
                             <option value="{{ $parentMenu->id }}" data-menu-type="{{ $parentMenu->menu_type }}">— {{ $parentMenu->title }}</option>
+=======
+                            <option value="{{ $parentMenu->id }}">— {{ $parentMenu->title }}</option>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                         @endforeach
                     </select>
                 </div>
@@ -295,12 +328,18 @@
                 document.getElementById('edit_menu_type').value = button.dataset.menuType ?? '';
                 document.getElementById('edit_title').value = button.dataset.title ?? '';
                 document.getElementById('edit_url').value = button.dataset.url ?? '';
+<<<<<<< HEAD
                 document.getElementById('edit_cms_page_id').value = '';
                 document.getElementById('edit_order').value = button.dataset.order ?? 0;
                 document.getElementById('edit_status').value = button.dataset.status ?? 'active';
 
                 filterParentOptions(document.getElementById('edit_menu_type'), parentSelect);
 
+=======
+                document.getElementById('edit_order').value = button.dataset.order ?? 0;
+                document.getElementById('edit_status').value = button.dataset.status ?? 'active';
+
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 Array.from(parentSelect.options).forEach((option) => {
                     option.disabled = option.value !== '' && Number(option.value) === Number(button.dataset.menuId);
                 });
@@ -311,6 +350,7 @@
             }
 
             window.openModal = openModal;
+<<<<<<< HEAD
                 window.closeModal = closeModal;
                 window.openEditModal = openEditModal;
 
@@ -361,5 +401,10 @@
                     });
                 });
             </script>
+=======
+            window.closeModal = closeModal;
+            window.openEditModal = openEditModal;
+        </script>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     @endpush
 @endsection

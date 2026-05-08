@@ -31,6 +31,7 @@ class BlogStoreRequest extends FormRequest
             'excerpt' => 'nullable|string|max:500',
             'content' => 'required|string',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+<<<<<<< HEAD
 'status' => ['required', Rule::in(['draft', 'published', 'archived'])],
             'category_ids' => 'nullable|array',
             'category_ids.*' => 'exists:blog_categories,id',
@@ -58,6 +59,12 @@ class BlogStoreRequest extends FormRequest
             'seo_meta.schema_data' => 'nullable|string|max:10000',
             'seo_meta.sitemap_priority' => 'nullable|numeric|min:0.1|max:1',
             'seo_meta.sitemap_changefreq' => 'nullable|in:always,hourly,daily,weekly,monthly,yearly,never',
+=======
+            'status' => ['required', Rule::in(['draft', 'published', 'archived'])],
+            'tags' => 'nullable|array',
+            'tags.*' => 'string|max:50',
+            'published_at' => 'nullable|date',
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         ];
     }
 

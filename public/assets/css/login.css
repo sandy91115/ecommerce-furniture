@@ -56,9 +56,15 @@
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.68);
   border-radius: 30px;
+<<<<<<< HEAD
   background: rgba(255, 255, 255, 0.82);
   box-shadow: var(--auth-shadow);
   isolation: isolate;
+=======
+  background: rgba(255, 255, 255, 0.58);
+  box-shadow: var(--auth-shadow);
+  backdrop-filter: blur(12px);
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 }
 
 .auth-showcase {
@@ -105,8 +111,14 @@
 
 .auth-showcase__eyebrow {
   color: rgba(255, 255, 255, 0.92);
+<<<<<<< HEAD
   background: rgba(255, 255, 255, 0.18);
   border: 1px solid rgba(255, 255, 255, 0.22);
+=======
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(8px);
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 }
 
 .auth-showcase__title {
@@ -137,8 +149,14 @@
   gap: 14px;
   padding: 16px 18px;
   border-radius: 18px;
+<<<<<<< HEAD
   background: rgba(32, 26, 22, 0.46);
   border: 1px solid rgba(255, 255, 255, 0.12);
+=======
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 }
 
 .auth-showcase__feature-index {
@@ -289,6 +307,7 @@
   border-color: #d15353;
 }
 
+<<<<<<< HEAD
 .auth-phone-wrap {
   isolation: isolate;
   overflow: visible;
@@ -420,6 +439,8 @@
   padding-left: 168px;
 }
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 .auth-toggle {
   position: absolute;
   top: 50%;
@@ -625,6 +646,7 @@
   color: var(--auth-primary);
 }
 
+<<<<<<< HEAD
 @supports selector(body:has(.auth-page)) {
   body:has(.auth-page) .header-area {
     -webkit-backdrop-filter: none !important;
@@ -638,6 +660,8 @@
   }
 }
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 .login-container {
   min-height: calc(100vh - 82px);
   padding: 48px 18px;
@@ -658,7 +682,10 @@
   box-shadow: var(--auth-shadow-soft);
 }
 
+<<<<<<< HEAD
 .login-header h1,
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 .login-header h2 {
   margin: 16px 0 10px;
   font-family: "Josefin Sans", sans-serif;
@@ -730,11 +757,14 @@
     padding: 26px 14px 48px;
   }
 
+<<<<<<< HEAD
   .auth-page--login .auth-showcase,
   .auth-page--register .auth-showcase {
     display: none;
   }
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
   .auth-shell {
     border-radius: 24px;
   }
@@ -761,6 +791,7 @@
     flex-direction: column;
   }
 
+<<<<<<< HEAD
   .auth-country-picker {
     left: 46px;
     width: 98px;
@@ -770,6 +801,8 @@
     padding-left: 158px;
   }
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
   .login-form-wrapper {
     padding: 28px 22px;
   }
@@ -795,7 +828,10 @@
 .dark .auth-panel__title,
 .dark .auth-label,
 .dark .login-label,
+<<<<<<< HEAD
 .dark .login-header h1,
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 .dark .login-header h2 {
   color: #fff;
 }
@@ -821,6 +857,7 @@
   box-shadow: none;
 }
 
+<<<<<<< HEAD
 .dark .auth-country-picker__button {
   border-color: rgba(255, 255, 255, 0.12);
   color: #fff;
@@ -851,6 +888,8 @@
   color: rgba(255, 255, 255, 0.62);
 }
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 .dark .auth-input::placeholder,
 .dark .login-field::placeholder {
   color: rgba(255, 255, 255, 0.42);

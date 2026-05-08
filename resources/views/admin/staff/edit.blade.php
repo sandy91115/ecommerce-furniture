@@ -77,7 +77,11 @@
 
                 <!-- Right Column -->
                 <div class="space-y-6">
+<<<<<<< HEAD
                     <!-- Password update -->
+=======
+                    <!-- Password (Optional) -->
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     <div>
                         <label class="flex items-center text-sm font-semibold text-gray-700 dark:text-white mb-3">
                             <i class="fas fa-lock text-orange-500 mr-3"></i>

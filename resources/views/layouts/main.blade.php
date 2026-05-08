@@ -5,13 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<<<<<<< HEAD
     @include('seo.meta')
+=======
+    <title>@yield('title', 'Furniture Store - Premium Home Decor')</title>
+    <meta name="description"
+        content="@yield('meta_description', 'Furniture Store - Premium Home Decor. Read customer reviews and testimonials for our stylish and high-quality furniture.')">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     @php
         $siteFaviconPath = \App\Models\Setting::get('site_favicon_path');
         $faviconUrl = $siteFaviconPath ? asset('storage/' . $siteFaviconPath) : asset('assets/img/favicon.png');
     @endphp
     <link rel="icon" href="{{ $faviconUrl }}" type="image/x-icon">
 
+<<<<<<< HEAD
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     @stack('head')
@@ -21,6 +28,56 @@
     <link rel="stylesheet" href="{{ versioned_asset('assets/css/product-ui-fixes.css') }}">
     <link rel="stylesheet" href="{{ versioned_asset('assets/css/button-override.css') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+=======
+    <!-- Meta tags for SEO -->
+    <meta
+        content="	ceramics, decoration, ecommerce, ecommerce template, elementor, furniture, furniture store, furniture template, interior design, interior design template, shopping, simple ecommerce, store, store template"
+        name="keywords">
+    <meta name="author" content="Lets Digital Marketing">
+    <meta name="website" content="https://www.letsdigitalmarketing.com/">
+    <meta name="email" content="support@shreethemes.in">
+    <meta name="version" content="1.0.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <!-- Reviews Aggregate JSON-LD for SEO -->
+    <script type="application/ld+json">
+    {
+      "@@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Furnixar",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "{{ number_format($testimonials->avg('rating') ?? 4.8, 1) }}",
+        "reviewCount": "{{ $testimonials->count() }}",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        @foreach($testimonials->take(5) as $review)
+            {
+              "@type": "Review",
+              "author": { "@type": "Person", "name": "{{ addslashes($review->user->name ?? 'Anonymous') }}" },
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "{{ $review->rating }}",
+                "bestRating": "5",
+                "worstRating": "1"
+              },
+              "reviewBody": "{{ addslashes($review->title ?? $review->comment ?? '') }}"
+            }{{ !$loop->last ? ',' : '' }}
+        @endforeach
+      ]
+    }
+    </script>
+
+    @stack('head')
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/product-ui-fixes.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/button-override.css') }}">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     <!-- Swiper CSS for product lightbox -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
@@ -43,24 +100,42 @@
         @yield('content')
     </div>
 
+<<<<<<< HEAD
     <!-- Back to top control -->
+=======
+    <!-- Back to top -->
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     <a href="#" onclick="topFunction()" id="back-to-top"
         class="back-to-top site-back-to-top fixed hidden z-10 bottom-5 right-5 h-11 w-11 rounded-full text-center leading-[44px]"
         aria-label="Back to top">
         <i class="mdi mdi-arrow-up text-xl"></i>
     </a>
+<<<<<<< HEAD
 
     <!-- Product image lightbox modal -->
     <div id="product-lightbox-modal"
         class="product-lightbox-modal fixed inset-0 bg-black bg-opacity-90 z-[9999] hidden flex items-center justify-center p-4">
         <div class="lightbox-container w-full h-full relative max-w-6xl max-h-[90vh] mx-auto">
             <!-- Close button -->
+=======
+    <!-- Back to top -->
+
+    <!-- Product Image Lightbox Modal -->
+    <div id="product-lightbox-modal"
+        class="product-lightbox-modal fixed inset-0 bg-black bg-opacity-90 z-[9999] hidden flex items-center justify-center p-4">
+        <div class="lightbox-container w-full h-full relative max-w-6xl max-h-[90vh] mx-auto">
+            <!-- Close Button -->
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             <button id="lightbox-close"
                 class="absolute top-6 right-6 z-10 w-12 h-12 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white text-2xl backdrop-blur-sm transition-all duration-300">
                 <i class="mdi mdi-close"></i>
             </button>
 
+<<<<<<< HEAD
             <!-- Lightbox gallery -->
+=======
+            <!-- Swiper Gallery -->
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             <div class="swiper product-lightbox-swiper h-full w-full">
                 <div class="swiper-wrapper"></div>
                 <!-- Navigation -->
@@ -74,7 +149,11 @@
                 <div class="swiper-pagination absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex gap-2"></div>
             </div>
 
+<<<<<<< HEAD
             <!-- Product metadata overlay -->
+=======
+            <!-- Product Info Overlay (optional, bottom bar like Flipkart) -->
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             <div
                 class="lightbox-info absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white pointer-events-none">
                 <div id="lightbox-product-name" class="text-lg font-semibold mb-1"></div>
@@ -83,7 +162,11 @@
         </div>
     </div>
 
+<<<<<<< HEAD
     <!-- WhatsApp floating CTA -->
+=======
+    <!-- WhatsApp Floating Button -->
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     @php
         $rawWhatsappNumber = $whatsappNumber ?? \App\Models\Setting::get('whatsapp_number', '1234567890');
         $whatsappNumberForLink = preg_replace('/\D+/', '', (string) $rawWhatsappNumber);
@@ -101,11 +184,20 @@
         </svg>
         <span class="whatsapp-float__tooltip">Chat with us</span>
     </a>
+<<<<<<< HEAD
 
     <script src="{{ versioned_asset('assets/js/scripts.js') }}"></script>
     <script src="{{ versioned_asset('assets/js/base.js') }}"></script>
     
     <script src="{{ versioned_asset('assets/js/cart-functions.js') }}"></script>
+=======
+    <!-- WhatsApp Floating Button -->
+
+    <script src="{{ asset('assets/js/scripts.js') }}"></script>
+    <script src="{{ asset('assets/js/base.js') }}"></script>
+    
+    <script src="{{ asset('assets/js/cart-functions.js') }}"></script>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     
     <script>
     window.Laravel = window.Laravel || {};
@@ -118,11 +210,19 @@
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <!-- Product Lightbox JS -->
+<<<<<<< HEAD
     <script src="{{ versioned_asset('assets/js/product-lightbox.js') }}"></script>
     <script src="{{ versioned_asset('assets/js/wishlist.js') }}"></script>
     <script src="{{ versioned_asset('assets/js/quote-modal.js') }}"></script>
     <script src="{{ versioned_asset('assets/js/custom.js') }}"></script>
     <script src="{{ versioned_asset('assets/js/review-form.js') }}"></script>
+=======
+    <script src="{{ asset('assets/js/product-lightbox.js') }}"></script>
+    <script src="{{ asset('assets/js/wishlist.js') }}"></script>
+    <script src="{{ asset('assets/js/quote-modal.js') }}"></script>
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
+    <script src="{{ asset('assets/js/review-form.js') }}"></script>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     @stack('scripts')
 </body>
 

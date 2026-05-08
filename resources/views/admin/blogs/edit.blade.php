@@ -3,7 +3,11 @@
 @section('title', 'Edit Blog')
 
 @section('content')
+<<<<<<< HEAD
 <div class=" mx-auto">
+=======
+<div class="max-w-4xl mx-auto">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-gray-900">Edit Blog</h1>
         <a href="{{ route('admin.blogs.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-medium transition">
@@ -55,7 +59,11 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Featured Image</label>
                 @if($blog->featured_image)
+<<<<<<< HEAD
                     <img src="{{ $blog->image_url }}" alt="Current image" class="w-32 h-32 object-cover rounded-lg mb-2">
+=======
+                    <img src="{{ Storage::url($blog->featured_image) }}" alt="Current image" class="w-32 h-32 object-cover rounded-lg mb-2">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 @endif
                 <input type="file" name="featured_image" accept="image/*" 
                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 @error('featured_image') border-red-500 @enderror">
@@ -77,6 +85,7 @@
             </div>
         </div>
 
+<<<<<<< HEAD
 <div class="mb-6">
     <label class="block text-sm font-medium text-gray-700 mb-2">Categories</label>
     <select name="category_ids[]" multiple class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" style="height: 120px;">
@@ -88,6 +97,9 @@
 </div>
 
 @include('admin.blogs.partials.tags-field', ['tags' => old('tags', $blog->tags ?? []), 'fieldId' => 'edit-blog-tags'])
+=======
+        @include('admin.blogs.partials.tags-field', ['tags' => old('tags', $blog->tags ?? []), 'fieldId' => 'edit-blog-tags'])
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
         <div class="mb-8">
             <label class="block text-sm font-medium text-gray-700 mb-2">Publish Date</label>
@@ -95,6 +107,7 @@
                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
         </div>
 
+<<<<<<< HEAD
         @include('admin.seo.partials.advanced-fields', [
             'seoMetadata' => $seoMetadata ?? null,
             'includeTitleFields' => true,
@@ -105,6 +118,9 @@
         ])
 
         <div class="mt-8 flex space-x-4">
+=======
+        <div class="flex space-x-4">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition">
                 Update Blog
             </button>

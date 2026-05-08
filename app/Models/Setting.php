@@ -15,6 +15,7 @@ class Setting extends Model
 
     const SITE_LOGO_PATH = 'site_logo_path';
     const SITE_FAVICON_PATH = 'site_favicon_path';
+<<<<<<< HEAD
     const HOME_FEATURED_PROMO_ENABLED = 'home_featured_promo_enabled';
     const HOME_FEATURED_PROMO_LABEL = 'home_featured_promo_label';
     const HOME_FEATURED_PROMO_TITLE = 'home_featured_promo_title';
@@ -38,6 +39,8 @@ class Setting extends Model
     const SEO_SITEMAP_CATEGORIES_PRIORITY = 'seo_sitemap_categories_priority';
     const SEO_SITEMAP_PAGES_PRIORITY = 'seo_sitemap_pages_priority';
     const SEO_ROBOTS_EXTRA_DISALLOW = 'seo_robots_extra_disallow';
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
     // Payment Methods
     const RAZORPAY_KEY = 'razorpay_key';
@@ -45,6 +48,7 @@ class Setting extends Model
     const RAZORPAY_WEBHOOK = 'razorpay_webhook';
     const RAZORPAY_ENABLED = 'razorpay_enabled';
     const RAZORPAY_SHOW_CHECKOUT = 'razorpay_show_checkout';
+<<<<<<< HEAD
     const STRIPE_KEY = 'stripe_key';
     const STRIPE_SECRET = 'stripe_secret';
     const STRIPE_WEBHOOK = 'stripe_webhook';
@@ -58,6 +62,8 @@ class Setting extends Model
     const PHONEPE_SHOW_CHECKOUT = 'phonepe_show_checkout';
     const COD_ENABLED = 'cod_enabled';
     const COD_SHOW_CHECKOUT = 'cod_show_checkout';
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     const CURRENCY = 'currency';
     const CURRENCY_SYMBOL = 'currency_symbol';
 
@@ -69,6 +75,7 @@ class Setting extends Model
         'description',
     ];
 
+<<<<<<< HEAD
     public static function get(string $key, $default = null)
     {
         $setting = static::where('key', $key)->first();
@@ -101,5 +108,15 @@ class Setting extends Model
         }
 
         return $normalized;
+=======
+    protected $casts = [
+        'value' => 'array',
+    ];
+
+    public static function get(string $key, $default = null)
+    {
+        $setting = static::where('key', $key)->first();
+        return $setting ? $setting->value : $default;
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 }

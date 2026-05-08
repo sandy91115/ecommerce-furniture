@@ -3,7 +3,11 @@
 @section('title', 'Add Partner')
 
 @section('content')
+<<<<<<< HEAD
 <div class=" mx-auto">
+=======
+<div class="max-w-2xl mx-auto">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     <div class="flex justify-between items-center mb-8">
         <div>
             <h1 class="text-3xl font-bold text-gray-900">Add New Partner</h1>

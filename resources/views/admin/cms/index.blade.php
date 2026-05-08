@@ -1,10 +1,18 @@
 @extends('admin.layouts.app')
 
+<<<<<<< HEAD
 @section('title', 'Pages')
 
 @section('content')
 <div class="flex justify-between items-center mb-6">
     <h1 class="text-3xl font-bold text-gray-900">Pages</h1>
+=======
+@section('title', 'CMS')
+
+@section('content')
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">CMS</h1>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 </div>
 
 
@@ -12,8 +20,13 @@
         <div class="p-6 border-b border-gray-200">
             <div class="flex justify-between items-center">
                 <div>
+<<<<<<< HEAD
                     <h2 class="text-2xl font-bold text-gray-900">Pages List</h2>
                     <p class="text-gray-500 mt-1">Manage dynamic content for website pages.</p>
+=======
+                    <h2 class="text-2xl font-bold text-gray-900">CMS Pages</h2>
+                    <p class="text-gray-500 mt-1">Manage your website's CMS pages</p>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 </div>
                 <a href="{{ route('admin.cms.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium shadow-sm transition duration-200 flex items-center">
                     <i class="fas fa-plus mr-2"></i>
@@ -74,7 +87,11 @@
                     <tr>
                         <td colspan="6" class="px-6 py-12 text-center text-gray-500">
                             <i class="fas fa-file-alt text-4xl mb-4 block"></i>
+<<<<<<< HEAD
                             <p>No pages found. <a href="{{ route('admin.cms.create') }}" class="text-blue-600 hover:underline font-medium">Create one now</a></p>
+=======
+                            <p>No CMS pages found. <a href="{{ route('admin.cms.create') }}" class="text-blue-600 hover:underline font-medium">Create one now</a></p>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                         </td>
                     </tr>
                     @endforelse

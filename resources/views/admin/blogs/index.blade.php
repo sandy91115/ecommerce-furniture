@@ -3,7 +3,11 @@
 @section('title', 'Blogs')
 
 @section('content')
+<<<<<<< HEAD
 <div class=" px-6 py-8">
+=======
+<div class="max-w-7xl mx-auto px-6 py-8">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-gray-900">Blogs</h1>
         <a href="{{ route('admin.blogs.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition">

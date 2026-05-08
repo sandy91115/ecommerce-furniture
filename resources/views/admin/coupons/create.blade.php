@@ -3,7 +3,11 @@
 @section('title', 'Create Coupon')
 
 @section('content')
+<<<<<<< HEAD
 <div >
+=======
+<div class="max-w-2xl">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     <div class="mb-6">
         <h2 class="text-2xl font-bold text-gray-800 mb-2">Create New Coupon</h2>
         <p class="text-gray-600">Create a new coupon code for marketing campaigns.</p>

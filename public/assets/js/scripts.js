@@ -1035,7 +1035,11 @@ window.addEventListener('load',function() {
         // Menu Icon 
         menu_icon: function() {
             $('.main-menu ul li').each(function() {
+<<<<<<< HEAD
                 if ($(this).children('.sub-menu,.mega-menu').length && !$(this).children('a').hasClass('nav-shop-link')) {
+=======
+                if ($(this).children('.sub-menu,.mega-menu').length) {
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     $(this).children('a').append('<span></span>');
                 }
             });
@@ -1578,10 +1582,13 @@ window.addEventListener('load',function() {
 
         // Sticky Header 
         sticky_header: function(){
+<<<<<<< HEAD
             if (document.querySelector('.auth-page')) {
                 return;
             }
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             let win = $(window);
             let sticky_id = $(".header-area");
             win.on('scroll', function () {
@@ -1683,9 +1690,13 @@ $("#user-nav-tabs li").on('click', function(e) {
         c1  : "#content1",
         c2  : "#content2",
         c3  : "#content3",
+<<<<<<< HEAD
         c4  : "#content4",
         c5  : "#content5",
         c6  : "#content6"
+=======
+        c4  : "#content4"
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 
     $(e.currentTarget).siblings().removeClass("active");

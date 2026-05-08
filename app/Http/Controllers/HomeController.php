@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Blog;
+<<<<<<< HEAD
 use App\Models\BlogCategory;
 use App\Models\Product;
 use App\Models\Category;
@@ -14,6 +15,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\Services\Seo\SeoManager;
+=======
+use App\Models\Product;
+use App\Models\Category;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
 class HomeController extends Controller
 {
@@ -35,7 +43,10 @@ class HomeController extends Controller
             ->get();
 
         $latestBlogs = Blog::where('status', 'published')
+<<<<<<< HEAD
             ->with('categories')
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             ->latest()
             ->take(5)
             ->get();
@@ -47,6 +58,7 @@ class HomeController extends Controller
             ->take(4)
             ->get();
 
+<<<<<<< HEAD
         $homeBanners = HomeBanner::active()
             ->ordered()
             ->with(['product.images', 'product.category'])
@@ -113,6 +125,35 @@ class HomeController extends Controller
         );
 
         return view('index', compact('products', 'categories', 'latestBlogs', 'hotDeals', 'homeBanners', 'featuredPromo', 'seo'));
+=======
+        $bannerProducts = Product::where('status', 'active')
+            ->where('featured', true)
+            ->with(['images', 'category'])
+            ->latest()
+            ->take(4)
+            ->get();
+
+        if ($bannerProducts->count() < 2) {
+            $bannerProducts = $bannerProducts->concat(
+                Product::where('status', 'active')
+                    ->when(
+                        $bannerProducts->isNotEmpty(),
+                        fn ($query) => $query->whereNotIn('id', $bannerProducts->pluck('id'))
+                    )
+                    ->with(['images', 'category'])
+                    ->latest()
+                    ->take(4 - $bannerProducts->count())
+                    ->get()
+            )->values();
+        }
+
+        $bannerColors = ['#BB976D', '#627952'];
+        $bannerTitles = ['Wooden Furnitures', 'Modern Collections'];
+        $bannerDescs = ['Design your home with our luxury wooden furnitures.', 'Upgrade your living space with our latest modern furniture collections.'];
+        $shopUrls = [route('shop'), route('shop')];
+
+        return view('index', compact('products', 'categories', 'latestBlogs', 'hotDeals', 'bannerProducts', 'bannerColors', 'bannerTitles', 'bannerDescs', 'shopUrls'));
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 
     public function indexV2()
@@ -130,6 +171,7 @@ class HomeController extends Controller
         return view('index-v4');  
     }
 
+<<<<<<< HEAD
 public function indexV5()
     {
         $products = Product::where('status','active')
@@ -148,6 +190,11 @@ public function indexV5()
             ->get();
 
         return view('index-v5', compact('products', 'categories'));  
+=======
+    public function indexV5()
+    {
+        return view('index-v5');  
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 
     public function indexV6()
@@ -157,10 +204,14 @@ public function indexV5()
 
     public function about()
     {
+<<<<<<< HEAD
         $page = $this->activeCmsPage('about');
         $seo = $page ? app(SeoManager::class)->forCmsPage($page) : null;
 
         return view('about', compact('page', 'seo'));
+=======
+        return view('about');  
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 
     public function pricing()
@@ -185,7 +236,11 @@ public function indexV5()
 
     public function termsAndConditions()
     {
+<<<<<<< HEAD
         return $this->fixedCmsPage('terms-and-conditions', 'terms-and-conditions');
+=======
+        return view('terms-and-conditions');  
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 
     public function portfolioV1()
@@ -272,6 +327,7 @@ public function indexV5()
         return view('order-history', compact('orders'));
     }
 
+<<<<<<< HEAD
     public function quotationHistory()
     {
         $user = auth()->user();
@@ -280,6 +336,11 @@ public function indexV5()
         }
         $quotations = $user->quotations()->with('product.images')->latest()->paginate(10);
         return view('quotation-history', compact('quotations'));
+=======
+    public function userOrders()
+    {
+        return redirect()->route('frontend.account.orders');
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 
     public function wishlist()
@@ -327,6 +388,7 @@ public function indexV5()
         return view('invoice');  
     }
 
+<<<<<<< HEAD
     public function paymentConfirmation(\Illuminate\Http\Request $request)
     {
         $order = null;
@@ -339,14 +401,22 @@ public function indexV5()
         }
 
         return view('payment-confirmation', compact('order'));  
+=======
+    public function paymentConfirmation()
+    {
+        return view('payment-confirmation');  
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 
     public function paymentSuccess(\App\Models\Order $order)
     {
+<<<<<<< HEAD
         $user = auth()->user();
 
         abort_unless($user && ((int) $order->user_id === (int) $user->id || $user->can('admin.access')), 403);
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         return view('payment-success', compact('order'));  
     }
     
@@ -408,6 +478,7 @@ public function indexV5()
 
     public function blogDetailsV3($title = null)
     {
+<<<<<<< HEAD
         $blogQuery = Blog::published()->with('categories');
 
         $blog = $title
@@ -434,11 +505,37 @@ public function indexV5()
             ->pluck('name');
         $tags = $blog->categories->pluck('name')->values()->all();
         $seo = app(SeoManager::class)->forBlog($blog);
+=======
+        $blog = $title
+            ? Blog::published()->where('slug', $title)->firstOrFail()
+            : Blog::published()->firstOrFail();
+
+        $prevBlog = Blog::published()->where('id', '<', $blog->id)->orderBy('id', 'desc')->first();
+        $nextBlog = Blog::published()->where('id', '>', $blog->id)->orderBy('id')->first();
+        $recentBlogs = Blog::published()->where('id', '!=', $blog->id)->limit(4)->get();
+
+        $relatedQuery = Blog::published()->where('id', '!=', $blog->id);
+        if ($blog->tags) {
+            $relatedQuery->where(function ($q) use ($blog) {
+                foreach ($blog->tags as $tag) {
+                    $q->orWhereJsonContains('tags', $tag);
+                }
+            });
+        }
+        $relatedBlogs = $relatedQuery->limit(5)->get();
+
+        $categories = Blog::published()->pluck('tags')->flatten()->unique()->values();
+        $tags = $blog->tags ?? [];
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
         return view('blog-details-v3', compact(
             'blog', 'prevBlog', 'nextBlog', 
             'recentBlogs', 'relatedBlogs', 
+<<<<<<< HEAD
             'categories', 'tags', 'seo'
+=======
+            'categories', 'tags'
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         ));
     }
 
@@ -454,6 +551,7 @@ public function indexV5()
 
     public function contact()
     {
+<<<<<<< HEAD
         $page = $this->activeCmsPage('contact');
         $seo = $page ? app(SeoManager::class)->forCmsPage($page) : null;
 
@@ -501,6 +599,9 @@ public function indexV5()
                 }
             })
             ->first();
+=======
+        return view('contact');  
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 
     public function dashboard()

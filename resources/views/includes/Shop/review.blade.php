@@ -2,7 +2,11 @@
     $approvedReviews = collect($reviews ?? [])->map(function ($r) {
         return [
             'id' => data_get($r, 'id', data_get($r, 'review.id')),
+<<<<<<< HEAD
             'name' => data_get($r, 'reviewer_name', data_get($r, 'user.name', data_get($r, 'name', 'Anonymous'))),
+=======
+            'name' => data_get($r, 'user.name', data_get($r, 'name', 'Anonymous')),
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             'rating' => (int) data_get($r, 'rating', 5),
             'title' => trim((string) data_get($r, 'title', '')),
             'comment' => trim((string) data_get($r, 'comment', '')),

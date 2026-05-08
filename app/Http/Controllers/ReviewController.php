@@ -24,13 +24,23 @@ class ReviewController extends Controller
 
         $review = Review::create([
             'product_id' => $request->product_id,
+<<<<<<< HEAD
             'user_id' => Auth::id(),
             'rating' => $request->rating,
             'title' => substr($request->comment, 0, 100),
+=======
+            'user_id' => Auth::id() ?? null, // Optional guest review
+            'rating' => $request->rating,
+            'title' => substr($request->comment, 0, 100), // Short title
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             'comment' => $request->comment,
             'status' => 'pending',
         ]);
 
+<<<<<<< HEAD
+=======
+        // Optional: Create guest user if no auth
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         if (!$review->user_id && User::where('email', $request->email)->exists()) {
             $user = User::where('email', $request->email)->first();
             $review->update(['user_id' => $user->id]);
@@ -52,7 +62,11 @@ class ReviewController extends Controller
             ->limit(5)
             ->get()
             ->map(fn($r) => [
+<<<<<<< HEAD
                 'name' => $r->reviewer_name ?: ($r->user->name ?? 'Anonymous'),
+=======
+                'name' => $r->user->name ?? 'Anonymous',
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 'rating' => $r->rating,
                 'title' => $r->title ?? $r->comment ?? '',
                 'comment' => $r->comment,

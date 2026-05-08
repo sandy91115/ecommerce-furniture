@@ -14,6 +14,7 @@ class ProductImage extends Model
         'product_id',
         'path',
         'alt',
+<<<<<<< HEAD
         'title',
         'caption',
         'description',
@@ -25,13 +26,22 @@ class ProductImage extends Model
         'sort_order',
         'width',
         'height',
+=======
+        'featured',
+        'base_filename',
+        'original_name',
+        'temp_path',
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     ];
 
     protected $casts = [
         'featured' => 'boolean',
+<<<<<<< HEAD
         'sort_order' => 'integer',
         'width' => 'integer',
         'height' => 'integer',
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     ];
 
     public function getPathAttribute(?string $value): ?string

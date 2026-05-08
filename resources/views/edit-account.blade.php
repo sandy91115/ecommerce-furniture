@@ -37,7 +37,11 @@
                         <a class="duration-300 hover:text-primary" href="{{ url('/order-history') }}">Order History</a>
                     </li>
                     <li class="py-3 lg:py-6 pl-6 lg:pl-12">
+<<<<<<< HEAD
                         <a class="duration-300 hover:text-primary" href="{{ route('quotation-history') }}">Quotation Product</a>
+=======
+                        <a class="duration-300 hover:text-primary" href="{{ url('/wishlist') }}">Wishlist</a>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     </li>
                     <li class="pt-3 lg:pt-6 pl-6 lg:pl-12">
                         <a class="duration-300 hover:text-primary" href="{{ url('/login') }}">Logout</a>

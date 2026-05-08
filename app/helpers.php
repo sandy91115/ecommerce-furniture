@@ -27,6 +27,7 @@ if (! function_exists('currency')) {
     }
 }
 
+<<<<<<< HEAD
 if (! function_exists('versioned_asset')) {
     /**
      * Generate a public asset URL with a filemtime cache buster.
@@ -43,3 +44,5 @@ if (! function_exists('versioned_asset')) {
         return asset($path) . '?v=' . filemtime($publicPath);
     }
 }
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646

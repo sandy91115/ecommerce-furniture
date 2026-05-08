@@ -20,24 +20,33 @@ class OrderController extends Controller
 
     public function index()
     {
+<<<<<<< HEAD
         $this->authorize('orders.view');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $orders = $this->orderService->all();
         return view('admin.orders.index', compact('orders'));
     }
 
     public function create()
     {
+<<<<<<< HEAD
         $this->authorize('orders.update');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $products = \App\Models\Product::where('status', 'active')->get();
         return view('admin.orders.create', compact('products'));
     }
 
     public function store(OrderStoreRequest $request)
     {
+<<<<<<< HEAD
         $this->authorize('orders.update');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $data = $request->validated();
         $this->orderService->create($data);
 
@@ -46,8 +55,11 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
+<<<<<<< HEAD
         $this->authorize('orders.show');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $order->load(['user', 'vendor', 'orderItems.product.images']);
 
         return view('admin.orders.show', [
@@ -58,8 +70,11 @@ class OrderController extends Controller
 
     public function edit(Order $order)
     {
+<<<<<<< HEAD
         $this->authorize('orders.update');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $order->load(['user', 'vendor', 'orderItems.product.images']);
 
         $editableItems = collect($order->items);
@@ -85,8 +100,11 @@ class OrderController extends Controller
 
     public function update(OrderUpdateRequest $request, Order $order)
     {
+<<<<<<< HEAD
         $this->authorize('orders.update');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $data = $request->validated();
         $this->orderService->update($order->id, $data);
 
@@ -95,16 +113,22 @@ class OrderController extends Controller
 
     public function destroy(Order $order)
     {
+<<<<<<< HEAD
         $this->authorize('orders.delete');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $this->orderService->delete($order->id);
         return redirect()->route('admin.orders.index')->with('success', 'Order moved to Recycle Bin successfully.');
     }
 
     public function pending()
     {
+<<<<<<< HEAD
         $this->authorize('orders.view');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $orders = $this->orderService->byStatus('pending');
         return view('admin.orders.pending', compact('orders'));
     }

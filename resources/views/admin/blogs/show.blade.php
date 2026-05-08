@@ -3,7 +3,11 @@
 @section('title', $blog->title)
 
 @section('content')
+<<<<<<< HEAD
 <div class="px-6 py-8">
+=======
+<div class="max-w-4xl mx-auto px-6 py-8">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-gray-900">{{ $blog->title }}</h1>
         <div class="space-x-2">
@@ -19,7 +23,11 @@
     <div class="bg-white shadow-xl rounded-xl overflow-hidden">
         @if($blog->featured_image)
         <div class="h-64 bg-gradient-to-r from-blue-500 to-indigo-600 relative overflow-hidden">
+<<<<<<< HEAD
             <img src="{{ $blog->image_url }}" alt="{{ $blog->title }}" class="w-full h-full object-cover">
+=======
+            <img src="{{ Storage::url($blog->featured_image) }}" alt="{{ $blog->title }}" class="w-full h-full object-cover">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             <div class="absolute inset-0 bg-black/20"></div>
         </div>
         @endif

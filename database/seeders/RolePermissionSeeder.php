@@ -25,6 +25,7 @@ class RolePermissionSeeder extends Seeder
 
             // Catalog & supporting admin modules
             'products.view',
+<<<<<<< HEAD
             'products.create',
             'products.update',
             'products.delete',
@@ -46,6 +47,12 @@ class RolePermissionSeeder extends Seeder
             'reviews.update',
             'reviews.delete',
             'reviews.moderate',
+=======
+            'attributes.view',
+            'coupons.view',
+            'contacts.view',
+            'quotations.view',
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             
             // Orders
             'orders.view',
@@ -88,6 +95,7 @@ class RolePermissionSeeder extends Seeder
             
             // Menus & Settings
             'menus.view',
+<<<<<<< HEAD
             'menus.create',
             'menus.update',
             'menus.delete',
@@ -95,6 +103,11 @@ class RolePermissionSeeder extends Seeder
             'settings.update',
             'payment_methods.view',
             'payment_methods.update',
+=======
+            'menus.update',
+            'settings.view',
+            'settings.update',
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         ];
 
         foreach ($permissions as $permission) {
@@ -116,6 +129,7 @@ class RolePermissionSeeder extends Seeder
             'admin.access',
             'dashboard.view',
             'categories.view',
+<<<<<<< HEAD
             'products.view',
             'products.create',
             'products.update',
@@ -128,13 +142,20 @@ class RolePermissionSeeder extends Seeder
             'orders.show',
             'orders.update',
             'orders.update_status',
+=======
+            'orders.view',
+            'orders.show',
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             'customers.view',
             'customers.show',
             'customers.create',
             'customers.verify',
+<<<<<<< HEAD
             'quotations.view',
             'quotations.update',
             'contacts.view',
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         ];
         $shopTeamRole->syncPermissions($shopTeamPerms);
 
@@ -153,6 +174,7 @@ class RolePermissionSeeder extends Seeder
             'cms.create',
             'cms.update',
             'cms.delete',
+<<<<<<< HEAD
             'contacts.view',
             'reviews.view',
             'reviews.create',
@@ -163,6 +185,8 @@ class RolePermissionSeeder extends Seeder
             'menus.create',
             'menus.update',
             'menus.delete',
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         ];
         $marketingTeamRole->syncPermissions($marketingTeamPerms);
 

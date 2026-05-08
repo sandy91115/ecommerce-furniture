@@ -3,7 +3,11 @@
 @section('title', 'Edit Customer')
 
 @section('content')
+<<<<<<< HEAD
 <div >
+=======
+<div class="max-w-4xl">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     <div class="flex items-center mb-8">
         <a href="{{ route('admin.customers.index') }}" class="text-gray-600 hover:text-gray-900">
             <i class="fas fa-arrow-left mr-2"></i> Back to Customers

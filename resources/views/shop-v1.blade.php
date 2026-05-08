@@ -102,7 +102,11 @@
                         </div>
                     </div>
                 </div>
+<<<<<<< HEAD
                  <!-- Shop promotion -->
+=======
+                 <!-- Optional ad card -->
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             <a href="{{ url('/shop') }}" class="hidden lg:block mt-10">
                 <img class="w-full" src="{{ asset('assets/img/thumb/shop-card.jpg') }}" alt="shop-card">
             </a>

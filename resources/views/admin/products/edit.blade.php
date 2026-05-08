@@ -3,7 +3,11 @@
 @section('title', 'Edit Product')
 
 @section('content')
+<<<<<<< HEAD
 <div class=" mx-auto">
+=======
+<div class="max-w-7xl mx-auto">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     <div class="flex items-center justify-between gap-4 mb-6">
         <div>
             <h1 class="text-3xl font-bold text-gray-900">Edit Product: {{ $product->name }}</h1>
@@ -40,7 +44,11 @@
                         <option value="">Select Category</option>
                         @foreach($categories as $category)
                             <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
+<<<<<<< HEAD
                                 {{ $category->option_label ?? $category->name }}
+=======
+                                {{ $category->name }}
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                             </option>
                         @endforeach
                     </select>
@@ -66,7 +74,11 @@
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                     <div class="mt-2">
+<<<<<<< HEAD
                         <a href="{{ route('product-details', $product->slug) }}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View Product <i class="fas fa-external-link-alt ml-1"></i></a>
+=======
+                        <a href="/product/{{ $product->slug }}" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View Product <i class="fas fa-external-link-alt ml-1"></i></a>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     </div>
                 </div>
 
@@ -97,6 +109,7 @@
                 </div>
 
                 <div>
+<<<<<<< HEAD
                     <label class="block text-sm font-medium text-gray-700 mb-2">Display Rating</label>
                     <input type="number" name="product_rating" step="0.1" min="0" max="5" value="{{ old('product_rating', $product->product_rating) }}" placeholder="e.g. 4.7" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('product_rating') border-red-500 @enderror">
                     @error('product_rating')
@@ -113,6 +126,8 @@
                 </div>
 
                 <div>
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     <label class="block text-sm font-medium text-gray-700 mb-2">Tax Slab *</label>
                     <select name="tax_slab" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('tax_slab') border-red-500 @enderror">
                         <option value="">Select Tax Slab</option>
@@ -135,6 +150,7 @@
                     @enderror
                 </div>
 
+<<<<<<< HEAD
                 <!--<div>-->
                 <!--    <label class="block text-sm font-medium text-gray-700 mb-2">Weight (kg)</label>-->
                 <!--    <input type="number" name="weight" step="0.01" min="0" value="{{ old('weight', $product->weight) }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('weight') border-red-500 @enderror">-->
@@ -142,6 +158,15 @@
                 <!--        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>-->
                 <!--    @enderror-->
                 <!--</div>-->
+=======
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Weight (kg)</label>
+                    <input type="number" name="weight" step="0.01" min="0" value="{{ old('weight', $product->weight) }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('weight') border-red-500 @enderror">
+                    @error('weight')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
@@ -166,13 +191,18 @@
                             <span class="ml-2 text-sm font-medium text-gray-700">Sell</span>
                         </label>
                         <label class="flex items-center">
+<<<<<<< HEAD
                             <input type="radio" name="product_type" value="quotation" {{ old('product_type', $product->product_type) == 'quotation' ? 'checked' : '' }} required class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+=======
+                            <input type="radio" name="product_type" value="quotation" {{ old('product_type', $product->product_type) == 'quotation' ? 'checked' : '' }} class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                             <span class="ml-2 text-sm font-medium text-gray-700">Quotation</span>
                         </label>
                     </div>
                     @error('product_type')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
+<<<<<<< HEAD
                     <p class="text-xs text-gray-500 mt-1">Sell products can be purchased directly. Quotation products show the quote request flow.</p>
                 </div>
 
@@ -205,6 +235,40 @@
                 <!--        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>-->
                 <!--    @enderror-->
                 <!--</div>-->
+=======
+                    <p class="text-xs text-gray-500 mt-1">Sell: Regular product. Quotation: Customer inquiry form.</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Material</label>
+                    <select name="material_id" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('material_id') border-red-500 @enderror">
+                        <option value="">Select Material</option>
+                        @foreach($materials as $material)
+                            <option value="{{ $material->id }}" {{ old('material_id', $product->material_id) == $material->id ? 'selected' : '' }}>
+                                {{ $material->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('material_id')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Color</label>
+                    <select name="color_id" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('color_id') border-red-500 @enderror">
+                        <option value="">Select Color</option>
+                        @foreach($colors as $color)
+                            <option value="{{ $color->id }}" {{ old('color_id', $product->color_id) == $color->id ? 'selected' : '' }}>
+                                {{ $color->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('color_id')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
@@ -247,6 +311,7 @@
                 </div>
             </div>
 
+<<<<<<< HEAD
             @include('admin.seo.partials.advanced-fields', [
                 'seoMetadata' => $seoMetadata,
                 'includeTitleFields' => false,
@@ -264,6 +329,16 @@
             <!--    @enderror-->
             <!--    <p class="text-xs text-gray-500 mt-1">Example: {"length": 200, "width": 100, "height": 80, "unit": "cm"}</p>-->
             <!--</div>-->
+=======
+            <div class="mt-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Dimensions (JSON)</label>
+                <textarea name="dimensions" rows="3" placeholder='{"length": 200, "width": 100, "height": 80, "unit": "cm"}' class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('dimensions') border-red-500 @enderror">{{ old('dimensions', is_array($product->dimensions) ? json_encode($product->dimensions) : $product->dimensions) }}</textarea>
+                @error('dimensions')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+                <p class="text-xs text-gray-500 mt-1">Example: {"length": 200, "width": 100, "height": 80, "unit": "cm"}</p>
+            </div>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
             <div class="mt-6">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Short Description *</label>
@@ -281,6 +356,10 @@
                 @enderror
             </div>
 
+<<<<<<< HEAD
+=======
+            <!-- Extra Info (Optional) -->
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             <div class="mt-6">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Extra Info Title (Optional)</label>
                 <input type="text" name="extra_title" value="{{ old('extra_title', $product->extra_title) }}" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
@@ -292,6 +371,7 @@
             </div>
 
             <div class="mt-6">
+<<<<<<< HEAD
                 <label class="block text-sm font-medium text-gray-700 mb-2">Care And Maintenance (Optional)</label>
                 <textarea id="care_and_maintenance" name="care_and_maintenance" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('care_and_maintenance') border-red-500 @enderror">{{ old('care_and_maintenance', $product->care_and_maintenance) }}</textarea>
                 @error('care_and_maintenance')
@@ -311,6 +391,8 @@
             @include('admin.products.partials.inline-reviews')
 
             <div class="mt-6">
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 <label class="flex items-center mb-4">
                     <input type="checkbox" name="replace_images" value="1" id="replace_images" {{ old('replace_images') ? 'checked' : '' }} class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-2">
                     <span class="text-sm font-medium text-gray-700">Replace all existing images with new ones?</span>
@@ -335,13 +417,21 @@
                                     Marked for deletion
                                 </div>
 
+<<<<<<< HEAD
                                 <span class="absolute left-3 top-3 inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold shadow-sm {{ $image->featured ? 'bg-blue-600 text-white' : 'bg-white/95 text-slate-900 ring-1 ring-black/5 dark:bg-slate-950/85 dark:text-white dark:ring-white/30' }}">
+=======
+                                <span class="absolute left-3 top-3 inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold {{ $image->featured ? 'bg-blue-600 text-white' : 'bg-white/90 text-gray-700' }}">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                                     {{ $image->featured ? 'Featured' : 'Current image' }}
                                 </span>
 
                                 <button
                                     type="button"
+<<<<<<< HEAD
                                     class="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full text-white shadow-lg transition {{ $markedForDeletion ? 'bg-red-700 hover:bg-red-800' : 'bg-red-600 hover:bg-red-700' }}"
+=======
+                                    class="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full shadow-lg transition {{ $markedForDeletion ? 'bg-red-700 text-white' : 'bg-white/90 text-red-600 hover:bg-red-600 hover:text-white' }}"
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                                     data-image-remove-toggle
                                     aria-pressed="{{ $markedForDeletion ? 'true' : 'false' }}"
                                     aria-label="{{ $markedForDeletion ? 'Undo remove image' : 'Remove image' }}"
@@ -349,6 +439,7 @@
                                     <i class="fas {{ $markedForDeletion ? 'fa-undo' : 'fa-trash-alt' }} text-sm"></i>
                                 </button>
 
+<<<<<<< HEAD
                                 <div class="space-y-3 p-3 text-xs text-gray-600">
                                     <div>{{ $image->original_name ?: basename($image->path) }}</div>
                                     <label class="block font-semibold text-gray-700">
@@ -377,6 +468,10 @@
                                             Featured
                                         </label>
                                     </div>
+=======
+                                <div class="p-3 text-xs text-gray-600">
+                                    {{ $image->original_name ?: basename($image->path) }}
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                                 </div>
 
                                 <input type="checkbox" name="delete_image[]" value="{{ $image->id }}" class="sr-only" data-delete-checkbox {{ $markedForDeletion ? 'checked' : '' }}>
@@ -440,10 +535,16 @@
             card.classList.toggle('opacity-70', marked);
             overlay.classList.toggle('hidden', !marked);
             toggle.classList.toggle('bg-red-700', marked);
+<<<<<<< HEAD
             toggle.classList.toggle('hover:bg-red-800', marked);
             toggle.classList.add('text-white');
             toggle.classList.toggle('bg-red-600', !marked);
             toggle.classList.toggle('hover:bg-red-700', !marked);
+=======
+            toggle.classList.toggle('text-white', marked);
+            toggle.classList.toggle('bg-white/90', !marked);
+            toggle.classList.toggle('text-red-600', !marked);
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             toggle.setAttribute('aria-pressed', marked ? 'true' : 'false');
             toggle.setAttribute('aria-label', marked ? 'Undo remove image' : 'Remove image');
             icon.className = marked ? 'fas fa-undo text-sm' : 'fas fa-trash-alt text-sm';
@@ -517,7 +618,11 @@
                         <button type="button" class="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center rounded-full bg-red-600 text-white shadow-lg transition hover:bg-red-700" data-remove-index="${index}" aria-label="Remove image">
                             <i class="fas fa-times text-sm"></i>
                         </button>
+<<<<<<< HEAD
                         <span class="absolute left-3 top-3 inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold shadow-sm ${index === featuredIndex ? 'bg-blue-600 text-white' : 'bg-white/95 text-slate-900 ring-1 ring-black/5 dark:bg-slate-950/85 dark:text-white dark:ring-white/30'}">
+=======
+                        <span class="absolute left-3 top-3 inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${index === featuredIndex ? 'bg-blue-600 text-white' : 'bg-white/90 text-gray-700'}">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                             ${index === featuredIndex ? 'Featured image' : 'Selected image'}
                         </span>
                     </div>
@@ -529,10 +634,13 @@
                         <button type="button" class="inline-flex items-center rounded-lg px-3 py-2 text-xs font-semibold transition ${index === featuredIndex ? 'bg-blue-50 text-blue-700 ring-1 ring-blue-200' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}" data-feature-index="${index}">
                             ${index === featuredIndex ? 'Featured selected' : 'Set as featured'}
                         </button>
+<<<<<<< HEAD
                         <label class="block text-xs font-semibold text-gray-600">
                             Image Alt Text
                             <input type="text" name="image_alts[${index}]" value="" placeholder="Auto: product + material + category" class="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
                         </label>
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     </div>
                 `;
 

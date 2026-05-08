@@ -20,6 +20,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(RolePermissionSeeder::class);
+<<<<<<< HEAD
+=======
+        $this->call(MenuSeeder::class);
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
         $admin = User::where('email', 'admin@caromstudios.com')->first();
         if ($admin && !$admin->hasRole('super_admin')) {
@@ -98,7 +102,11 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
+<<<<<<< HEAD
         // Default coupons
+=======
+        // Demo Coupons
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         Coupon::firstOrCreate(
             ['code' => 'WELCOME10'],
             [
@@ -122,17 +130,29 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+<<<<<<< HEAD
         // Default materials
+=======
+        // Demo Materials
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         Material::firstOrCreate(['slug' => 'wood'], ['name' => 'Wood']);
         Material::firstOrCreate(['slug' => 'metal'], ['name' => 'Metal']);
         Material::firstOrCreate(['slug' => 'fabric'], ['name' => 'Fabric']);
 
+<<<<<<< HEAD
         // Default colors
+=======
+        // Demo Colors
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         Color::firstOrCreate(['slug' => 'brown'], ['name' => 'Brown', 'hex_code' => '#8B4513']);
         Color::firstOrCreate(['slug' => 'black'], ['name' => 'Black', 'hex_code' => '#000000']);
         Color::firstOrCreate(['slug' => 'white'], ['name' => 'White', 'hex_code' => '#FFFFFF']);
 
+<<<<<<< HEAD
         // Default shipping zone
+=======
+        // Demo Shipping Zone
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $zone = ShippingZone::firstOrCreate(
             ['name' => 'India'],
             [
@@ -148,9 +168,15 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+<<<<<<< HEAD
         // Default review
         $firstProduct = Product::first();
         if ($firstProduct && $admin) {
+=======
+        // Demo Review
+        $firstProduct = Product::first();
+        if ($firstProduct) {
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             Review::firstOrCreate(
                 ['product_id' => $firstProduct->id, 'user_id' => $admin->id],
                 [
@@ -162,10 +188,14 @@ class DatabaseSeeder extends Seeder
             );
         }
 
+<<<<<<< HEAD
 $this->call([
     ReviewSeeder::class,
 
 ]);
+=======
+        $this->call(ReviewSeeder::class);
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 
 }

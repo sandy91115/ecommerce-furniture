@@ -13,20 +13,29 @@
 /.zed
 /auth.json
 /node_modules
+<<<<<<< HEAD
 /playwright-report
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 /public/build
 /public/hot
 /public/storage
 /storage/*.key
 /storage/pail
+<<<<<<< HEAD
 /test-results
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 /vendor
 Homestead.json
 Homestead.yaml
 Thumbs.db
+<<<<<<< HEAD
 
 # Playwright
 node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646

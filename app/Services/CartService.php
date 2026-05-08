@@ -3,7 +3,10 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Session;
 use App\Models\Product;
+<<<<<<< HEAD
 use Illuminate\Validation\ValidationException;
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
 class CartService
 {
@@ -25,11 +28,15 @@ class CartService
 
     public function add($productId, $quantity = 1, $variationId = null, $attributes = [])
     {
+<<<<<<< HEAD
         $product = Product::query()
             ->whereKey($productId)
             ->where('status', 'active')
             ->where('product_type', 'sell')
             ->firstOrFail();
+=======
+        $product = Product::findOrFail($productId);
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $cart = $this->get();
 
         $attrKey = '';
@@ -53,6 +60,7 @@ class CartService
         }
 
         $key = $productId . ($variationId ? '_v' . $variationId : '') . $attrKey;
+<<<<<<< HEAD
         $newQuantity = ($cart[$key]['quantity'] ?? 0) + $quantity;
 
         if ((int) $product->stock < $newQuantity) {
@@ -60,6 +68,8 @@ class CartService
                 'quantity' => "Only {$product->stock} item(s) are available for {$product->name}.",
             ]);
         }
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
         if (isset($cart[$key])) {
             $cart[$key]['quantity'] += $quantity;
@@ -87,6 +97,7 @@ class CartService
     {
         $cart = $this->get();
         if (isset($cart[$key])) {
+<<<<<<< HEAD
             $product = Product::query()
                 ->whereKey($cart[$key]['id'])
                 ->where('status', 'active')
@@ -109,6 +120,8 @@ class CartService
                 ]);
             }
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             $cart[$key]['quantity'] = $quantity;
             if ($quantity <= 0) {
                 unset($cart[$key]);
@@ -131,6 +144,7 @@ class CartService
         Session::forget('cart');
     }
 
+<<<<<<< HEAD
     public function validateForCheckout(): array
     {
         $cart = $this->get();
@@ -166,6 +180,8 @@ class CartService
         return $cart;
     }
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     public function total()
     {
         return $this->summary()['subtotal'];

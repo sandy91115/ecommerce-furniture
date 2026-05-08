@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\CartService;
 use App\Services\OrderService;
+<<<<<<< HEAD
 use App\Models\PaymentTransaction;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+=======
+use Illuminate\Support\Facades\Auth;
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
 class CheckoutController extends Controller
 {
@@ -24,13 +28,20 @@ class CheckoutController extends Controller
 
     public function index()
     {
+<<<<<<< HEAD
         $cartItems = $this->cartService->validateForCheckout();
+=======
+        $cartItems = $this->cartService->get();
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         if (empty($cartItems)) {
             return redirect()->route('shop')->with('error', 'Your cart is empty');
         }
 
         $summary = $this->cartService->summary($cartItems);
+<<<<<<< HEAD
         $paymentMethods = $this->availablePaymentMethods();
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
         return view('checkout', [
             'cartItems' => $cartItems,
@@ -38,15 +49,21 @@ class CheckoutController extends Controller
             'tax' => $summary['tax'],
             'total' => $summary['total'],
             'taxLabel' => $summary['tax_label'],
+<<<<<<< HEAD
             'paymentMethods' => $paymentMethods,
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         ]);
     }
 
     public function process(Request $request)
     {
+<<<<<<< HEAD
         $paymentMethods = $this->availablePaymentMethods();
         $availableMethodKeys = array_keys($paymentMethods);
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -58,31 +75,45 @@ class CheckoutController extends Controller
             'state' => 'required|string',
             'zipcode' => 'required|string',
             'terms' => 'accepted',
+<<<<<<< HEAD
             'payment_method' => ['required', Rule::in($availableMethodKeys)],
         ]);
 
         $cartItems = $this->cartService->validateForCheckout();
+=======
+        ]);
+
+        $cartItems = $this->cartService->get();
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
         if (empty($cartItems)) {
             return response()->json(['success' => false, 'message' => 'Cart is empty'], 400);
         }
 
         $address = "{$request->address}, {$request->city}, {$request->state} {$request->zipcode}, {$request->country}";
+<<<<<<< HEAD
         $selectedPayment = $paymentMethods[$request->payment_method];
         $isGatewayPayment = $selectedPayment['type'] === 'gateway';
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         
         $orderData = [
             'user_id' => Auth::id(),
             'order_number' => 'ORD-' . strtoupper(uniqid()),
             'total_amount' => $this->cartService->grandTotal(),
             'status' => 'pending',
+<<<<<<< HEAD
             'payment_status' => $isGatewayPayment ? 'pending' : 'pending',
             'payment_method' => $isGatewayPayment ? 'online' : 'cod',
             'payment_gateway' => $isGatewayPayment ? $request->payment_method : null,
+=======
+            'payment_status' => 'pending',
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             'shipping_address' => $address,
             'items' => array_values($cartItems),
         ];
 
+<<<<<<< HEAD
         $order = DB::transaction(function () use ($orderData, $isGatewayPayment, $selectedPayment) {
             $order = $this->orderService->create($orderData);
 
@@ -172,4 +203,16 @@ class CheckoutController extends Controller
 
         return $methods;
     }
+=======
+        $order = $this->orderService->create($orderData);
+
+        $this->cartService->clear();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Order #' . $order->order_number . ' placed successfully!',
+            'redirect' => route('payment-success', $order->id)
+        ]);
+    }
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 }

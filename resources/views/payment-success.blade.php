@@ -39,7 +39,11 @@
                 <a href="{{ url('/shop') }}" class="btn btn-outline" data-text="Back to Shop">
                     <span>Back to Shop</span>
                 </a>
+<<<<<<< HEAD
                 <a href="{{ route('order-history') }}" class="btn btn-theme-solid" data-text="View Orders">
+=======
+                <a href="{{ url('/user/orders') }}" class="btn btn-theme-solid" data-text="View Orders">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     <span>View Orders</span>
                 </a>
             </div>
@@ -50,4 +54,8 @@
 
 @include('includes.footer')
   
+<<<<<<< HEAD
 @endsection
+=======
+@endsection
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646

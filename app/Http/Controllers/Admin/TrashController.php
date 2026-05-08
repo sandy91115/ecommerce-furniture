@@ -69,10 +69,13 @@ class TrashController extends Controller
             return back()->with('error', 'Invalid recycle bin item.');
         }
 
+<<<<<<< HEAD
         if ($type === 'menu' && $item->is_permanent) {
             return back()->with('error', 'Permanent menu items cannot be permanently deleted.');
         }
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         if ($type === 'vendor') {
             $vendorUser = $item->user()->withTrashed()->first();
             $item->deleteFiles();

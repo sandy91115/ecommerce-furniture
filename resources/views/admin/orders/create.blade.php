@@ -3,7 +3,11 @@
 @section('title', 'Create Order')
 
 @section('content')
+<<<<<<< HEAD
 <div class="">
+=======
+<div class="max-w-2xl">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     <div class="flex items-center mb-8">
         <a href="{{ route('admin.orders.index') }}" class="text-gray-600 hover:text-gray-900">
             <i class="fas fa-arrow-left mr-2"></i> Back to Orders
@@ -51,17 +55,31 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
                 <select name="status" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+<<<<<<< HEAD
                     @foreach(\App\Enums\OrderStatus::cases() as $status)
                         <option value="{{ $status->value }}" {{ old('status', 'pending') === $status->value ? 'selected' : '' }}>{{ $status->label() }}</option>
                     @endforeach
+=======
+                    <option value="pending">Pending</option>
+                    <option value="processing">Processing</option>
+                    <option value="shipped">Shipped</option>
+                    <option value="delivered">Delivered</option>
+                    <option value="cancelled">Cancelled</option>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 </select>
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Payment Status</label>
                 <select name="payment_status" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+<<<<<<< HEAD
                     @foreach(\App\Models\Order::PAYMENT_STATUSES as $value => $label)
                         <option value="{{ $value }}" {{ old('payment_status', 'pending') === $value ? 'selected' : '' }}>{{ $label }}</option>
                     @endforeach
+=======
+                    <option value="pending">Pending</option>
+                    <option value="paid">Paid</option>
+                    <option value="failed">Failed</option>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 </select>
             </div>
         </div>

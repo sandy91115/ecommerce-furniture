@@ -34,6 +34,7 @@ enum OrderStatus: string
             self::CANCELLED, self::RETURNED, self::REFUNDED => 'bg-red-100 text-red-800',
         };
     }
+<<<<<<< HEAD
 
     public function color(): string
     {
@@ -44,5 +45,7 @@ enum OrderStatus: string
             self::CANCELLED, self::RETURNED, self::REFUNDED => '#E13939',
         };
     }
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 }
 

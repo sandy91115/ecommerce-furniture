@@ -27,8 +27,12 @@ class ProductUpdateRequest extends FormRequest
             'stock' => 'required|integer|min:0',
             'short_description' => 'required|string|max:500',
             'description' => 'required|string',
+<<<<<<< HEAD
             'status' => 'required|in:pending,active,rejected',
             'product_type' => 'required|in:sell,quotation',
+=======
+'status' => 'required|in:pending,active,rejected',
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             'featured' => 'boolean',
             'dimensions' => 'nullable|string',
             'weight' => 'nullable|numeric|min:0',
@@ -38,6 +42,7 @@ class ProductUpdateRequest extends FormRequest
             'assembly_required' => 'boolean',
             'seo_title' => 'nullable|string|max:255',
             'seo_description' => 'nullable|string|max:500',
+<<<<<<< HEAD
             'seo_meta' => 'nullable|array',
             'seo_meta.focus_keyword' => 'nullable|string|max:255',
             'seo_meta.keywords' => 'nullable|string|max:1000',
@@ -99,6 +104,14 @@ class ProductUpdateRequest extends FormRequest
             'product_reviews.*.status' => 'nullable|in:pending,approved,rejected',
             'delete_product_reviews' => 'nullable|array',
             'delete_product_reviews.*' => 'integer|exists:reviews,id',
+=======
+            'tax_slab' => 'required|string|in:0,nil_rate,5,18,40,special_rates',
+'images.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'replace_images' => 'nullable|boolean',
+            'delete_image' => 'nullable|array',
+            'delete_image.*' => 'integer|exists:product_images,id',
+            'featured_image_index' => 'nullable|integer|min:0',
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         ];
     }
 

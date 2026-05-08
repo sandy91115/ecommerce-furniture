@@ -54,6 +54,7 @@
             </svg>                    
         </button>
         <h3 class="font-semibold leading-none mb-6 pl-5 xl:pl-0 text-title dark:text-title text-3xl">Product Category</h3>
+<<<<<<< HEAD
 @if($categories && $categories->count() > 0)
         <ul class="divide-y divide-[#C5B7AA] dark:divide-bdr-clr-drk sm:text-lg leading-none sm:leading-none text-title dark:text-white pb-5">
             @foreach($categories as $category)
@@ -61,6 +62,19 @@
             @endforeach
         </ul>
         @endif
+=======
+        <ul class="divide-y divide-[#C5B7AA] dark:divide-bdr-clr-drk sm:text-lg leading-none sm:leading-none text-title dark:text-white pb-5">
+            <li class="pl-5 xl:pl-0 py-4 sm:py-5 xl:py-6 relative z-[1] before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-[-1] block before:duration-500 dark:text-title"><a href="{{ url('/product-category') }}">Chair</a></li>
+            <li class="pl-5 xl:pl-0 py-4 sm:py-5 xl:py-6 relative z-[1] before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-[-1] block before:duration-500 dark:text-title"><a href="{{ url('/product-category') }}">Table</a></li>
+            <li class="pl-5 xl:pl-0 py-4 sm:py-5 xl:py-6 relative z-[1] before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-[-1] block before:duration-500 dark:text-title"><a href="{{ url('/product-category') }}">Sofa Set</a></li>
+            <li class="pl-5 xl:pl-0 py-4 sm:py-5 xl:py-6 relative z-[1] before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-[-1] block before:duration-500 dark:text-title"><a href="{{ url('/product-category') }}">Vases</a></li>
+            <li class="pl-5 xl:pl-0 py-4 sm:py-5 xl:py-6 relative z-[1] before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-[-1] block before:duration-500 dark:text-title"><a href="{{ url('/product-category') }}">Lamp & Light</a></li>
+            <li class="pl-5 xl:pl-0 py-4 sm:py-5 xl:py-6 relative z-[1] before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-[-1] block before:duration-500 dark:text-title"><a href="{{ url('/product-category') }}">Almirah</a></li>
+            <li class="pl-5 xl:pl-0 py-4 sm:py-5 xl:py-6 relative z-[1] before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-[-1] block before:duration-500 dark:text-title"><a href="{{ url('/product-category') }}">Dressing table</a></li>
+            <li class="pl-5 xl:pl-0 py-4 sm:py-5 xl:py-6 relative z-[1] before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-[-1] block before:duration-500 dark:text-title"><a href="{{ url('/product-category') }}">Watch</a></li>
+            <li class="pl-5 xl:pl-0 py-4 sm:py-5 xl:py-6 relative z-[1] before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-[-1] block before:duration-500 dark:text-title"><a href="{{ url('/product-category') }}">Mirror</a></li> 
+        </ul>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     </div>
     <div class="container-fluid">
         <div class="max-w-[1720px] mx-auto">
@@ -336,5 +350,10 @@
 @include('includes.Home.popup')
 
 @include('includes.footer4')
+<<<<<<< HEAD
 
 @endsection
+=======
+  
+@endsection
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646

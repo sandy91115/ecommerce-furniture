@@ -50,6 +50,16 @@ class ProductService
 
         $product = $this->repository->create($data);
 
+<<<<<<< HEAD
+=======
+        // Handle images
+        if (isset($data['images'])) {
+            foreach ($data['images'] as $imagePath) {
+                // Logic for images
+            }
+        }
+
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         return $product;
     }
 

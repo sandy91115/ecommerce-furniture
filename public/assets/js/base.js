@@ -1,5 +1,6 @@
 // Navbar improvements
 document.addEventListener('DOMContentLoaded', function() {
+<<<<<<< HEAD
     document.querySelectorAll('.nav-shop-link > span:not(.shop-dropdown-label):not(.shop-dropdown-arrow)').forEach(span => {
         span.remove();
     });
@@ -62,10 +63,25 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             menuItem.classList.toggle('active', shouldOpen);
         }, true);
+=======
+    // Mobile menu toggle
+    const hamburger = document.querySelector('.hamburger');
+    const mainMenu = document.querySelector('.main-menu');
+    
+    if (hamburger && mainMenu) {
+        hamburger.addEventListener('click', function() {
+            const isOpen = mainMenu.classList.toggle('mobile-open');
+            hamburger.setAttribute('aria-expanded', isOpen);
+            hamburger.querySelectorAll('.line').forEach((line, index) => {
+                line.style.transitionDelay = `${index * 50}ms`;
+            });
+        });
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         
         // Close on outside click
         document.addEventListener('click', function(e) {
             if (!mainMenu.contains(e.target) && !hamburger.contains(e.target)) {
+<<<<<<< HEAD
                 closeMobileMenu();
             }
         });
@@ -75,6 +91,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 closeMobileMenu();
             });
         });
+=======
+                mainMenu.classList.remove('mobile-open');
+                hamburger.setAttribute('aria-expanded', 'false');
+            }
+        });
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 
     // Navbar smooth scroll highlight + enhanced active states

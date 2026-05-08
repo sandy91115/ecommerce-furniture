@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "$schema": "https://json.schemastore.org/package.json",
   "private": true,
   "type": "module",
@@ -22,4 +23,24 @@
   "dependencies": {
     "autoprefixer": "^10.4.21"
   }
+=======
+    "$schema": "https://json.schemastore.org/package.json",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "vite build",
+        "dev": "vite"
+    },
+    "devDependencies": {
+        "@tailwindcss/vite": "^4.1.11",
+        "axios": "^1.8.2",
+        "concurrently": "^9.0.1",
+        "laravel-vite-plugin": "^2.0.0",
+        "tailwindcss": "^4.1.11",
+        "vite": "^7.0.4"
+    },
+    "dependencies": {
+        "autoprefixer": "^10.4.21"
+    }
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 }

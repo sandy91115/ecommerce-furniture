@@ -28,7 +28,11 @@
                             <a href="#"
                                 class="w-10 h-10 rounded-full border border-[#898F95] border-opacity-50 flex items-center justify-center group duration-300"
                                 aria-label="Facebook">
+<<<<<<< HEAD
                                 <svg class="fill-current text-[#5B646D]  duration-300" width="12"
+=======
+                                <svg class="fill-current text-[#5B646D] dark:text-white duration-300" width="12"
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                                     height="19" viewBox="0 0 9 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         d="M6.60577 3.57091H8.06641V1.01793C7.35979 0.939731 6.64934 0.901696 5.93845 0.904012C5.44674 0.875673 4.9548 0.955623 4.49713 1.13826C4.03945 1.32089 3.6271 1.60179 3.28898 1.96127C2.95087 2.32075 2.69516 2.7501 2.5398 3.21924C2.38443 3.68838 2.33316 4.18596 2.38957 4.67708V6.92589H0.0664062V9.78076H2.38957V16.9578H5.2382V9.78076H7.46831L7.8224 6.92589H5.2382V4.95961C5.23934 4.13482 5.46065 3.57091 6.60577 3.57091Z" />
@@ -37,7 +41,11 @@
                             <a href="#"
                                 class="w-10 h-10 rounded-full border border-[#898F95] border-opacity-50 flex items-center justify-center group duration-300"
                                 aria-label="Twitter">
+<<<<<<< HEAD
                                 <svg class="fill-current text-[#5B646D]  duration-300" width="21"
+=======
+                                <svg class="fill-current text-[#5B646D] dark:text-white duration-300" width="21"
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                                     height="17" viewBox="0 0 21 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         d="M20.0664 2.79793C19.3139 3.12213 18.518 3.33748 17.7034 3.43737C18.5614 2.93408 19.203 2.1373 19.5067 1.19787C18.7031 1.66898 17.824 2.00078 16.9073 2.17893C16.3448 1.58655 15.6152 1.17498 14.813 0.997632C14.0109 0.820283 13.1734 0.885344 12.4092 1.18437C11.645 1.4834 10.9893 2.0026 10.5273 2.67457C10.0653 3.34654 9.81826 4.14027 9.81829 4.95275C9.8149 5.26331 9.84661 5.57327 9.91281 5.87687C8.2822 5.79842 6.68668 5.38079 5.23048 4.65126C3.77429 3.92172 2.49018 2.89669 1.46206 1.64315C0.934597 2.53471 0.771252 3.59165 1.00537 4.59822C1.23949 5.60479 1.85343 6.48508 2.72185 7.05939C2.07295 7.0421 1.43777 6.87085 0.869833 6.5601V6.6039C0.870909 7.53977 1.1981 8.4467 1.79632 9.17206C2.39455 9.89742 3.22731 10.3969 4.15443 10.5865C3.80358 10.6777 3.44202 10.7224 3.07926 10.7194C2.81857 10.7242 2.55811 10.7012 2.30241 10.6508C2.56687 11.4554 3.07741 12.1591 3.76359 12.6649C4.44978 13.1706 5.27781 13.4534 6.13346 13.4742C4.68099 14.5956 2.89006 15.2032 1.04706 15.1998C0.719312 15.202 0.391758 15.1835 0.0664062 15.1443C1.94176 16.3371 4.12647 16.9674 6.35647 16.959C7.89156 16.9693 9.41342 16.678 10.8337 16.102C12.2539 15.5261 13.5443 14.6769 14.6298 13.6039C15.7153 12.5309 16.5743 11.2554 17.1569 9.85148C17.7396 8.44756 18.0343 6.94319 18.0239 5.42576C18.0239 5.24619 18.0239 5.07392 18.0091 4.90165C18.8186 4.32993 19.5158 3.61702 20.0664 2.79793Z" />
@@ -46,7 +54,11 @@
                             <a href="#"
                                 class="w-10 h-10 rounded-full border border-[#898F95] border-opacity-50 flex items-center justify-center group duration-300"
                                 aria-label="Instagram">
+<<<<<<< HEAD
                                 <svg class="fill-current text-[#5B646D]  duration-300" width="18"
+=======
+                                <svg class="fill-current text-[#5B646D] dark:text-white duration-300" width="18"
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                                     height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <g>
                                         <path
@@ -61,7 +73,11 @@
                             <a href="#"
                                 class="w-10 h-10 rounded-full border border-[#898F95] border-opacity-50 flex items-center justify-center group duration-300"
                                 aria-label="LinkedIn">
+<<<<<<< HEAD
                                 <svg class="fill-current text-[#5B646D] duration-300" width="16"
+=======
+                                <svg class="fill-current text-[#5B646D] dark:text-white duration-300" width="16"
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                                     height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd"
                                         d="M0.480469 2.0859C0.480469 1.06647 1.29632 0.239258 2.30175 0.239258C3.30655 0.239258 4.1224 1.06647 4.12303 2.0859C4.12303 3.10533 3.30718 3.94984 2.30175 3.94984C1.29632 3.94984 0.480469 3.10533 0.480469 2.0859ZM15.6461 15.6177V15.6171H15.6498V9.97722C15.6498 7.21814 15.064 5.09277 11.8828 5.09277C10.3535 5.09277 9.32718 5.94369 8.90819 6.7504H8.86396V5.35036H5.84766V15.6171H8.98845V10.5334C8.98845 9.19486 9.2387 7.90054 10.8736 7.90054C12.4844 7.90054 12.5084 9.42809 12.5084 10.6192V15.6177H15.6461ZM0.734375 5.3501H3.87896V15.6168H0.734375V5.3501Z" />
@@ -72,6 +88,7 @@
                 </div>
             </div>
 
+<<<<<<< HEAD
 <div class="footer-links grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
                 <div class="footer-column">
                     <h4 class="leading-none mb-5 md:mb-6 text-xl font-bold">Quick Links</h4>
@@ -79,28 +96,51 @@
                         @if($quickLinks->isNotEmpty())
                             @foreach($quickLinks as $menu)
                                 <li class="duration-100 hover:text-secondary block group">
+=======
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4 class="leading-none mb-5 md:mb-6 text-xl font-bold">Quick Links</h4>
+                    <ul class="text-title dark:text-white leading-none">
+                        @if($quickLinks->isNotEmpty())
+                            @foreach($quickLinks as $menu)
+                                <li class="duration-100 hover:text-secondary inline-block group">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                                     <a class="text-underline-secondary" href="{{ url($menu->url) }}">{{ $menu->title }}</a>
                                 </li>
                             @endforeach
                         @else
+<<<<<<< HEAD
                             <li class="duration-100 hover:text-secondary block group"><a
                                     class="text-underline-secondary" href="{{ url('/about') }}">About</a></li>
                             <li class="duration-100 hover:text-secondary block group"><a
                                     class="text-underline-secondary" href="{{ url('/contact') }}">Contact</a></li>
+=======
+                            <li class="duration-100 hover:text-secondary inline-block group"><a
+                                    class="text-underline-secondary" href="{{ url('/about') }}">About</a></li>
+
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                         @endif
                     </ul>
                 </div>
 
                 <div class="footer-column">
                     <h4 class="leading-none mb-5 md:mb-6 text-xl font-bold">Shop</h4>
+<<<<<<< HEAD
                     <ul class="text-title dark:text-white leading-none space-y-3">
                         @if($shopLinks->isNotEmpty())
                             @foreach($shopLinks as $menu)
                                 <li class="duration-100 hover:text-secondary block group">
+=======
+                    <ul class="text-title dark:text-white leading-none">
+                        @if($shopLinks->isNotEmpty())
+                            @foreach($shopLinks as $menu)
+                                <li class="duration-100 hover:text-secondary inline-block group">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                                     <a class="text-underline-secondary" href="{{ url($menu->url) }}">{{ $menu->title }}</a>
                                 </li>
                             @endforeach
                         @else
+<<<<<<< HEAD
                             <li class="duration-100 hover:text-secondary block group"><a
                                     class="text-underline-secondary" href="{{ url('/shop') }}">Shop</a>
                             </li>
@@ -109,21 +149,41 @@
                             <li class="duration-100 hover:text-secondary block group"><a
                                     class="text-underline-secondary" href="{{ url('/checkout') }}">Checkout</a></li>
                             <li class="duration-100 hover:text-secondary block group"><a
+=======
+
+                            <li class="duration-100 hover:text-secondary inline-block group"><a
+                                    class="text-underline-secondary" href="{{ url('/product-details') }}">Product Single</a>
+                            </li>
+                            <li class="duration-100 hover:text-secondary inline-block group"><a
+                                    class="text-underline-secondary" href="{{ url('/cart') }}">Cart</a></li>
+                            <li class="duration-100 hover:text-secondary inline-block group"><a
+                                    class="text-underline-secondary" href="{{ url('/checkout') }}">Checkout</a></li>
+                            <li class="duration-100 hover:text-secondary inline-block group"><a
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                                     class="text-underline-secondary" href="{{ url('/wishlist') }}">Wishlist</a></li>
                         @endif
                     </ul>
                 </div>
 
                 <div class="footer-column">
+<<<<<<< HEAD
                     <h4 class="leading-none mb-5 md:mb-6 text-xl font-bold">Customer Service</h4>
                     <ul class="text-title dark:text-white leading-none space-y-3">
                         @if($serviceLinks->isNotEmpty())
                             @foreach($serviceLinks as $menu)
                                 <li class="duration-100 hover:text-secondary block group">
+=======
+                    <h4 class="leading-none mb-5 md:mb-6 text-xl font-bold">Customer Service </h4>
+                    <ul class="text-title dark:text-white leading-none">
+                        @if($serviceLinks->isNotEmpty())
+                            @foreach($serviceLinks as $menu)
+                                <li class="duration-100 hover:text-secondary inline-block group">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                                     <a class="text-underline-secondary" href="{{ url($menu->url) }}">{{ $menu->title }}</a>
                                 </li>
                             @endforeach
                         @else
+<<<<<<< HEAD
                             <li class="duration-100 hover:text-secondary block group"><a
                                     class="text-underline-secondary" href="{{ url('/faq') }}">FAQs</a></li>
                             <li class="duration-100 hover:text-secondary block group"><a
@@ -164,6 +224,56 @@
                                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                             </svg>
                             <a class="text-underline-secondary text-sm" href="{{ url('/contact') }}">Delhi, India</a>
+=======
+                            <li class="duration-100 hover:text-secondary inline-block group"><a
+                                    class="text-underline-secondary" href="{{ url('/faq') }}">FAQs</a></li>
+                            <li class="duration-100 hover:text-secondary inline-block group"><a
+                                    class="text-underline-secondary" href="{{ url('/terms-and-conditions') }}">Terms &
+                                    Conditions</a></li>
+                            <li class="duration-100 hover:text-secondary inline-block group"><a
+                                    class="text-underline-secondary" href="{{ url('/return-policy') }}">Return Policy</a>
+                            </li>
+                            <li class="duration-100 hover:text-secondary inline-block group"><a
+                                    class="text-underline-secondary" href="{{ url('/contact') }}">Contact</a></li>
+                        @endif
+
+                    </ul>
+                </div>
+
+
+
+                <div class="footer-column footer-column--contact">
+                    <h4 class="mb-5 text-xl font-bold">Contact</h4>
+                    <ul class="footer-contact-list text-title dark:text-white leading-none">
+                        <li
+                            class="footer-contact-item duration-100 hover:text-secondary inline-block group flex items-center ">
+                            <svg class="w-4 h-4 fill-current text-[#5B646D] dark:text-white" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                            </svg>
+                            <a class="text-underline-secondary"
+                                href="mailto:caromstudios@gmail.com">caromstudios@gmail.com</a>
+                        </li>
+                        <li
+                            class="footer-contact-item duration-100 hover:text-secondary inline-block group flex items-center ">
+                            <svg class="w-4 h-4 fill-current text-[#5B646D] dark:text-white" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                            </svg>
+                            <a class="text-underline-secondary" href="tel:+919205100855">+91 9205100855 | 9205191155</a>
+
+                        </li>
+                        <li
+                            class="footer-contact-item duration-100 hover:text-secondary inline-block group flex items-center ">
+                            <svg class="w-4 h-4 fill-current text-[#5B646D] dark:text-white" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                            </svg>
+                            <a class="text-underline-secondary" href="{{ url('/contact') }}">Delhi, India</a>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                         </li>
                     </ul>
                 </div>
@@ -173,11 +283,19 @@
 
         <div class="site-footer-light__bottom">
             <p class="text-title dark:text-white text-center lg:text-center">
+<<<<<<< HEAD
                 &copy; 2026 CAROM STUDIOS. Develop with <i class="mdi mdi-heart text-red-700"></i> by <a
+=======
+                © 2026 CAROM STUDIOS. Develop with <i class="mdi mdi-heart text-red-700"></i> by <a
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     href="https://www.letsdigitalmarketing.com/" target="_blank" class="text-reset">Lets Digital
                     Marketing</a>.
             </p>
         </div>
     </div>
 </div>
+<<<<<<< HEAD
 <!-- Footer Area End -->
+=======
+<!-- Footer Area End -->
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646

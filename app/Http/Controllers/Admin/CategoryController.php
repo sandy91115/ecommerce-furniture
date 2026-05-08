@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+<<<<<<< HEAD
 use App\Models\SeoMetadata;
 use App\Services\Seo\SeoMetadataService;
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -14,8 +17,11 @@ class CategoryController extends Controller
 {
     public function index()
     {
+<<<<<<< HEAD
         $this->authorize('categories.view');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 $categories = Category::withCount('products')
             ->with(['children' => function ($query) {
                 $query->withCount('products');
@@ -27,16 +33,22 @@ $categories = Category::withCount('products')
 
     public function create()
     {
+<<<<<<< HEAD
         $this->authorize('categories.create');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $categories = Category::whereNull('parent_id')->get();
         return view('admin.categories.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
+<<<<<<< HEAD
         $this->authorize('categories.create');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:categories',
@@ -45,6 +57,7 @@ $categories = Category::withCount('products')
             'status' => 'required|in:active,inactive',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string',
+<<<<<<< HEAD
             'seo_meta' => 'nullable|array',
             'seo_meta.focus_keyword' => 'nullable|string|max:255',
             'seo_meta.secondary_keywords_text' => 'nullable|string|max:1000',
@@ -67,6 +80,11 @@ $categories = Category::withCount('products')
         ]);
 
         $data = $request->except('seo_meta');
+=======
+        ]);
+
+        $data = $request->all();
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
         if (!$request->slug) {
             $data['slug'] = Str::slug($request->name);
@@ -83,18 +101,23 @@ $categories = Category::withCount('products')
             $trashed->forceDelete();
         }
 
+<<<<<<< HEAD
         $category = Category::create($data);
         app(SeoMetadataService::class)->syncForModel($category, $request->input('seo_meta', []), [
             'title' => $category->meta_title,
             'description' => $category->meta_description,
             'schema_type' => 'CollectionPage',
         ]);
+=======
+        Category::create($data);
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
         return redirect()->route('admin.categories.index')->with('success', 'Category created successfully.');
     }
 
     public function edit(Category $category)
     {
+<<<<<<< HEAD
         $this->authorize('categories.update');
 
         $categories = Category::whereNull('parent_id')->where('id', '!=', $category->id)->get();
@@ -104,12 +127,19 @@ $categories = Category::withCount('products')
             ->first();
 
         return view('admin.categories.edit', compact('category', 'categories', 'seoMetadata'));
+=======
+        $categories = Category::whereNull('parent_id')->where('id', '!=', $category->id)->get();
+        return view('admin.categories.edit', compact('category', 'categories'));
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 
     public function update(Request $request, Category $category)
     {
+<<<<<<< HEAD
         $this->authorize('categories.update');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:categories,slug,' . $category->id,
@@ -118,6 +148,7 @@ $categories = Category::withCount('products')
             'status' => 'required|in:active,inactive',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string',
+<<<<<<< HEAD
             'seo_meta' => 'nullable|array',
             'seo_meta.focus_keyword' => 'nullable|string|max:255',
             'seo_meta.secondary_keywords_text' => 'nullable|string|max:1000',
@@ -140,6 +171,11 @@ $categories = Category::withCount('products')
         ]);
 
         $data = $request->except('seo_meta');
+=======
+        ]);
+
+        $data = $request->all();
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
         if (!$request->slug) {
             $data['slug'] = Str::slug($request->name);
@@ -163,19 +199,25 @@ $categories = Category::withCount('products')
         }
 
         $category->update($data);
+<<<<<<< HEAD
         app(SeoMetadataService::class)->syncForModel($category->fresh(), $request->input('seo_meta', []), [
             'title' => $category->meta_title,
             'description' => $category->meta_description,
             'schema_type' => 'CollectionPage',
         ]);
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
         return redirect()->route('admin.categories.index')->with('success', 'Category updated successfully.');
     }
 
     public function destroy(Category $category)
     {
+<<<<<<< HEAD
         $this->authorize('categories.delete');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $category->delete();
 
         return redirect()->route('admin.categories.index')->with('success', 'Category moved to Recycle Bin successfully.');

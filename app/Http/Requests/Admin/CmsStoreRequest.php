@@ -3,7 +3,10 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+<<<<<<< HEAD
 use Illuminate\Support\Str;
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
 class CmsStoreRequest extends FormRequest
 {
@@ -28,6 +31,7 @@ class CmsStoreRequest extends FormRequest
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
             'sort_order' => 'nullable|integer|min:0',
+<<<<<<< HEAD
             'seo_meta' => 'nullable|array',
             'seo_meta.focus_keyword' => 'nullable|string|max:255',
             'seo_meta.secondary_keywords_text' => 'nullable|string|max:1000',
@@ -59,6 +63,11 @@ class CmsStoreRequest extends FormRequest
         ]);
     }
 
+=======
+        ];
+    }
+
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     /**
      * Get custom messages for validator errors.
      */

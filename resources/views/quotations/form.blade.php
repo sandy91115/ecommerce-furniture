@@ -3,9 +3,12 @@
         old('customer_name'),
         old('email'),
         old('phone'),
+<<<<<<< HEAD
         old('city'),
         old('country'),
         old('pincode'),
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         old('desired_price'),
         old('message'),
     ])->filter(fn ($value) => $value !== null)->isNotEmpty();
@@ -62,6 +65,7 @@
                     <input id="quotationPhone" type="tel" name="phone" maxlength="20" value="{{ old('phone') }}" class="w-full px-4 py-3 border border-bdr-clr dark:border-bdr-clr-drk rounded-[16px] bg-transparent outline-none dark:text-white" placeholder="Your phone number">
                     <p class="mt-2 text-sm text-red-600 {{ $errors->has('phone') ? '' : 'hidden' }}" data-error-for="phone">{{ $errors->first('phone') }}</p>
                 </div>
+<<<<<<< HEAD
                 <div class="grid gap-4 sm:grid-cols-2">
                     <div>
                         <label class="block text-sm font-medium mb-2 dark:text-white" for="quotationCity">City <span class="text-red-500">*</span></label>
@@ -79,6 +83,8 @@
                     <input id="quotationCountry" type="text" name="country" required maxlength="120" value="{{ old('country', 'India') }}" data-default-value="India" class="w-full px-4 py-3 border border-bdr-clr dark:border-bdr-clr-drk rounded-[16px] bg-transparent outline-none dark:text-white" placeholder="Delivery country">
                     <p class="mt-2 text-sm text-red-600 {{ $errors->has('country') ? '' : 'hidden' }}" data-error-for="country">{{ $errors->first('country') }}</p>
                 </div>
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 <!-- <div>
                     <label class="block text-sm font-medium mb-2 dark:text-white" for="quotationPrice">Desired Price</label>
                     <input id="quotationPrice" type="number" name="desired_price" step="0.01" min="0" value="{{ old('desired_price') }}" class="w-full px-4 py-3 border border-bdr-clr dark:border-bdr-clr-drk rounded-[16px] bg-transparent outline-none dark:text-white" placeholder="Your target budget">

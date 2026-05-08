@@ -36,9 +36,12 @@
                     <li class="py-3 lg:py-6 pl-6 lg:pl-12">
                         <a class="duration-300 hover:text-primary" href="{{ url('/order-history') }}">Order History</a>
                     </li>
+<<<<<<< HEAD
                      <li class="py-3 lg:py-6 pl-6 lg:pl-12">
                         <a class="duration-300 hover:text-primary" href="{{ route('quotation-history') }}">Quotation Product</a>
                     </li>
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     <li class="py-3 lg:py-6 pl-6 lg:pl-12">
                         <a class="duration-300 hover:text-primary" href="{{ url('/wishlist') }}">Wishlist</a>
                     </li>
@@ -291,4 +294,8 @@
     
 @include('includes.footer')
   
+<<<<<<< HEAD
 @endsection
+=======
+@endsection
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646

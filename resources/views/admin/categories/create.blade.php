@@ -3,7 +3,11 @@
 @section('title', 'Create Category')
 
 @section('content')
+<<<<<<< HEAD
 <div class="">
+=======
+<div class="max-w-2xl">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-3xl font-bold text-gray-900">Create New Category</h1>
         <a href="{{ route('admin.categories.index') }}" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium">
@@ -84,6 +88,7 @@
                 </div>
             </div>
 
+<<<<<<< HEAD
             @include('admin.seo.partials.advanced-fields', [
                 'seoMetadata' => null,
                 'includeTitleFields' => false,
@@ -93,6 +98,8 @@
                 'schemaType' => 'CollectionPage',
             ])
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             <div class="mt-8 flex space-x-4">
                 <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium">
                     Create Category

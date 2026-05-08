@@ -3,7 +3,10 @@
 namespace App\Services;
 
 use App\Contracts\OrderRepositoryInterface;
+<<<<<<< HEAD
 use App\Enums\OrderStatus;
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 use App\Models\Order;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -34,6 +37,7 @@ class OrderService
 
     public function update(int $id, array $data): bool
     {
+<<<<<<< HEAD
         $order = $this->repository->find($id);
         if (!$order) return false;
 
@@ -46,16 +50,27 @@ class OrderService
             && ($requestedStatus === null || $requestedStatus === OrderStatus::PENDING->value)
         ) {
             $data['status'] = OrderStatus::PROCESSING->value;
+=======
+        // Business validation
+        $order = $this->repository->find($id);
+        if (!$order) return false;
+
+        if (in_array($order->status, ['delivered', 'cancelled']) && isset($data['status']) && $data['status'] !== $order->status) {
+            throw new \InvalidArgumentException('Cannot change status of completed/cancelled order.');
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         }
 
         return $this->repository->update($id, $data);
     }
 
+<<<<<<< HEAD
     private function statusValue(OrderStatus|string|null $status): ?string
     {
         return $status instanceof OrderStatus ? $status->value : $status;
     }
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     public function delete(int $id): bool
     {
         return $this->repository->delete($id);

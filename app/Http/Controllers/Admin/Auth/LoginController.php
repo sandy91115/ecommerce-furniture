@@ -27,9 +27,13 @@ class LoginController extends Controller
             $user = Auth::user();
 
             if ($user->can('admin.access')) {
+<<<<<<< HEAD
                 $request->session()->forget('url.intended');
 
                 return redirect()->route('admin.dashboard');
+=======
+                return redirect()->intended('/admin/dashboard');
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             }
 
             Auth::logout();
@@ -51,7 +55,11 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
+<<<<<<< HEAD
         return redirect()->route('admin.login');
+=======
+        return redirect('/admin/login');
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 }
 

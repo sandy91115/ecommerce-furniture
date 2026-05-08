@@ -10,6 +10,7 @@ class PaymentMethodController extends Controller
 {
     public function index()
     {
+<<<<<<< HEAD
         $this->authorize('payment_methods.view');
 
         $settings = [
@@ -31,6 +32,14 @@ class PaymentMethodController extends Controller
             'phonepe_webhook' => Setting::get(Setting::PHONEPE_WEBHOOK),
             'phonepe_enabled' => Setting::bool(Setting::PHONEPE_ENABLED),
             'phonepe_show_checkout' => Setting::bool(Setting::PHONEPE_SHOW_CHECKOUT, true),
+=======
+        $settings = [
+            'razorpay_key' => Setting::get('razorpay_key'),
+            'razorpay_secret' => Setting::get('razorpay_secret'),
+            'razorpay_webhook' => Setting::get('razorpay_webhook'),
+            'razorpay_enabled' => Setting::get('razorpay_enabled', false),
+            'razorpay_show_checkout' => Setting::get('razorpay_show_checkout', true),
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         ];
 
         return view('admin.payment-methods.index', compact('settings'));
@@ -38,14 +47,18 @@ class PaymentMethodController extends Controller
 
     public function update(Request $request)
     {
+<<<<<<< HEAD
         $this->authorize('payment_methods.update');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $validated = $request->validate([
             'razorpay_key' => 'nullable|string|max:255',
             'razorpay_secret' => 'nullable|string|max:255',
             'razorpay_webhook' => 'nullable|url|max:500',
             'razorpay_enabled' => 'boolean',
             'razorpay_show_checkout' => 'boolean',
+<<<<<<< HEAD
             'stripe_key' => 'nullable|string|max:255',
             'stripe_secret' => 'nullable|string|max:255',
             'stripe_webhook' => 'nullable|url|max:500',
@@ -92,6 +105,15 @@ class PaymentMethodController extends Controller
         foreach ($booleanSettings as $key) {
             Setting::updateOrCreate(['key' => $key], ['value' => $request->boolean($key) ? '1' : '0']);
         }
+=======
+        ]);
+
+        Setting::updateOrCreate(['key' => 'razorpay_key'], ['value' => $validated['razorpay_key'] ?? '']);
+        Setting::updateOrCreate(['key' => 'razorpay_secret'], ['value' => $validated['razorpay_secret'] ?? '']);
+        Setting::updateOrCreate(['key' => 'razorpay_webhook'], ['value' => $validated['razorpay_webhook'] ?? '']);
+        Setting::updateOrCreate(['key' => 'razorpay_enabled'], ['value' => $validated['razorpay_enabled'] ? '1' : '0']);
+        Setting::updateOrCreate(['key' => 'razorpay_show_checkout'], ['value' => $validated['razorpay_show_checkout'] ? '1' : '0']);
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
         return redirect()->back()->with('success', 'Payment method settings updated successfully!');
     }

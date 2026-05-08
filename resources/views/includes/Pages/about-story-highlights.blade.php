@@ -1,5 +1,9 @@
 @php
+<<<<<<< HEAD
     $storyHighlights = $storyHighlights ?? [
+=======
+    $storyHighlights = [
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         ['title' => 'Design Solutions', 'icon' => 'design'],
         ['title' => 'Expertise', 'icon' => 'expertise'],
         ['title' => 'Sustainable', 'icon' => 'sustainable'],

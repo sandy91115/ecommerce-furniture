@@ -25,7 +25,10 @@ class Menu extends Model
 
     protected $casts = [
         'order' => 'integer',
+<<<<<<< HEAD
         'is_permanent' => 'boolean',
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         'deleted_at' => 'datetime',
     ];
 
@@ -53,6 +56,7 @@ class Menu extends Model
     {
         return self::type($type)
             ->active()
+<<<<<<< HEAD
             ->whereNull('parent_id')
             ->orderBy('order')
             ->orderBy('id')
@@ -65,5 +69,12 @@ class Menu extends Model
             ->get()
             ->unique(fn (Menu $menu) => ($menu->parent_id ?: 'root') . '|' . ($menu->url ?: '') . '|' . $menu->title)
             ->values();
+=======
+            ->orderBy('order')
+            ->orderBy('id')
+            ->with('children')
+            ->get()
+            ->where('parent_id', null);
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 }

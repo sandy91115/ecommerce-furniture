@@ -5,7 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+<<<<<<< HEAD
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
 class CmsPage extends Model
 {
@@ -21,6 +24,13 @@ class CmsPage extends Model
         'sort_order',
     ];
 
+<<<<<<< HEAD
+=======
+    protected $casts = [
+        'content' => 'array',
+    ];
+
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     protected static function boot()
     {
         parent::boot();
@@ -32,7 +42,11 @@ class CmsPage extends Model
         });
 
         static::updating(function ($page) {
+<<<<<<< HEAD
             if ($page->isDirty('title') && empty($page->slug)) {
+=======
+            if ($page->isDirty('title')) {
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 $page->slug = \Str::slug($page->title);
             }
         });
@@ -43,11 +57,14 @@ class CmsPage extends Model
         return $query->where('status', 'active');
     }
 
+<<<<<<< HEAD
     public function seoMetadata(): MorphOne
     {
         return $this->morphOne(SeoMetadata::class, 'seoable');
     }
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     public function scopeOrdered($query)
     {
         return $query->orderBy('sort_order')->orderBy('created_at', 'desc');

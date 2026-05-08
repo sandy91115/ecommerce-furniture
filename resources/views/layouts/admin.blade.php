@@ -12,10 +12,17 @@
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
+<<<<<<< HEAD
                     <a href="{{ route('admin.dashboard') }}" class="text-xl font-bold text-gray-800">Furnixar Admin</a>
                 </div>
                 <div class="flex items-center space-x-4">
                     <a href="{{ route('admin.dashboard') }}" class="text-gray-600 hover:text-gray-900">Dashboard</a>
+=======
+                    <a href="/admin/dashboard" class="text-xl font-bold text-gray-800">Furnixar Admin</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/admin/dashboard" class="text-gray-600 hover:text-gray-900">Dashboard</a>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     <form method="POST" action="{{ route('admin.logout') }}">
                         @csrf
                         <button type="submit" class="text-gray-600 hover:text-gray-900">Logout</button>

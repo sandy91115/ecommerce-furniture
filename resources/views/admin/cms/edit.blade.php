@@ -1,5 +1,6 @@
 @extends('admin.layouts.app')
 
+<<<<<<< HEAD
 @section('title', 'Edit Page')
 
 @section('content')
@@ -53,17 +54,34 @@
     <div class="flex items-center justify-between">
         <div>
             <h1 class="text-3xl font-bold text-gray-900">Edit Page</h1>
+=======
+@section('title', 'Edit CMS Page')
+
+@section('content')
+<div class="space-y-6">
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900">Edit CMS Page</h1>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             <p class="mt-1 text-sm text-gray-500">Update "{{ $page->title }}"</p>
         </div>
         <div class="flex space-x-3">
             <a href="{{ route('admin.cms.index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none">
                 <i class="fas fa-arrow-left mr-2"></i>
+<<<<<<< HEAD
                 Back to Pages
+=======
+                Back to CMS
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             </a>
         </div>
     </div>
 
+<<<<<<< HEAD
     <form action="{{ route('admin.cms.update', $page) }}" method="POST" enctype="multipart/form-data" class="bg-white shadow-xl rounded-lg overflow-hidden">
+=======
+    <form action="{{ route('admin.cms.update', $page) }}" method="POST" class="bg-white shadow-xl rounded-lg overflow-hidden">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         @csrf
         @method('PUT')
         <div class="px-6 py-8">
@@ -110,6 +128,7 @@
 
             <div class="mt-8">
                 <label for="content" class="block text-sm font-medium text-gray-700 mb-2">Content <span class="text-red-500">*</span></label>
+<<<<<<< HEAD
                 @if($isAboutPage)
                     <input type="hidden" name="content" id="content" value="{{ e(json_encode($aboutContent, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)) }}">
                     <div class="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_420px] gap-6" id="about-editor">
@@ -299,6 +318,9 @@
                 @else
                     <textarea name="content" id="content" rows="20" required class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('content') border-red-300 @enderror">{{ old('content', $page->content) }}</textarea>
                 @endif
+=======
+                <textarea name="content" id="content" rows="20" required class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('content') border-red-300 @enderror">{{ old('content', $page->content) }}</textarea>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 @error('content')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -320,6 +342,7 @@
                     @enderror
                 </div>
             </div>
+<<<<<<< HEAD
 
             @include('admin.seo.partials.advanced-fields', [
                 'seoMetadata' => $seoMetadata ?? null,
@@ -329,6 +352,8 @@
                 'canonicalFallback' => url($page->slug),
                 'schemaType' => 'WebPage',
             ])
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         </div>
         <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end space-x-3">
             <a href="{{ route('admin.cms.index') }}" class="px-6 py-3 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50">
@@ -345,6 +370,7 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+<<<<<<< HEAD
     const titleInput = document.getElementById('title');
     const slugInput = document.getElementById('slug');
     const aboutEditor = document.getElementById('about-editor');
@@ -354,11 +380,15 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+=======
+    document.getElementById('title').addEventListener('input', function() {
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         let title = this.value;
         let slug = title.toLowerCase().trim()
             .replace(/[^\\w\\s-]/g, '')
             .replace(/[\\s_-]+/g, '-')
             .replace(/^-+|-+$/g, '');
+<<<<<<< HEAD
         slugInput.value = slug;
     });
 
@@ -558,6 +588,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     updateAboutPreview();
+=======
+        document.getElementById('slug').value = slug;
+    });
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 });
 </script>
 @endpush

@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+<<<<<<< HEAD
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -40,6 +43,7 @@ class Product extends Model
         'assembly_required',
         'seo_title',
         'seo_description',
+<<<<<<< HEAD
         'technical_specifications',
         'customization_options',
         'faqs',
@@ -47,6 +51,8 @@ class Product extends Model
         'product_rating_count',
         'care_and_maintenance',
         'shipping_details',
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     ];
 
     protected $casts = [
@@ -60,6 +66,7 @@ class Product extends Model
         'status' => 'string',
         'seo_title' => 'string',
         'seo_description' => 'string',
+<<<<<<< HEAD
         'technical_specifications' => 'array',
         'customization_options' => 'array',
         'faqs' => 'array',
@@ -67,6 +74,8 @@ class Product extends Model
         'product_rating_count' => 'integer',
         'care_and_maintenance' => 'string',
         'shipping_details' => 'string',
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         'product_type' => 'string',
         'deleted_at' => 'datetime',
     ];
@@ -116,11 +125,14 @@ class Product extends Model
         return $this->hasMany(Review::class);
     }
 
+<<<<<<< HEAD
     public function seoMetadata(): MorphOne
     {
         return $this->morphOne(SeoMetadata::class, 'seoable');
     }
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     public function material(): BelongsTo
     {
         return $this->belongsTo(Material::class);
@@ -136,6 +148,7 @@ class Product extends Model
         parent::boot();
 
         static::creating(function ($product) {
+<<<<<<< HEAD
             if (blank($product->slug)) {
                 $product->slug = Str::slug($product->name);
             }
@@ -145,6 +158,13 @@ class Product extends Model
             if (blank($product->slug)) {
                 $product->slug = Str::slug($product->name);
             }
+=======
+            $product->slug = Str::slug($product->name);
+        });
+
+        static::updating(function ($product) {
+            $product->slug = Str::slug($product->name);
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         });
     }
 

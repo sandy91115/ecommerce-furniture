@@ -93,7 +93,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
+<<<<<<< HEAD
             field.value = field.dataset.defaultValue || '';
+=======
+            field.value = '';
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         });
     }
 
@@ -111,7 +115,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (productPrice && triggerButton.dataset.productPrice) {
+<<<<<<< HEAD
             productPrice.textContent = triggerButton.dataset.productPrice;
+=======
+            productPrice.textContent = `Starting from $${triggerButton.dataset.productPrice}`;
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         }
     }
 
@@ -269,3 +277,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 });
+<<<<<<< HEAD
+=======
+
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646

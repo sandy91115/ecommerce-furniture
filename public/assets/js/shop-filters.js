@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+<<<<<<< HEAD
   function bindNiceSelect(field) {
     const widget = field.nextElementSibling;
 
@@ -136,13 +137,18 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
   const debouncedFilter = debounce(handleFilter, 500);
 
   form.addEventListener('submit', handleFilter);
 
   if (categoryField) {
     categoryField.addEventListener('change', handleFilter);
+<<<<<<< HEAD
     bindNiceSelect(categoryField);
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
   }
 
   selectFields.forEach(field => {
@@ -151,7 +157,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     field.addEventListener('change', debouncedFilter);
+<<<<<<< HEAD
     bindNiceSelect(field);
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
   });
 
   priceFields.forEach(field => {

@@ -36,8 +36,13 @@
                     <li class="py-3 lg:py-6 pl-6 lg:pl-12">
                         <a class="duration-300 hover:text-primary" href="{{ url('/order-history') }}">Order History</a>
                     </li>
+<<<<<<< HEAD
                       <li class="py-3 lg:py-6 pl-6 lg:pl-12">
                         <a class="duration-300 hover:text-primary" href="{{ route('quotation-history') }}">Quotation Product</a>
+=======
+                    <li class="py-3 lg:py-6 pl-6 lg:pl-12">
+                        <a class="duration-300 hover:text-primary" href="{{ url('/wishlist') }}">Wishlist</a>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     </li>
                     <li class="pt-3 lg:pt-6 pl-6 lg:pl-12">
                         <a class="duration-300 hover:text-primary" href="{{ url('/login') }}">Logout</a>
@@ -142,6 +147,7 @@
                         <li class="title flex items-center justify-between gap-5 pb-[10px] sm:pb-5 border-b border-bdr-clr dark:border-bdr-clr-drk">
                             <span class="cart-product-title text-lg md:text-xl font-semibold leading-none text-title dark:text-white block w-[270px] sm:w-[310px] xl:w-[330px]">Product</span>
                             <span class="text-lg md:text-xl font-semibold leading-none text-title dark:text-white w-[60px]">Price</span>
+<<<<<<< HEAD
                             <span class="text-lg md:text-xl font-semibold leading-none text-title dark:text-white w-[120px]">Status</span>
                             <span class="text-lg md:text-xl font-semibold leading-none text-title dark:text-white w-[72px]">Remove</span>
                         </li>
@@ -153,12 +159,36 @@
                             $statusClass = $order->status?->color() ?? '#31A051';
                             $paymentClass = $order->paymentStatusColor();
                         @endphp
+=======
+                            <span class="text-lg md:text-xl font-semibold leading-none text-title dark:text-white w-[100px]">Status</span>
+                            <span class="text-lg md:text-xl font-semibold leading-none text-title dark:text-white w-[72px]">Remove</span>
+                        </li>
+                        @foreach($recent_orders as $order)
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                         <li class="flex items-center justify-between gap-5 py-[15px] sm:py-[15px] border-b border-bdr-clr dark:border-bdr-clr-drk">
                             <div class="flex items-center gap-3 md:gap-4 lg:gap-6 ordered-product w-[270px] sm:w-[310px] xl:w-[330px]">
                                 <div class="w-16 sm:w-[90px] flex-none">
                                     <img src="{{ image_url($firstItem['image'] ?? null) }}" alt="{{ $productName ?? 'Order Item' }}">
                                 </div>
                                 <div class="flex-1">
+<<<<<<< HEAD
+=======
+                                    @php 
+                                        $items = is_array($order->items) ? $order->items : json_decode($order->items ?? '[]', true);
+                                        $firstItem = $items[0] ?? [];
+                                        $productName = $firstItem['name'] ?? 'Multiple Items';
+                                        $statusClass = match($order->status) {
+                                            \App\Enums\OrderStatus::PENDING => '#EC991D',
+                                            \App\Enums\OrderStatus::PROCESSING => '#EC991D',
+                                            \App\Enums\OrderStatus::SHIPPED => '#007BFF',
+                                            \App\Enums\OrderStatus::DELIVERED => '#31A051',
+                                            \App\Enums\OrderStatus::CANCELLED => '#E13939',
+                                            \App\Enums\OrderStatus::RETURNED => '#E13939',
+                                            \App\Enums\OrderStatus::REFUNDED => '#E13939',
+                                            default => '#31A051'
+                                        }; 
+                                    @endphp
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                                     <span class="text-[15px] font-medium leading-none">Order #{{ $order->order_number }}</span>
                                     <h5 class="font-semibold leading-none mt-2 md:mt-4 text-xl"><a href="#">{{ $productName }}</a></h5>
                                 </div>
@@ -166,6 +196,7 @@
 
                             <span class="text-base md:text-lg leading-none text-title dark:text-white font-semibold text-left w-[60px]">{{ currency($order->total_amount) }}</span>
 
+<<<<<<< HEAD
                             <div class="w-[120px] flex flex-col items-start gap-2">
                                 <span style="background-color: {{ $statusClass }};" class="py-[7px] px-[10px] font-semibold leading-none text-white text-sm rounded">
                                     {{ $order->status?->label() ?? 'Pending' }}
@@ -173,6 +204,11 @@
                                 <span style="background-color: {{ $paymentClass }};" class="py-[6px] px-[10px] font-semibold leading-none text-white text-xs rounded">
                                     {{ $order->paymentStatusLabel() }}
                                 </span>
+=======
+                            <div class="w-[100px]">                                <a href="#" style="background-color: {{ $statusClass }};" class="py-[7px] px-[10px] font-semibold leading-none text-white text-sm rounded">
+                                    {{ $order->status?->label() ?? 'Pending' }}
+                                </a>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                             </div>
 
                             <div class="w-[72px] flex justify-end">

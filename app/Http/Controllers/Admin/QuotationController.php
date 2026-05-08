@@ -14,8 +14,11 @@ class QuotationController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
         $this->authorize('quotations.view');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $quotations = Quotation::with('product')->latest()->paginate(10);
         return view('admin.quotations.index', compact('quotations'));
     }
@@ -46,15 +49,19 @@ class QuotationController extends Controller
             'customer_name' => 'required|string|max:255',
             'email' => 'required|email',
             'phone' => 'nullable|string|max:20',
+<<<<<<< HEAD
             'city' => 'required|string|max:120',
             'country' => 'required|string|max:120',
             'pincode' => 'required|string|max:20',
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             'desired_price' => 'nullable|numeric|min:0',
             'message' => 'nullable|string|max:1000',
         ]);
 
         $quotation = Quotation::create([
             'product_id' => $product->id,
+<<<<<<< HEAD
             'user_id' => auth()->id(),
             'customer_name' => trim($validated['customer_name']),
             'email' => $validated['email'],
@@ -62,6 +69,11 @@ class QuotationController extends Controller
             'city' => trim($validated['city']),
             'country' => trim($validated['country']),
             'pincode' => trim($validated['pincode']),
+=======
+            'customer_name' => trim($validated['customer_name']),
+            'email' => $validated['email'],
+            'phone' => filled($validated['phone'] ?? null) ? $validated['phone'] : null,
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             'desired_price' => $validated['desired_price'] ?? null,
             'message' => trim($validated['message'] ?? ''),
             'status' => 'pending',
@@ -80,6 +92,11 @@ class QuotationController extends Controller
         return redirect()
             ->route('product-details', $product->slug)
             ->with('success', $responsePayload['message']);
+<<<<<<< HEAD
+=======
+
+        // Optional: Mail::to(config('mail.from.address'))->send(new QuotationSubmitted($quotation));
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 
     /**
@@ -87,8 +104,11 @@ class QuotationController extends Controller
      */
     public function show(Quotation $quotation)
     {
+<<<<<<< HEAD
         $this->authorize('quotations.view');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $quotation->load('product.images');
 
         return view('admin.quotations.show', compact('quotation'));
@@ -99,8 +119,11 @@ class QuotationController extends Controller
      */
     public function update(Request $request, Quotation $quotation)
     {
+<<<<<<< HEAD
         $this->authorize('quotations.update');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $data = $request->validate([
             'status' => 'required|in:pending,contacted,closed',
         ]);
@@ -117,8 +140,11 @@ class QuotationController extends Controller
      */
     public function destroy(Quotation $quotation)
     {
+<<<<<<< HEAD
         $this->authorize('quotations.delete');
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $quotation->delete();
 
         return redirect()

@@ -3,12 +3,17 @@
 @section('title', 'Products')
 
 @section('content')
+<<<<<<< HEAD
 <div class=" mx-auto">
+=======
+<div class="max-w-7xl mx-auto">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     <div class="flex items-center justify-between gap-4 mb-6">
         <div>
             <h1 class="text-3xl font-bold text-gray-900">Products</h1>
             <p class="mt-1 text-sm text-gray-600">Manage your product catalog.</p>
         </div>
+<<<<<<< HEAD
         <div class="flex flex-wrap items-center justify-end gap-2">
             <a href="{{ route('admin.products.export') }}" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 font-medium">
                 <i class="fas fa-file-export"></i>
@@ -26,12 +31,16 @@
                     Import Excel
                 </button>
             </form>
+=======
+<div class="flex items-center gap-2">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             <a href="{{ route('admin.products.create') }}" class="inline-flex items-center px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 font-medium">
                 Add Product
             </a>
         </div>
     </div>
 
+<<<<<<< HEAD
     @if(session('product_import_errors') && count(session('product_import_errors')))
         <div class="mb-6 rounded-lg border border-yellow-300 bg-yellow-100 p-4 text-yellow-900">
             <p class="font-semibold">Import me kuch rows skip hui:</p>
@@ -46,6 +55,8 @@
         </div>
     @endif
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     <div class="bg-white shadow rounded-lg overflow-hidden">
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
@@ -81,7 +92,11 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-right">
 <div class="inline-flex items-center gap-2">
+<<<<<<< HEAD
                                     <a href="{{ route('product-details', $product->slug) }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1.5 rounded-md bg-green-600 text-white hover:bg-green-700 font-medium" title="Open frontend product page">
+=======
+                                    <a href="{{ route('admin.products.show', $product) }}" class="inline-flex items-center px-3 py-1.5 rounded-md bg-green-600 text-white hover:bg-green-700 font-medium" title="View Details">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                                         View
                                     </a>
                                     <a href="{{ route('admin.products.edit', $product) }}" class="inline-flex items-center px-3 py-1.5 rounded-md bg-indigo-600 text-white hover:bg-indigo-700 font-medium">

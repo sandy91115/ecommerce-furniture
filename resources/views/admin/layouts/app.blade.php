@@ -12,7 +12,11 @@
     @endphp
     <link rel="icon" href="{{ $adminFaviconUrl }}" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
+<<<<<<< HEAD
     <link rel="stylesheet" href="{{ versioned_asset('assets/css/admin-dashboard.css') }}">
+=======
+    <link rel="stylesheet" href="{{ asset('assets/css/admin-dashboard.css') }}">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
     <script>
@@ -237,6 +241,7 @@
             <p class="text-sm text-gray-600">Admin Panel</p>
         </div>
         @php
+<<<<<<< HEAD
             $adminPathPrefix = trim(env('ADMIN_PATH', 'panel'), '/') ?: 'panel';
             $adminUrl = function ($url) use ($adminPathPrefix) {
                 $url = (string) $url;
@@ -270,6 +275,11 @@
             }
             $recycleBinMenu = $adminSidebarMenus->first(fn ($menu) => $normalizedAdminMenuPath($menu->url) === '/admin/trash');
             $primarySidebarMenus = $adminSidebarMenus->reject(fn ($menu) => $normalizedAdminMenuPath($menu->url) === '/admin/trash');
+=======
+            $adminSidebarMenus = collect($menus['admin_sidebar'] ?? []);
+            $recycleBinMenu = $adminSidebarMenus->first(fn ($menu) => $menu->url === '/admin/trash');
+            $primarySidebarMenus = $adminSidebarMenus->reject(fn ($menu) => $menu->url === '/admin/trash');
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             $recycleBinMenu = $recycleBinMenu ?: (object) [
                 'url' => route('admin.trash.index'),
                 'title' => 'Recycle Bin',
@@ -280,12 +290,20 @@
         <nav class="mt-8 flex-1 pb-6">
             @foreach($primarySidebarMenus as $menu)
                 @php
+<<<<<<< HEAD
                     $menuUrl = $adminUrl($menu->url);
                     $menuPath = ltrim(parse_url($menuUrl, PHP_URL_PATH) ?? $menuUrl, '/');
                     $menuIsActive = request()->is($menuPath) || request()->is($menuPath . '/*');
                 @endphp
                 @can($menu->permission ?? 'admin.access')
                 <a href="{{ $menuUrl }}" class="flex items-center px-6 py-3 text-gray-700 hover:bg-gray-100 {{ $menuIsActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : '' }}">
+=======
+                    $menuPath = ltrim(parse_url($menu->url, PHP_URL_PATH) ?? $menu->url, '/');
+                    $menuIsActive = request()->is($menuPath) || request()->is($menuPath . '/*');
+                @endphp
+                @can($menu->permission ?? 'admin.access')
+                <a href="{{ $menu->url }}" class="flex items-center px-6 py-3 text-gray-700 hover:bg-gray-100 {{ $menuIsActive ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : '' }}">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     <i class="w-6 text-lg fa {{ $menu->icon ?? 'fa-circle' }} mr-4"></i>
                     <span>{{ $menu->title }}</span>
                 </a>
@@ -293,12 +311,20 @@
                 @if($menu->children && $menu->children->count() > 0)
                     @foreach($menu->children as $child)
                         @php
+<<<<<<< HEAD
                             $childUrl = $adminUrl($child->url);
                             $childPath = ltrim(parse_url($childUrl, PHP_URL_PATH) ?? $childUrl, '/');
                             $childIsActive = request()->is($childPath) || request()->is($childPath . '/*');
                         @endphp
                         @can($child->permission ?? 'admin.access')
                         <a href="{{ $childUrl }}" class="flex items-center px-6 py-3 text-gray-700 hover:bg-gray-100 {{ $childIsActive ? 'bg-blue-50 border-r-4 border-blue-300 text-blue-500' : '' }}">
+=======
+                            $childPath = ltrim(parse_url($child->url, PHP_URL_PATH) ?? $child->url, '/');
+                            $childIsActive = request()->is($childPath) || request()->is($childPath . '/*');
+                        @endphp
+                        @can($child->permission ?? 'admin.access')
+                        <a href="{{ $child->url }}" class="flex items-center px-8 py-3 text-gray-600 hover:bg-gray-100 pl-12 {{ $childIsActive ? 'bg-blue-50 border-r-4 border-blue-300 text-blue-500' : '' }}">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                             <i class="w-4 text-lg fa {{ $child->icon ?? 'fa-angle-right' }} mr-3 flex-shrink-0"></i>
                             <span>{{ $child->title }}</span>
                         </a>
@@ -308,13 +334,21 @@
             @endforeach
         </nav>
         @php
+<<<<<<< HEAD
             $binUrl = $adminUrl($recycleBinMenu->url);
             $binPath = ltrim(parse_url($binUrl, PHP_URL_PATH) ?? $binUrl, '/');
+=======
+            $binPath = ltrim(parse_url($recycleBinMenu->url, PHP_URL_PATH) ?? $recycleBinMenu->url, '/');
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             $binIsActive = request()->is($binPath) || request()->is($binPath . '/*');
         @endphp
         @can($recycleBinMenu->permission ?? 'admin.access')
         <div class="mt-auto border-t p-4">
+<<<<<<< HEAD
             <a href="{{ $binUrl }}" class="flex items-center rounded-lg px-4 py-3 text-gray-700 hover:bg-gray-100 {{ $binIsActive ? 'bg-blue-50 text-blue-600' : '' }}">
+=======
+            <a href="{{ $recycleBinMenu->url }}" class="flex items-center rounded-lg px-4 py-3 text-gray-700 hover:bg-gray-100 {{ $binIsActive ? 'bg-blue-50 text-blue-600' : '' }}">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 <i class="w-6 text-lg fa {{ $recycleBinMenu->icon ?? 'fa-recycle' }} mr-4"></i>
                 <span>{{ $recycleBinMenu->title }}</span>
             </a>
@@ -341,7 +375,11 @@
                         </button>
                         <div class="flex items-center space-x-2 cursor-pointer hover:bg-gray-100 p-2 rounded relative group">
                             <img class="w-8 h-8 rounded-full" src="https://ui-avatars.com/api/?name=Admin&background=4f46e5&color=fff" alt="Admin">
+<<<<<<< HEAD
                             <span class="font-medium text-gray-700">{{ auth()->user()?->name ?? 'Admin' }}</span>
+=======
+                            <span class="font-medium text-gray-700">{{ auth()->user()->name }}</span>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                             <i class="fas fa-chevron-down text-sm text-gray-500"></i>
                             
                             <!-- Dropdown -->
@@ -366,7 +404,11 @@
                     {{ session('success') }}
                 </div>
             @endif
+<<<<<<< HEAD
             @if (isset($errors) && $errors->any())
+=======
+            @if ($errors->any())
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
                     <ul>
                         @foreach ($errors->all() as $error)
@@ -404,7 +446,11 @@
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<<<<<<< HEAD
     <script src="{{ versioned_asset('assets/js/admin-settings.js') }}"></script>
+=======
+    <script src="{{ asset('assets/js/admin-settings.js') }}"></script>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     @stack('scripts')
 
 </body>

@@ -67,7 +67,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function openLightbox(gallery, initialIndex) {
+<<<<<<< HEAD
         if (!modal || !swiperEl) {
+=======
+        if (!modal || !swiperEl || typeof Swiper === 'undefined') {
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             return;
         }
 
@@ -87,6 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         destroySwiper();
+<<<<<<< HEAD
         modal.classList.remove('is-static-lightbox');
         modal.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
@@ -103,6 +108,11 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+=======
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         productSwiper = new Swiper(swiperEl, {
             initialSlide: initialIndex || 0,
             loop: imageItems.length > 1,
@@ -142,6 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
             mainImage.style.transformOrigin = 'center center';
         }
 
+<<<<<<< HEAD
         function updateMainImage(item) {
             const displaySrc = item.medium || item.url;
 
@@ -162,6 +173,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         function setActiveImage(index) {
             const item = imageItems[index] || imageItems[0];
             if (!item) {
@@ -169,7 +182,11 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             currentIndex = index;
+<<<<<<< HEAD
             updateMainImage(item);
+=======
+            mainImage.src = item.url;
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             mainImage.alt = item.alt || gallery.dataset.productName || 'Product image';
 
             thumbButtons.forEach(function (button, buttonIndex) {
@@ -188,6 +205,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
+<<<<<<< HEAD
         function keepActiveThumbVisible() {
             const thumbs = gallery.querySelector('.product-gallery__thumbs');
             const activeThumb = thumbButtons[currentIndex];
@@ -200,6 +218,8 @@ document.addEventListener('DOMContentLoaded', function () {
             thumbs.scrollTo({ left: Math.max(0, targetLeft), behavior: 'smooth' });
         }
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         if (canHoverZoom) {
             stage.addEventListener('mousemove', function (event) {
                 const bounds = stage.getBoundingClientRect();
@@ -219,6 +239,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
+<<<<<<< HEAD
         if (thumbButtons.length > 1) {
             let autoTimer = window.setInterval(function () {
                 setActiveImage((currentIndex + 1) % imageItems.length);
@@ -237,6 +258,8 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         mainImage.addEventListener('error', function () {
             mainImage.src = '/assets/img/product/default.jpg';
         });
@@ -261,6 +284,7 @@ document.addEventListener('DOMContentLoaded', function () {
             closeLightbox();
         }
     });
+<<<<<<< HEAD
 
     document.querySelectorAll('[data-simple-carousel]').forEach(function (carousel) {
         const track = carousel.querySelector('[data-carousel-track]');
@@ -338,3 +362,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 });
+=======
+});
+
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646

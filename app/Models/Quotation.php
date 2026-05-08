@@ -12,6 +12,7 @@ class Quotation extends Model
 
     protected $fillable = [
         'product_id',
+<<<<<<< HEAD
         'user_id',
         'customer_name',
         'email',
@@ -19,6 +20,11 @@ class Quotation extends Model
         'city',
         'country',
         'pincode',
+=======
+        'customer_name',
+        'email',
+        'phone',
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         'message',
         'desired_price',
         'status',
@@ -34,9 +40,14 @@ class Quotation extends Model
     {
         return $this->belongsTo(Product::class);
     }
+<<<<<<< HEAD
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 }
+=======
+}
+
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646

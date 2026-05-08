@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+<<<<<<< HEAD
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 use Illuminate\Support\Facades\Storage;
 
 class Category extends Model
@@ -44,11 +47,14 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
+<<<<<<< HEAD
     public function seoMetadata(): MorphOne
     {
         return $this->morphOne(SeoMetadata::class, 'seoable');
     }
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     public function deleteFiles(): void
     {
         if ($this->image) {

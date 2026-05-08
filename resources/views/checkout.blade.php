@@ -171,6 +171,11 @@
                         <textarea name="notes" class="w-full h-[120px] bg-white dark:bg-dark-secondary border border-[#E3E5E6] text-title dark:text-white focus:border-primary p-4 outline-none duration-300" placeholder="Type your message"></textarea>
                     </div>
                 </div>
+<<<<<<< HEAD
+=======
+                
+                <input type="checkbox" name="terms" checked class="hidden">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             </form>
         </div>
 
@@ -228,6 +233,7 @@
             </div> 
             <div class="mt-7 md:mt-12">
                 <h4 class="font-semibold leading-none text-xl md:text-2xl mb-6 md:mb-10">Payment Method</h4>
+<<<<<<< HEAD
                 @if($errors->any())
                     <div class="mb-5 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
                         {{ $errors->first() }}
@@ -241,11 +247,18 @@
                     <div class="payment-method-option">
                         <label class="flex items-center gap-[10px] categoryies-iteem">
                             <input class="appearance-none hidden" type="radio" name="payment_method" value="{{ $methodKey }}" form="checkout-form" required>
+=======
+                <div class="flex gap-5 sm:gap-8 md:gap-12 flex-wrap">
+                    <div>
+                        <label class="flex items-center gap-[10px] categoryies-iteem">
+                            <input class="appearance-none hidden" type="radio" name="item-type">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                             <span class="w-4 h-4 rounded-full border border-title dark:border-white flex items-center justify-center duration-300">
                                 <svg class="duration-300 opacity-0" width="8" height="8" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <rect width="10" height="10" rx="5" fill="#BB976D"/>
                                 </svg>
                             </span>
+<<<<<<< HEAD
                             <span class="sm:text-lg text-title dark:text-white block sm:leading-none transform translate-y-[3px] select-none">{{ $method['label'] }}</span>
                         </label>
                         <p class="ml-6 text-[15px] leading-snug mt-2 max-w-[230px]">{{ $method['description'] }}</p>
@@ -261,6 +274,28 @@
                 <div class="mt-6 sm:mt-8 md:mt-10">
                     <label class="flex items-center gap-2 iam-agree">
                         <input class="appearance-none hidden" type="checkbox" name="terms" value="1" form="checkout-form" required>
+=======
+                            <span class="sm:text-lg text-title dark:text-white block sm:leading-none transform translate-y-[3px] select-none">Cash On Delivery</span>
+                        </label>
+                        <p class="ml-6 text-[15px] leading-none mt-2">Time ( 07 - 10 ) Days</p>
+                    </div>
+                    <div>
+                        <label class="flex items-center gap-[10px] categoryies-iteem">
+                            <input class="appearance-none hidden" type="radio" name="item-type">
+                            <span class="w-4 h-4 rounded-full border border-title dark:border-white flex items-center justify-center duration-300">
+                                <svg class="duration-300 opacity-0" width="8" height="8" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="10" height="10" rx="5" fill="#BB976D"/>
+                                </svg>
+                            </span>
+                            <span class="sm:text-lg text-title dark:text-white block sm:leading-none transform translate-y-[3px] select-none">Debit / Credit Card</span>
+                        </label>
+                        <p class="ml-6 text-[15px] leading-none mt-2">Time ( 07 - 10 ) Days</p>
+                    </div>
+                </div>
+                <div class="mt-6 sm:mt-8 md:mt-10">
+                    <label class="flex items-center gap-2 iam-agree">
+                        <input class="appearance-none hidden" type="checkbox" name="terms" value="1" required>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                         <span class="w-6 h-6 rounded-[5px] border-2 border-title dark:border-white flex items-center justify-center duration-300">
                             <svg  class="duration-300 opacity-0 text-title dark:text-white fill-current" width="15" height="12" viewBox="0 0 20 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M18.3819 0.742676L6.10461 11.8998L2.25731 8.06381L0.763672 9.55745L6.20645 15.0002L20 2.32686L18.3819 0.742676Z"/>
@@ -273,7 +308,11 @@
                     <a href="{{ url('/cart') }}" class="btn btn-outline" data-text="Back to Cart">
                         <span>Back to Cart</span>
                     </a>
+<<<<<<< HEAD
                     <button type="button" id="place-order-btn" class="btn btn-theme-solid" data-text="Place Order" @if(empty($paymentMethods)) disabled @endif>
+=======
+                    <button type="button" id="place-order-btn" class="btn btn-theme-solid" data-text="Place Order">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                         <span>Place Order</span>
                     </button>
                 </div>

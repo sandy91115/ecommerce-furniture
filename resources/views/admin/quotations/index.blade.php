@@ -3,7 +3,11 @@
 @section('title', 'Quotation Requests')
 
 @section('content')
+<<<<<<< HEAD
 <div class=" mx-auto">
+=======
+<div class="max-w-7xl mx-auto">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     <div class="flex items-center justify-between gap-4 mb-6">
         <div>
             <h1 class="text-3xl font-bold text-gray-900">Quotation Requests</h1>
@@ -21,7 +25,10 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Customer</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Email</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Phone</th>
+<<<<<<< HEAD
                         <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Location</th>
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                         <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Message</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
                         <th scope="col" class="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">Date</th>
@@ -40,9 +47,12 @@
                                 <a href="mailto:{{ $quotation->email }}" class="text-blue-600 hover:text-blue-800">{{ $quotation->email }}</a>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{{ $quotation->phone ?? 'N/A' }}</td>
+<<<<<<< HEAD
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
                                 {{ collect([$quotation->city, $quotation->country, $quotation->pincode])->filter()->join(', ') ?: 'N/A' }}
                             </td>
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                             <td class="px-6 py-4 text-sm text-gray-700 max-w-xs">
                                 {{ \Illuminate\Support\Str::limit(filled($quotation->message) ? $quotation->message : 'No message provided', 80) }}
                             </td>
@@ -72,7 +82,11 @@
                         </tr>
                     @empty
                         <tr>
+<<<<<<< HEAD
                             <td colspan="10" class="px-6 py-10 text-center text-sm text-gray-500">No quotations yet.</td>
+=======
+                            <td colspan="9" class="px-6 py-10 text-center text-sm text-gray-500">No quotations yet.</td>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                         </tr>
                     @endforelse
                 </tbody>

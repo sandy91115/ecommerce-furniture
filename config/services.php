@@ -35,6 +35,7 @@ return [
         ],
     ],
 
+<<<<<<< HEAD
     'pagespeed' => [
         'key' => env('PAGESPEED_API_KEY'),
         'url' => env('PAGESPEED_TARGET_URL'),
@@ -49,4 +50,6 @@ return [
         'default_country_code' => env('TWILIO_DEFAULT_COUNTRY_CODE', '+91'),
     ],
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 ];

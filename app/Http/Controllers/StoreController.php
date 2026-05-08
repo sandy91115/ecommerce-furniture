@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Setting;
+<<<<<<< HEAD
 use App\Services\Seo\SeoManager;
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 use Illuminate\Http\Request;
 
 class StoreController extends Controller
@@ -24,9 +27,13 @@ class StoreController extends Controller
             ->with(['images', 'category', 'reviews', 'variations'])
             ->paginate(12);
 
+<<<<<<< HEAD
         $seo = app(SeoManager::class)->forCurrentPage($store['name'], $store['description']);
 
         return view('frontend.store', compact('store', 'products', 'seo'));
+=======
+        return view('frontend.store', compact('store', 'products'));
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 
     public function show(string $slug)

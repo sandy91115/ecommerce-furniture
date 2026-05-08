@@ -11,6 +11,7 @@
                 ->withCount([
                     'products as active_products_count' => fn($productQuery) => $productQuery->where('status', 'active'),
                 ])
+<<<<<<< HEAD
                 ->with([
                     'children' => fn($childQuery) => $childQuery
                         ->where('status', 'active')
@@ -19,12 +20,15 @@
                         ])
                         ->orderBy('name'),
                 ])
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 ->orderBy('name'),
         ])
         ->orderBy('name')
         ->get();
     $selectedCategorySlug = request()->route('category')?->slug ?? request('category');
     $totalProducts = \App\Models\Product::where('status', 'active')->count();
+<<<<<<< HEAD
     $headerMenus = collect($menus['header_main'] ?? []);
     if ($headerMenus->isEmpty()) {
         $headerMenus = collect([
@@ -50,6 +54,8 @@
 
         return request()->is(trim($path, '/') ?: '/') || request()->path() === trim($path, '/');
     };
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 @endphp
 
 <!-- Header Start -->
@@ -62,41 +68,155 @@
                     $siteLogoPath = \App\Models\Setting::get('site_logo_path');
                     $logoUrl = $siteLogoPath ? asset('storage/' . $siteLogoPath) : asset('assets/img/footer-logo.svg');
                 @endphp
+<<<<<<< HEAD
                 <img class="nav-logo fill-current dark:text-white text-title w-[104px] sm:w-[160px] object-contain" src="{{ $logoUrl }}" alt="CAROM STUDIOS" onerror="this.onerror=null; this.src='{{ asset('assets/img/footer-logo.svg') }}';">
             </a>
 
+=======
+                <img class="nav-logo fill-current dark:text-white text-title w-[80px] sm:w-[150px] object-contain" src="{{ $logoUrl }}" alt="CAROM STUDIOS" onerror="this.onerror=null; this.src='{{ asset('assets/img/footer-logo.svg') }}';">
+            </a>
+
+            <!-- Menu -->
+            <div class="site-header-menu main-menu absolute lg:static z-50 w-full lg:w-auto top-full left-0 -translate-x-full lg:translate-x-0 bg-white/95 dark:bg-title/95 backdrop-blur-md lg:bg-transparent lg:dark:bg-transparent px-5 sm:px-[30px] py-[10px] sm:py-5 lg:px-0 lg:py-0 transition-transform duration-300 ease-in-out mobile-open:translate-x-0 shadow-2xl lg:shadow-none lg:static">
+                <ul class="site-header-menu-list flex flex-col lg:flex-row lg:items-center text-lg leading-none text-title dark:text-white lg:gap-[30px] space-y-4 lg:space-y-0">
+
+                      <li><a href="/" class="sub-menu-item">Home</a></li>
+                    {{-- Shop Categories Dropdown --}}
+                    <li class="relative parent-parent-menu-item shop-menu-item">
+                        <a href="/shop" class="home-link nav-shop-link inline-flex items-center px-3 rounded-full transition-all duration-200 hover:bg-primary/10 hover:text-primary{{ request()->routeIs('shop', 'shop.category') ? ' active' : '' }}" @if(request()->routeIs('shop', 'shop.category')) aria-current="page" @endif>
+                            Shop
+                          
+                        </a>
+                        <ul class="sub-menu shop-dropdown-menu lg:absolute z-50 lg:top-full lg:left-0 lg:min-w-[340px] lg:w-max lg:max-w-[420px] lg:max-h-[420px] lg:overflow-y-auto lg:invisible lg:transition-all lg:bg-white lg:dark:bg-title lg:py-[15px] lg:pr-[30px]">
+                            @foreach($navCategories as $category)
+                            <li class="shop-dropdown-group">
+                                <a href="{{ route('shop.category', ['category' => $category]) }}" class="sub-menu-item shop-dropdown-parent block whitespace-nowrap{{ $selectedCategorySlug === $category->slug ? ' active' : '' }}">{{ $category->name }}</a>
+                                @if($category->children->isNotEmpty())
+                                <ul class="shop-dropdown-children">
+                                    @foreach($category->children as $childCategory)
+                                    <li>
+                                        <a href="{{ route('shop.category', ['category' => $childCategory]) }}" class="sub-menu-item shop-dropdown-child block whitespace-nowrap{{ $selectedCategorySlug === $childCategory->slug ? ' active' : '' }}">{{ $childCategory->name }}</a>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                                @endif
+                            </li>
+                            @endforeach
+                            <li class="shop-dropdown-group">
+                                <a href="{{ route('shop') }}" class="sub-menu-item block whitespace-nowrap{{ blank($selectedCategorySlug) && request()->routeIs('shop') ? ' active' : '' }}">View All ({{ $totalProducts }})</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                     <!-- <li><a href="{{ route('quotation-products.index') }}" class="sub-menu-item">Quotation Request</a></li> -->
+                    <!-- <li><a href="/blog" class="sub-menu-item">Blog</a></li> -->
+                    <li><a href="/about" class="sub-menu-item">About Us</a></li>
+                    <li><a href="/contact" class="sub-menu-item">Contact</a></li>
+
+                </ul>
+
+            </div>
+
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             <!-- Header Right -->
             <div class="site-header-actions flex items-center gap-4 sm:gap-6">
                 @auth
                 <div class="relative group">
+<<<<<<< HEAD
                     <a href="/my-profile" class="site-header-auth-link site-header-auth-link--mobile lg:hidden" aria-label="My account">
                         <i class="mdi mdi-account-outline" aria-hidden="true"></i>
                         <span>Account</span>
                     </a>
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     <a href="/my-profile" class="text-lg leading-none text-title dark:text-white transition-all duration-300 hover:text-primary hidden lg:block">
                         Hi, {{ auth()->user()->name }}
                         <i class="fas fa-chevron-down ml-1"></i>
                     </a>
                     <div class="absolute right-0 mt-2 w-48 bg-white dark:bg-title shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+<<<<<<< HEAD
                         <a href="/my-profile" class="block px-4 py-2 text-sm text-gray-700  hover:bg-gray-100 dark:hover:bg-gray-800">My Account</a>
                         <a href="/order-history" class="block px-4 py-2 text-sm text-gray-700  hover:bg-gray-100 dark:hover:bg-gray-800">My Orders</a>
                         <form method="POST" action="{{ route('logout') }}" class="inline">
                             @csrf
                             <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700  hover:bg-gray-100 dark:hover:bg-gray-800">Logout</button>
+=======
+                        <a href="/my-profile" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">My Account</a>
+                        <a href="/order-history" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">My Orders</a>
+                        <form method="POST" action="{{ route('logout') }}" class="inline">
+                            @csrf
+                            <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">Logout</button>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                         </form>
                     </div>
                 </div>
                 @else
+<<<<<<< HEAD
                 <a href="{{ route('login') }}" class="site-header-auth-link site-header-auth-link--mobile lg:hidden" aria-label="Login or signup">
                     <i class="mdi mdi-account-outline" aria-hidden="true"></i>
                     <span>Login/Signup</span>
                 </a>
                 <a href="{{ route('login') }}" class="text-lg leading-none text-title dark:text-white transition-all duration-300 hover:text-primary hidden lg:block">Login/Signup</a>
+=======
+                <a href="{{ route('login') }}" class="text-lg leading-none text-title dark:text-white transition-all duration-300 hover:text-primary hidden lg:block">Login</a>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 @endauth
 
 
                 <!-- WishList -->
+<<<<<<< HEAD
              
+=======
+                <div class="relative group">
+                    <button class="relative hdr_wishList_btn">
+                        <span class="wishlist-count absolute w-[22px] h-[22px] bg-secondary -top-[10px] -right-[11px] rounded-full flex items-center justify-center text-xs leading-none text-white">{{ $wishlistCount ?? 0 }}</span>
+
+                        <svg class="fill-current text-title dark:text-white w-[22px] sm:w-[25px]" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.9005 0.591797C15.9541 0.591797 14.2479 1.45969 12.9662 3.10171C12.7953 3.3207 12.6429 3.53979 12.5079 3.75198C12.3728 3.53974 12.2205 3.3207 12.0496 3.10171C10.7679 1.45969 9.06162 0.591797 7.11524 0.591797C3.43837 0.591797 0.808594 3.67049 0.808594 7.36477C0.808594 11.589 4.27071 15.5701 12.0343 20.2733C12.1798 20.3614 12.3439 20.4055 12.5079 20.4055C12.6719 20.4055 12.8359 20.3615 12.9815 20.2733C20.7451 15.5702 24.2072 11.589 24.2072 7.36482C24.2072 3.67246 21.5795 0.591797 17.9005 0.591797ZM19.9642 12.6247C18.3479 14.4281 15.9055 16.327 12.5079 18.4205C9.11029 16.327 6.66784 14.4281 5.05155 12.6247C3.42654 10.8115 2.63661 9.09096 2.63661 7.36482C2.63661 4.70487 4.43419 2.41981 7.11524 2.41981C8.48059 2.41981 9.64476 3.01346 10.5754 4.1843C11.3196 5.12066 11.6332 6.08754 11.6354 6.09444C11.7544 6.47626 12.108 6.73634 12.5079 6.73634C12.9079 6.73634 13.2614 6.47631 13.3805 6.09444C13.3834 6.08521 13.6875 5.14849 14.4072 4.22644C15.3429 3.02762 16.5183 2.41976 17.9005 2.41976C20.5844 2.41976 22.3792 4.70702 22.3792 7.36477C22.3792 9.09092 21.5892 10.8114 19.9642 12.6247Z" />
+                        </svg>
+                    </button>
+                    <div class="wishlist_popup w-80 md:w-96 absolute right-0 top-full opacity-0 invisible scale-95 transform transition-all duration-300 group-hover:opacity-100 group-hover:visible group-hover:scale-100 z-50 bg-white backdrop-blur-md py-5 md:py-[30px] pl-5 md:pl-[30px] pr-[10px] md:pr-[15px] border border-bdr-clr dark:border-bdr-clr-drk shadow-2xl rounded-xl">
+                        <h4 class="font-medium leading-none dark:text-white mb-4 text-xl md:text-2xl">Wishlist ({{ $wishlistCount ?? 0 }})</h4>
+                        <div class="max-h-[400px] overflow-y-auto">
+                            @forelse($wishlistItems ?? [] as $product)
+                            <div class="wishlist-item pb-[15px] mb-[15px] border-b border-bdr-clr dark:border-bdr-clr-drk relative group/item">
+                                <a href="{{ route('product-details', $product->slug) }}" class="flex items-center gap-[15px]">
+@php
+                                    $wishlistImageUrl = image_url($product->images->first());
+                                    @endphp
+                                    <img class="w-[70px] flex-shrink-0 object-cover rounded-lg" src="{{ $wishlistImageUrl }}" alt="{{ $product->name }}">
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <span class="text-[14px] text-gray-600 dark:text-gray-400">Product</span>
+                                            <span class="w-[6px] h-[6px] rounded-full bg-primary"></span>
+                                            <span class="text-[14px] font-semibold">{{ currency($product->sale_price ?: $product->price) }}</span>
+                                        </div>
+                                        <h6 class="text-base font-semibold truncate">{{ $product->name }}</h6>
+                                    </div>
+                                </a>
+                                <button onclick="removeFromWishlist('{{ $product->id }}')" class="absolute top-0 right-0 w-8 h-8 flex items-center justify-center bg-title/10 dark:bg-white/10 hover:bg-primary text-title hover:text-white rounded-lg transition-all duration-200" title="Remove from wishlist">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+                            @empty
+                            <div class="text-center py-8 text-gray-500 dark:text-gray-400">
+                                <svg class="w-12 h-12 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                                </svg>
+                                <p>Your wishlist is empty</p>
+                            </div>
+                            @endforelse
+                        </div>
+                        @if(count($wishlistItems) > 0)
+                        <div class="mt-6 pt-4 border-t border-bdr-clr dark:border-bdr-clr-drk">
+                            <a href="{{ route('frontend.wishlist') }}" class="w-full block text-center py-3 font-semibold bg-primary text-white rounded-lg">View All Wishlist Items</a>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
                
                 <!-- Cart -->
@@ -177,6 +297,7 @@
                 </label> -->
             </div>
         </div>
+<<<<<<< HEAD
 
         <!-- Menu -->
         <div id="mobile-menu" class="site-header-menu main-menu absolute lg:static z-50 w-full lg:w-auto top-full left-0 bg-white/95 dark:bg-title/95 backdrop-blur-md lg:bg-transparent lg:dark:bg-transparent px-5 sm:px-[30px] py-[10px] sm:py-5 lg:px-0 lg:py-0 transition-transform duration-300 ease-in-out shadow-2xl lg:shadow-none lg:static">
@@ -247,6 +368,8 @@
             </ul>
 
         </div>
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     </div>
 
     @if($navCategories->isNotEmpty())
@@ -297,6 +420,7 @@
                             </a>
 
                             @if($category->children->isNotEmpty())
+<<<<<<< HEAD
                             <div class="site-category-panel site-category-menu-panel">
                                 <div class="site-category-menu-panel__level site-category-menu-panel__level--primary">
                                     @foreach($category->children as $childCategory)
@@ -319,6 +443,35 @@
                                         @endif
                                     </div>
                                     @endforeach
+=======
+                            <div class="site-category-panel">
+                                <div class="site-category-panel__copy">
+                                    <span class="site-category-panel__eyebrow">Curated Collection</span>
+                                    <a href="{{ route('shop.category', ['category' => $category]) }}" class="site-category-panel__title">{{ $category->name }}</a>
+                                    <p class="site-category-panel__meta">{{ $category->active_products_count }} products ready to explore.</p>
+
+                                    <div class="site-category-panel__links">
+                                        @foreach($category->children as $childCategory)
+                                        <a href="{{ route('shop.category', ['category' => $childCategory]) }}" class="site-category-panel__link{{ $selectedCategorySlug === $childCategory->slug ? ' is-active' : '' }}">
+                                            <span>{{ $childCategory->name }}</span>
+                                            <span class="site-category-panel__count">{{ $childCategory->active_products_count }}</span>
+                                        </a>
+                                        @endforeach
+                                    </div>
+
+                                    <a href="{{ route('shop.category', ['category' => $category]) }}" class="site-category-panel__cta">Explore {{ $category->name }}</a>
+                                </div>
+
+                                <div class="site-category-panel__media{{ $categoryImageUrl ? ' has-image' : '' }}" @if($categoryImageUrl) style="background-image: linear-gradient(180deg, rgba(26, 26, 26, 0.14), rgba(26, 26, 26, 0.55)), url('{{ $categoryImageUrl }}');" @endif>
+                                    @if(!$categoryImageUrl)
+                                    <span class="site-category-panel__badge">{{ strtoupper(substr($category->name, 0, 1)) }}</span>
+                                    @endif
+
+                                    <div class="site-category-panel__media-copy">
+                                        <span>Featured</span>
+                                        <strong>{{ $featuredChild?->name ?? $category->name }}</strong>
+                                    </div>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                                 </div>
                             </div>
                             @endif
@@ -332,6 +485,7 @@
 </div>
 
 <!-- Header End -->
+<<<<<<< HEAD
 
 <script>
 document.addEventListener('click', function (event) {
@@ -357,3 +511,5 @@ document.addEventListener('click', function (event) {
     document.body.classList.toggle('menu_overlay', isOpen);
 }, true);
 </script>
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646

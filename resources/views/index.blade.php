@@ -10,6 +10,7 @@
     <!-- Banner Start -->
     <div class="carousel-slider-four owl-carousel" data-carousel-dots="true" data-carousel-loop="true"
         data-carousel-autoplay="true" data-carousel-smartspeed="900">
+<<<<<<< HEAD
         @forelse($homeBanners as $index => $banner)
             @php
                 $product = $banner->product;
@@ -26,6 +27,22 @@
                 $offerPrice = $banner->offer_price ?: ($price ? currency($price, 0) : null);
                 $offerTitle = $banner->offer_title ?: ($product ? Str::limit($product->name, 28) : $banner->title);
                 $kicker = $banner->kicker ?: optional($product?->category)->name ?: 'Premium Collection';
+=======
+        @forelse($bannerProducts as $index => $product)
+            @php
+                $brandBannerColors = ['#E3B505', '#8B6F47', '#6B8E23'];
+                $themeIndex = $index % count($brandBannerColors);
+                $contentIndex = $index % max(count($bannerTitles), 1);
+                $color = $brandBannerColors[$themeIndex] ?? '#E3B505';
+                $price = (!is_null($product->sale_price) && $product->sale_price > 0) ? $product->sale_price : $product->price;
+                $hasDiscount = !is_null($product->sale_price) && $product->sale_price < $product->price && $product->price > 0;
+                $discount = $hasDiscount ? round((1 - ($product->sale_price / $product->price)) * 100) : null;
+                $firstImage = $product->images->first();
+                $bannerImg = $firstImage ? asset('storage/' . $firstImage->path) : asset('assets/img/home-v1/banner-0' . (($themeIndex % 2) + 1) . '.png');
+                $titleText = $bannerTitles[$contentIndex] ?? 'Featured Furniture';
+                $descText = $bannerDescs[$contentIndex] ?? 'Design your home with elegant furniture pieces.';
+                $shopLink = $shopUrls[$contentIndex] ?? route('shop');
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             @endphp
             <div class="hero-banner-slide relative overflow-hidden pt-12 md:pt-20 xl:pt-[100px] pb-12 sm:pb-20 xl:pb-24 px-[15px] sm:px-12 dark:bg-title"
                 style="background: linear-gradient(135deg, #f9f9f9 0%, #f2e8d5 52%, #fff8eb 100%);">
@@ -43,6 +60,7 @@
                         <div class="relative z-10 sm:max-w-[632px] w-full slider-content banner-copy">
                             <div class="banner-meta-card" style="border-color: {{ $color }}22;">
                                 <p class="uppercase tracking-[0.24em] text-xs font-semibold" style="color: {{ $color }};">
+<<<<<<< HEAD
                                     {{ $banner->eyebrow }}</p>
                                 @if($offerPrice)
                                     <h4 class="leading-none mt-2 font-semibold text-2xl md:text-3xl" style="color: {{ $color }};">
@@ -50,10 +68,18 @@
                                 @endif
                                 <p class="mt-2 text-lg md:text-xl font-semibold text-title dark:text-white">
                                     {{ $offerTitle }}</p>
+=======
+                                    Featured Pick</p>
+                                <h4 class="leading-none mt-2 font-semibold text-2xl md:text-3xl" style="color: {{ $color }};">
+                                    {{ currency($price, 0) }}</h4>
+                                <p class="mt-2 text-lg md:text-xl font-semibold text-title dark:text-white">
+                                    {{ Str::limit($product->name, 28) }}</p>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                             </div>
 
                             <div class="flex items-end content-top banner-title-wrap">
                                 <span
+<<<<<<< HEAD
                                     class="font-bold text-5xl sm:text-7xl xl:text-9xl text-title leading-none dark:text-white">{{ $banner->season_year }}</span>
                                 <span class="banner-season-text">{{ $banner->season_text }}</span>
                             </div>
@@ -73,6 +99,27 @@
                                 @if($banner->secondary_button_text)
                                     <a href="{{ $shopLink }}" class="text-title dark:text-white text-underline font-medium">{{ $banner->secondary_button_text }}</a>
                                 @endif
+=======
+                                    class="font-bold text-5xl sm:text-7xl xl:text-9xl text-title leading-none dark:text-white">2026</span>
+                                <img class="banner-season-art w-[150px] sm:w-[200px] lg:w-[250px] xl:w-full"
+                                    src="{{ asset('assets/img/shortcode/carousel/Summer.png') }}" alt="summer">
+                            </div>
+                            <p class="banner-kicker mt-6 inline-flex items-center text-sm font-medium uppercase tracking-[0.25em]"
+                                style="color: {{ $color }};">
+                                {{ optional($product->category)->name ?? 'Premium Collection' }}
+                            </p>
+                            <h2
+                                class="banner-main-title mt-[10px] font-normal text-3xl sm:text-4xl xl:text-5xl !leading-[1.2] dark:text-white">
+                                {{ $titleText }}</h2>
+                            <p class="banner-description dark:text-white-light mt-3 md:mt-4 sm:max-w-[500px] xl:max-w-full">
+                                {{ $descText }}</p>
+                            <div
+                                class="button banner-actions banner-actions--desktop mt-4 md:mt-6 flex flex-wrap items-center gap-4">
+                                <a class="btn btn-outline" href="{{ route('product-details', ['slug' => $product->slug]) }}"
+                                    data-text="View Product"><span>View Product</span></a>
+                                <a href="{{ $shopLink }}" class="text-title dark:text-white text-underline font-medium">Shop
+                                    Collection</a>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                             </div>
                         </div>
 
@@ -88,6 +135,7 @@
                             @endif
 
                             <div class="w-full p-4 sm:p-6 banner-media-frame"
+<<<<<<< HEAD
                                >
                                 <img class="slider-img w-full h-auto banner-product-image"
                                     style="max-height: 620px; object-fit: contain;" src="{{ $bannerImg }}"
@@ -100,6 +148,19 @@
                                 @if($banner->secondary_button_text)
                                     <a href="{{ $shopLink }}" class="text-title dark:text-white text-underline font-medium">{{ $banner->secondary_button_text }}</a>
                                 @endif
+=======
+                                style="background: rgba(255, 255, 255, 0.82); box-shadow: 0 25px 70px rgba(23, 36, 48, 0.12);">
+                                <img class="slider-img w-full h-auto banner-product-image"
+                                    style="max-height: 620px; object-fit: contain;" src="{{ $bannerImg }}"
+                                    alt="{{ $product->name }}">
+                            </div>
+
+                            <div class="button banner-actions banner-actions--mobile mt-4 flex flex-wrap items-center gap-4">
+                                <a class="btn btn-outline" href="{{ route('product-details', ['slug' => $product->slug]) }}"
+                                    data-text="View Product"><span>View Product</span></a>
+                                <a href="{{ $shopLink }}" class="text-title dark:text-white text-underline font-medium">Shop
+                                    Collection</a>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                             </div>
                         </div>
                     </div>
@@ -115,29 +176,112 @@
     <!-- Banner End -->
 
     <!-- Product Category Area Start -->
+<<<<<<< HEAD
     <div class="home-section home-section--categories s-py-100-50 overflow-hidden">
         <div class="container-fluid">
             <!-- Section Title -->
             <div class="home-section-title max-w-xl mx-auto mb-8 md:mb-12 text-center" data-aos="fade-up">
                
                 <h3 class="leading-none mt-4 md:mt-6 text-2xl md:text-3xl font-bold">Shop by all Category</h3>
+=======
+    <div class="s-py-100-50 overflow-hidden">
+        <div class="container-fluid">
+            <!-- Section Title -->
+            <div class="max-w-xl mx-auto mb-8 md:mb-12 text-center" data-aos="fade-up">
+                <div>
+                    <svg class="mx-auto w-14 sm:w-24" viewBox="0 0 67 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12.756 51.3601C12.1769 55.3028 11.7832 59.3357 11.7832 63H17.2854C17.2854 63 18.1191 58.2701 19.528 52.2941"
+                            stroke="#BB976D" stroke-width="2.2" stroke-miterlimit="10" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path
+                            d="M54.2154 51.3601C54.7945 55.3028 55.1882 59.3357 55.1882 63H49.686C49.686 63 48.8523 58.2701 47.4434 52.2941"
+                            stroke="#BB976D" stroke-width="2.2" stroke-miterlimit="10" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path
+                            d="M60.6476 46.513C62.8649 40.3526 64.1991 33.2862 64.9036 28.7084C64.9492 28.4106 64.972 28.1129 64.972 27.8202C64.972 25.3672 63.4186 23.1334 61.0378 22.3174C57.8613 21.2277 54.4327 23.0485 53.5369 26.2858C53.0123 28.1813 52.5195 30.405 52.2483 32.7477C51.9176 35.6087 49.2682 37.6221 46.4249 37.1659C43.4448 36.687 39.2028 36.2689 33.4858 36.2689C27.7689 36.2689 23.5268 36.687 20.5467 37.1659C17.7035 37.6221 15.0541 35.6087 14.7234 32.7477C14.4522 30.405 13.9593 28.1813 13.4348 26.2858C12.7151 23.6871 10.3635 22.0006 7.82049 22.0006C7.19584 22.0006 6.55978 22.102 5.93385 22.3174C3.26798 23.2309 1.63983 25.9222 2.06809 28.7084C2.84099 33.7335 4.37412 41.7565 6.99817 48.2894C7.56201 49.6933 8.81259 50.7056 10.3039 50.9603C14.7297 51.7155 24.7014 53.2334 33.4858 53.2334C42.2703 53.2334 52.242 51.7155 56.6678 50.9603C57.5167 50.8159 58.2871 50.4243 58.8978 49.8567"
+                            stroke="#BB976D" stroke-width="2.2" stroke-miterlimit="10" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path
+                            d="M7.67188 22.0039C7.67314 19.2379 7.75677 16.472 7.92402 13.7047C8.08113 11.1212 9.02128 8.75057 10.5101 6.83352"
+                            stroke="#BB976D" stroke-width="2.2" stroke-miterlimit="10" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path
+                            d="M13.2656 4.23101C15.094 2.96902 17.2771 2.18979 19.6402 2.07449C28.8719 1.62342 38.1036 1.62342 47.3353 2.07449C53.6351 2.38238 58.6665 7.4113 59.0479 13.7047C59.2152 16.472 59.2988 19.2379 59.3001 22.0039"
+                            stroke="#BB976D" stroke-width="2.2" stroke-miterlimit="10" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path
+                            d="M14.6133 31.8984C16.3972 30.2599 20.5919 27.5935 29.3709 26.9441C30.6434 26.8501 32.0123 26.7987 33.4841 26.7987C45.1101 26.7987 50.3114 30.0217 52.3549 31.8984"
+                            stroke="#BB976D" stroke-width="2.2" stroke-miterlimit="10" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <h3 class="leading-none mt-4 md:mt-6 text-2xl md:text-3xl font-bold">Product Category</h3>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 <p class="mt-3">Explore our curated selection of premium products, tailored to suit every need and taste.
                     From essentials to indulgences, find your perfect fit. </p>
             </div>
             <!-- Products Wrapper -->
+<<<<<<< HEAD
             <div class="max-w-[1720px] mx-auto" data-aos="fade-up" data-aos-delay="100">
                 @include('includes.Home.product-category')
+=======
+            <div class="max-w-[1720px] mx-auto relative group" data-aos="fade-up" data-aos-delay="100">
+                <div class="owl-carousel hv1-pdct-ctgry-slider" data-carousel-items="3" data-carousel-xl="3"
+                    data-carousel-lg="2" data-carousel-md="2" data-carousel-sm="2" data-carousel-xs="2"
+                    data-carousel-margin="10" data-carousel-loop="true" data-carousel-autoplay="true">
+
+                    <!-- includes/Home/product-category.blade.php -->
+                    @include('includes.Home.product-category')
+
+                </div>
+
+                <!-- Slider Navigation -->
+                <button
+                    class="icon hv1pdct_prev w-9 h-9 md:w-14 md:h-14 flex items-center justify-center text-title duration-300 bg-white hover:bg-primary transform p-2 absolute [top:57%]  -translate-y-1/2 left-0 z-[999]"
+                    aria-label="Prev Navigation">
+                    <svg class="fill-current" width="24" height="14" viewBox="0 0 24 14" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M0.180223 7.38726L5.62434 12.8314C5.8199 13.0598 6.16359 13.0864 6.39195 12.8908C6.62031 12.6952 6.64693 12.3515 6.45132 12.1232C6.43307 12.1019 6.41324 12.082 6.39195 12.0638L1.87877 7.54516L23.4322 7.54516C23.7328 7.54516 23.9766 7.30141 23.9766 7.00072C23.9766 6.70003 23.7328 6.45632 23.4322 6.45632L1.87877 6.45632L6.39195 1.94314C6.62031 1.74758 6.64693 1.40389 6.45132 1.17553C6.25571 0.947171 5.91207 0.920551 5.68371 1.11616C5.66242 1.13441 5.64254 1.15424 5.62434 1.17553L0.180175 6.6197C-0.0308748 6.83196 -0.0308748 7.1749 0.180223 7.38726Z" />
+                    </svg>
+                </button>
+                <button
+                    class="icon hv1pdct_next w-9 h-9 md:w-14 md:h-14 flex items-center justify-center text-title duration-300 bg-white hover:bg-primary transform p-2 absolute [top:57%] -translate-y-1/2 right-0 z-[999]"
+                    aria-label="Next Navigation">
+                    <svg class="fill-current" width="24" height="14" viewBox="0 0 24 14" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M23.8198 6.61958L18.3757 1.17541C18.1801 0.947054 17.8364 0.920433 17.608 1.11604C17.3797 1.31161 17.3531 1.65529 17.5487 1.88366C17.5669 1.90494 17.5868 1.92483 17.608 1.94303L22.1212 6.46168L0.567835 6.46168C0.267191 6.46168 0.0234375 6.70543 0.0234375 7.00612C0.0234375 7.30681 0.267191 7.55052 0.567835 7.55052L22.1212 7.55052L17.608 12.0637C17.3797 12.2593 17.3531 12.6029 17.5487 12.8313C17.7443 13.0597 18.0879 13.0863 18.3163 12.8907C18.3376 12.8724 18.3575 12.8526 18.3757 12.8313L23.8198 7.38714C24.0309 7.17488 24.0309 6.83194 23.8198 6.61958Z" />
+                    </svg>
+                </button>
+
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             </div>
         </div>
     </div>
     <!-- Product Category Area End -->
 
     <!-- New Product Area Start -->
+<<<<<<< HEAD
     <div class="home-section home-section--new-products s-py-50-100">
         <div class="container-fluid">
             <!-- Section Title -->
             <div class="home-section-title max-w-xl mx-auto mb-8 md:mb-12 text-center" data-aos="fade-up">
                
+=======
+    <div class="s-py-50-100">
+        <div class="container-fluid">
+            <!-- Section Title -->
+            <div class="max-w-xl mx-auto mb-8 md:mb-12 text-center" data-aos="fade-up">
+                <div>
+                    <svg class="mx-auto w-14 sm:w-24" viewBox="0 0 73 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M13.7435 61.797C13.7435 62.4613 13.2025 62.9998 12.5353 62.9998H1.20822C0.54098 62.9998 0 62.4613 0 61.797C0 61.1327 0.54098 60.5941 1.20822 60.5941H12.5353C13.2025 60.5941 13.7435 61.1327 13.7435 61.797ZM28.0911 8.72061C32.7545 8.72061 36.5486 12.4979 36.5486 17.1407V19.2457C36.5486 19.91 36.0076 20.4485 35.3404 20.4485H20.8418C20.1745 20.4485 19.6336 19.91 19.6336 19.2457V17.1407C19.6336 12.4979 23.4277 8.72061 28.0911 8.72061ZM22.05 17.1407V18.0428H34.1322V17.1407C34.1322 13.8244 31.4222 11.1263 28.0911 11.1263C24.76 11.1263 22.05 13.8244 22.05 17.1407ZM10.0433 58.1884C10.7106 58.1884 11.2524 57.6497 11.2515 56.9839L11.1881 9.97069C11.1825 5.79104 14.5782 2.40558 18.7768 2.40558H19.2944C21.7168 2.40558 23.9371 3.51672 25.3857 5.45409C25.7842 5.9868 26.5411 6.09732 27.0763 5.70067C27.6116 5.30403 27.7224 4.55043 27.324 4.01757C25.4428 1.50193 22.441 0 19.2944 0H18.7768C13.2418 0 8.76427 4.46308 8.77167 9.974L8.8351 56.9872C8.83601 57.6509 9.37669 58.1884 10.0433 58.1884V58.1884ZM67.0562 41.7994V33.9562C67.0562 30.4048 64.1539 27.5154 60.5866 27.5154H27.6134C24.0461 27.5154 21.1438 30.4048 21.1438 33.9562V36.8376C21.1438 37.5018 21.6848 38.0404 22.3521 38.0404C23.0193 38.0404 23.5603 37.5018 23.5603 36.8376V33.9562C23.5603 31.7312 25.3785 29.9211 27.6134 29.9211H43.0428V43.4533C43.0428 44.1176 43.5838 44.6562 44.251 44.6562C44.9183 44.6562 45.4592 44.1176 45.4592 43.4533V29.9211H60.5866C62.8215 29.9211 64.6397 31.7312 64.6397 33.9562V41.8312C61.9265 42.1223 59.8068 44.4153 59.8068 47.1927V48.2648C59.8068 48.929 60.3478 49.4676 61.0151 49.4676C61.6823 49.4676 62.2233 48.929 62.2233 48.2648V47.1927C62.2233 45.5454 63.5694 44.2051 65.224 44.2051H67.076C68.7306 44.2051 70.0767 45.5454 70.0767 47.1927V57.6067C70.0767 59.254 68.7306 60.5943 67.076 60.5943H62.2233C62.2233 52.7215 62.2292 53.206 62.2129 53.0764C62.305 52.3419 61.7281 51.7231 61.0151 51.7231H33.9812C33.3139 51.7231 32.7729 52.2617 32.7729 52.926C32.7729 53.5903 33.3139 54.1289 33.9812 54.1289H59.8068V61.7971C59.8068 62.4614 60.3478 63 61.0151 63H67.076C70.063 63 72.4932 60.5806 72.4932 57.6067V47.1927C72.4932 44.2577 70.1101 41.7994 67.0562 41.7994ZM54.8229 60.5941C53.7304 60.5941 23.1422 60.5941 21.4263 60.5941C19.7716 60.5941 18.4253 59.2538 18.4253 57.6065V47.1927C18.4253 45.5454 19.7716 44.2051 21.4263 44.2051H23.278C24.9327 44.2051 26.2789 45.5454 26.2789 47.1927V53.9784C26.2789 54.6426 26.8199 55.1812 27.4871 55.1812C28.1544 55.1812 28.6954 54.6426 28.6954 53.9784V47.1927C28.6954 44.2188 26.2652 41.7994 23.278 41.7994H21.4263C18.4391 41.7994 16.0089 44.2188 16.0089 47.1927V57.6067C16.0089 60.5806 18.4391 63 21.4263 63H54.8229C55.4902 63 56.0312 62.4614 56.0312 61.7971C56.0312 61.1329 55.4902 60.5941 54.8229 60.5941Z"
+                            fill="#BB976D" />
+                    </svg>
+                </div>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 <h3 class="leading-none mt-4 md:mt-6 text-2xl md:text-3xl font-bold">New Products</h3>
                 <p class="mt-3">Be the first to experience innovation with our latest arrivals. Stay ahead of the curve and
                     discover what's new in style, technology, and more. </p>
@@ -181,14 +325,22 @@
     <!-- New Product Area End -->
 
     <!-- Choose Area Start -->
+<<<<<<< HEAD
     <div class="home-section home-section--services s-py-100 bg-overlay dark:before:bg-title dark:before:bg-opacity-80"
+=======
+    <div class="s-py-100 bg-overlay dark:before:bg-title dark:before:bg-opacity-80"
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         style="background-image: url('{{ asset('assets/img/home-v1/choose-us-bg.jpg') }}');">
         <img class="absolute top-0 right-0 w-[20%] z-[-1]" src="{{ asset('assets/img/home-v1/shape-01.png') }}" alt="shape">
         <div class="container-fluid">
             <div class="max-w-[1720px] mx-auto">
                 <div class="max-w-[1186px] ml-auto">
                     <!-- Section Title -->
+<<<<<<< HEAD
                     <!-- <div class="max-w-xl mb-8 md:mb-12" data-aos="fade-up">
+=======
+                    <div class="max-w-xl mb-8 md:mb-12" data-aos="fade-up">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                         <div>
                             <svg class="w-14 sm:w-24" viewBox="0 0 64 63" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -208,7 +360,11 @@
                         <h3 class="leading-none mt-4 md:mt-6 text-2xl md:text-3xl font-bold">Why you Choose Us</h3>
                         <p class="mt-3">Choose us for unparalleled quality, exceptional service, and a commitment to your
                             satisfaction. Join countless others who rely on us for reliability. </p>
+<<<<<<< HEAD
                     </div> -->
+=======
+                    </div>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     <!-- Chose Wrapper -->
                     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-[30px]">
 
@@ -223,17 +379,35 @@
     <!-- Choose Area End -->
 
     <!-- Feature Post Start -->
+<<<<<<< HEAD
     <div class="home-section home-section--featured s-py-100-50">
         <div class="container-fluid">
             <!-- Section Title -->
             <div class="home-section-title max-w-xl mx-auto mb-8 md:mb-12 text-center" data-aos="fade-up">
                
+=======
+    <div class="s-py-100-50">
+        <div class="container-fluid">
+            <!-- Section Title -->
+            <div class="max-w-xl mx-auto mb-8 md:mb-12 text-center" data-aos="fade-up">
+                <div>
+                    <svg class="mx-auto w-14 sm:w-24" viewBox="0 0 76 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M71.749 29.234V12.4939C71.749 10.1443 69.8384 8.23257 67.4896 8.23257H60.3281C57.3673 8.23257 54.4966 7.17838 52.245 5.26413C48.2516 1.8695 43.1632 0 37.9167 0C32.6701 0 27.5817 1.8695 23.5883 5.26413C21.3367 7.17838 18.466 8.23257 15.5053 8.23257H8.34374C5.99513 8.23257 4.08434 10.1442 4.08434 12.4939V29.234C1.61146 31.0362 0 33.9535 0 37.2419V60.3639C0 61.8175 1.18193 63 2.63476 63H5.16674C6.61972 63 7.80165 61.8175 7.80165 60.3639V58.2235C7.80165 57.0665 8.74246 56.1254 9.89877 56.1254H65.9349C67.0912 56.1254 68.0317 57.0667 68.0317 58.2234V60.3639C68.0317 61.8175 69.2136 63 70.6666 63H73.1986C74.6514 63 75.8333 61.8175 75.8333 60.3639V37.2419C75.8333 33.9535 74.2219 31.0362 71.749 29.234ZM6.30602 12.4939C6.30602 11.3698 7.22016 10.4553 8.34374 10.4553H15.5053C18.9925 10.4553 22.3741 9.21326 25.0269 6.95803C28.6191 3.90438 33.1966 2.22278 37.9167 2.22278C42.6367 2.22278 47.2143 3.90453 50.8064 6.95818C53.4592 9.21341 56.8408 10.4555 60.3281 10.4555H67.4896C68.6132 10.4555 69.5273 11.3699 69.5273 12.4941V28.0165C68.4128 27.5805 67.2018 27.3384 65.9347 27.3384H62.1352V18.7672C62.1352 17.0955 60.7758 15.7353 59.105 15.7353H45.6749C44.0041 15.7353 42.6446 17.0955 42.6446 18.7672V20.0503C42.6446 20.6643 43.1418 21.1617 43.7554 21.1617C44.369 21.1617 44.8662 20.6643 44.8662 20.0503V18.7672C44.8662 18.321 45.229 17.9581 45.6749 17.9581H59.105C59.5508 17.9581 59.9135 18.321 59.9135 18.7672V27.3384H44.8662V25.2461C44.8662 24.6322 44.369 24.1348 43.7554 24.1348C43.1418 24.1348 42.6446 24.6322 42.6446 25.2461V27.3384H33.1888V18.7672C33.1888 17.0955 31.8293 15.7353 30.1584 15.7353H16.7284C15.0575 15.7353 13.6981 17.0955 13.6981 18.7672V27.3384H9.89862C8.63152 27.3384 7.42056 27.5804 6.30602 28.0165V12.4939ZM15.9198 27.3384V18.7672C15.9198 18.321 16.2825 17.9581 16.7284 17.9581H30.1584C30.6044 17.9581 30.9671 18.321 30.9671 18.7672V27.3384H15.9198ZM73.1986 60.7772H70.6666C70.4388 60.7772 70.2534 60.5918 70.2534 60.3639V58.2234C70.2534 55.8409 68.3161 53.9026 65.9349 53.9026H9.89877C7.51742 53.9026 5.57997 55.841 5.57997 58.2235V60.3639C5.57997 60.5918 5.39453 60.7772 5.16674 60.7772H2.63476C2.40697 60.7772 2.22168 60.5918 2.22168 60.3639V46.5593H5.61596C6.22959 46.5593 6.7268 46.0619 6.7268 45.4479C6.7268 44.834 6.22959 44.3365 5.61596 44.3365H2.22168V37.2419C2.22168 33.0067 5.66558 29.5611 9.89862 29.5611H65.9347C70.1678 29.5611 73.6117 33.0067 73.6117 37.2419V44.3365H10.8369C10.2233 44.3365 9.72607 44.834 9.72607 45.4479C9.72607 46.0619 10.2233 46.5593 10.8369 46.5593H73.6117V60.3639C73.6117 60.5918 73.4264 60.7772 73.1986 60.7772Z"
+                            fill="#BB976D" />
+                    </svg>
+                </div>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 <h3 class="leading-none mt-4 md:mt-6 text-2xl md:text-3xl font-bold">Featured Products</h3>
                 <p class="mt-3">Discover our handpicked selection of standout products. Elevate your lifestyle with our top
                     picks that combine quality, style, and innovation. </p>
             </div>
             <!-- Feature Product Wrapper -->
+<<<<<<< HEAD
             <div class="max-w-[1720px] mx-auto" data-aos="fade-up"
+=======
+            <div class="max-w-[1720px] mx-auto flex gap-5 sm:gap-8 flex-col lg:flex-row" data-aos="fade-up"
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 data-aos-delay="100">
 
                 <!-- includes/Home/featured-products.blade.php -->
@@ -246,6 +420,7 @@
 
 
 
+<<<<<<< HEAD
     <!-- Customer Reviews Start -->
     <section class="product-customer-say home-customer-say s-py-50">
         <div class="container-fluid">
@@ -266,6 +441,35 @@
         </div>
     </section>
     <!-- Customer Reviews End -->
+=======
+    <!-- Partner Start -->
+    <div class="s-py-50-100">
+        <div class="container-fluid">
+            <div class="max-w-xl mx-auto mb-8 md:mb-12 text-center" data-aos="fade-up">
+                <div>
+                    <svg class="mx-auto w-14 sm:w-24" viewBox="0 0 64 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M62.7358 44.5708L53.5821 35.2916L60.1592 28.4808C62.0554 26.5157 61.9988 23.3742 60.0349 21.478C59.1698 20.6425 58.0772 20.186 56.9623 20.1035C57.5677 19.2496 57.8852 18.2283 57.8667 17.1602C57.8434 15.8374 57.3069 14.6032 56.3545 13.684C55.4119 12.7747 54.1999 12.3132 52.9829 12.2972C53.2856 11.634 53.4382 10.9068 53.4246 10.1574C53.4013 8.83462 52.8648 7.5992 51.9136 6.68125C50.3435 5.16527 48.024 4.89579 46.1868 5.84943C46.1167 4.59924 45.5876 3.44011 44.6819 2.56522C43.7012 1.61897 42.3514 1.10831 40.9769 1.16368C39.9137 1.20798 38.9367 1.57836 38.1603 2.22314L34.1378 0.324483C32.8433 -0.285845 31.2916 -0.0188265 30.2752 0.987723L26.4533 4.77643L25.3237 3.60623C23.4263 1.64235 20.2848 1.58698 18.3197 3.48441C17.4141 4.35929 16.8849 5.51965 16.816 6.76984C14.9789 5.81497 12.6582 6.08322 11.088 7.5992C10.1369 8.51838 9.60038 9.75257 9.577 11.0754C9.56346 11.826 9.71727 12.5532 10.02 13.2164C8.80301 13.2337 7.58974 13.6926 6.64717 14.6032C5.69477 15.5224 5.15827 16.7566 5.13489 18.0794C5.11643 19.1462 5.4339 20.1675 6.04054 21.0227C4.9257 21.1052 3.83179 21.5617 2.96675 22.3972C1.00287 24.2934 0.946268 27.4349 2.84247 29.4L7.49745 34.2198C8.15823 34.904 8.97036 35.3556 9.83048 35.5746C9.57946 35.9019 9.3149 36.2169 9.06388 36.4729L0.297794 44.54C-0.0775082 44.8858 -0.100888 45.4691 0.243652 45.8444C0.425766 46.0425 0.674327 46.1422 0.922888 46.1422C1.14684 46.1422 1.37079 46.0609 1.54798 45.8985L10.3313 37.8154C10.3424 37.8043 10.3534 37.7944 10.3645 37.7834C10.9884 37.1484 11.627 36.2834 12.0565 35.6288C12.9486 35.4466 13.8001 35.0197 14.5027 34.3417C15.4551 33.4225 15.9916 32.1871 16.015 30.8643C16.0199 30.564 15.9977 30.2687 15.951 29.9783C16.2266 30.0263 16.5059 30.0509 16.7853 30.0509C18.0244 30.0509 19.266 29.5895 20.2257 28.6629C21.1769 27.7437 21.7146 26.5095 21.7368 25.1867C21.7417 24.9333 21.727 24.6822 21.6937 24.4361C22.0124 24.4989 22.3361 24.5309 22.6597 24.5309C23.8988 24.5309 25.1404 24.0694 26.1002 23.1429C27.0513 22.2237 27.5891 20.9895 27.6124 19.6667C27.6161 19.3899 27.5977 19.1167 27.5583 18.8484C27.8561 18.9038 28.1563 18.9321 28.459 18.9321C29.6981 18.9321 30.9385 18.4707 31.8983 17.5441C32.8507 16.6249 33.3872 15.3907 33.4106 14.0679C33.4302 12.8928 33.0426 11.7743 32.3117 10.8711C32.4815 10.7296 32.6452 10.5795 32.8015 10.417C32.8408 10.3752 39.0032 3.97538 39.0352 3.93846C39.5335 3.3712 40.2497 3.04143 41.052 3.0082C41.9256 2.97375 42.7808 3.29491 43.3998 3.89293C43.9965 4.47004 44.3337 5.24402 44.3485 6.07461C44.362 6.90397 44.0532 7.69026 43.476 8.28705C43.4182 8.35227 42.312 9.48063 42.296 9.52247C42.0044 9.92115 42.0782 10.4786 42.4646 10.7874C42.8362 11.0852 43.3739 11.0508 43.7049 10.7087L46.2373 8.08525C47.4272 6.85352 49.3984 6.81783 50.6314 8.00896C51.2282 8.58483 51.5654 9.36005 51.5789 10.1894C51.5937 11.0188 51.2848 11.805 50.7065 12.4043C49.9706 13.1721 48.5986 14.5872 47.8628 15.3661C47.768 15.4646 47.7004 15.579 47.6585 15.6996C47.5342 16.054 47.6376 16.4625 47.9415 16.7147C48.3205 17.0273 48.8779 16.9891 49.2102 16.6274L50.8111 14.9601C52.0108 13.8551 53.8848 13.8649 55.0723 15.0117C55.6703 15.5888 56.0062 16.3628 56.021 17.1934C56.0358 18.0228 55.7257 18.8091 55.1498 19.4058C55.1498 19.4058 53.2388 21.3845 53.0481 21.5814C52.6716 21.9431 52.6814 22.5719 53.0678 22.9202C53.4923 23.3201 54.1396 23.2007 54.4718 22.77C55.6715 21.649 57.5591 21.6527 58.7527 22.8057C59.9857 23.9956 60.0201 25.9669 58.8315 27.1986L47.5761 38.8539C47.4493 38.9843 47.3177 39.1172 47.1848 39.2452C46.8181 39.5996 46.8095 40.1841 47.1639 40.5508C47.3447 40.7378 47.5859 40.8313 47.8271 40.8313C48.0584 40.8313 48.2898 40.7452 48.4694 40.5717C48.5974 40.4671 52.0649 36.858 52.2987 36.6205L61.4217 45.8678C61.6025 46.0499 61.84 46.1422 62.0787 46.1422C62.3125 46.1422 62.5476 46.0536 62.7272 45.8764C63.0902 45.5183 63.0939 44.9338 62.7358 44.5708ZM13.2205 33.014C11.9875 34.2038 10.0151 34.1706 8.82516 32.9377L4.17018 28.1178C2.98151 26.8848 3.01597 24.9148 4.24893 23.7249C5.48189 22.5338 7.45192 22.5682 8.64305 23.8C8.74641 23.9058 13.1971 28.514 13.2968 28.6186C13.8739 29.2154 14.184 30.0017 14.1692 30.8323C14.1545 31.6616 13.8173 32.4368 13.2205 33.014ZM18.9436 27.3352C17.7106 28.5251 15.7393 28.4906 14.5494 27.2589C13.1085 25.7675 9.23615 21.7573 7.85183 20.3238C7.27596 19.727 6.96587 18.9407 6.98064 18.1114C6.99541 17.282 7.33133 16.5068 7.92936 15.9309C9.16109 14.741 11.1311 14.7742 12.321 16.006L19.0211 22.9435C19.597 23.5403 19.9058 24.3254 19.8923 25.1547C19.8775 25.9841 19.5404 26.7581 18.9436 27.3352ZM30.6161 16.2164C29.3831 17.4063 27.4131 17.3718 26.222 16.1401L24.3282 14.1787C23.9738 13.812 23.3894 13.8009 23.0227 14.1553C22.6572 14.5097 22.6461 15.0942 23.0005 15.4609L24.8943 17.4223C25.4714 18.0191 25.7815 18.8041 25.7667 19.6347C25.7519 20.4641 25.4148 21.2393 24.818 21.8152C23.585 23.0051 21.6137 22.9706 20.4239 21.7389C20.3328 21.6441 12.385 13.4145 12.2939 13.3198C11.7168 12.723 11.408 11.9379 11.4227 11.1074C11.4363 10.278 11.7734 9.50401 12.3702 8.92691C13.6032 7.73702 15.5745 7.77147 16.7643 9.0032C17.558 9.82518 19.2253 11.5516 20.0264 12.3809C20.3808 12.7476 20.9653 12.7587 21.332 12.4043C21.6987 12.0499 21.7085 11.4654 21.3541 11.0987L19.5256 9.205C18.962 8.62175 18.6532 7.8576 18.6532 7.04917V6.99256C18.6679 6.16321 19.0051 5.38799 19.6019 4.81212C20.8348 3.62222 22.8049 3.65545 23.996 4.88841L25.1416 6.07461L24.3602 6.84982C23.3758 7.82438 23.3586 9.42772 24.3208 10.4244C25.4406 11.5848 26.9455 12.2234 28.5575 12.2234H28.5624C29.3056 12.2222 30.0254 12.0844 30.6948 11.8247C31.2695 12.4215 31.5796 13.2066 31.5648 14.0359C31.55 14.8653 31.2129 15.6405 30.6161 16.2164ZM31.4713 9.13733C30.7035 9.93592 29.6698 10.3764 28.5612 10.3777H28.5575C27.4512 10.3777 26.4176 9.93838 25.6486 9.14225C25.384 8.86908 25.3889 8.42856 25.6584 8.16154L31.5746 2.29944C31.8737 2.00165 32.276 1.84538 32.6821 1.84538C32.9085 1.84538 33.1374 1.89337 33.3503 1.99427L36.7858 3.61484L31.4713 9.13733Z"
+                            fill="#BB976D" />
+                        <path
+                            d="M45.1617 62.7448C44.9833 62.9146 44.7544 62.9995 44.5268 62.9995C44.2819 62.9995 44.0383 62.9036 43.8574 62.7128C43.8574 62.7128 31.8637 50.0855 31.8945 50.1544C31.7468 50.2983 31.6016 50.4448 31.4589 50.5936L20.0546 62.7092C19.8725 62.9023 19.6276 62.9995 19.3815 62.9995C19.1551 62.9995 18.9275 62.9159 18.749 62.7485C18.3787 62.3991 18.3602 61.8158 18.7097 61.4442L30.1213 49.3213C32.8678 46.4616 36.3292 44.3833 40.1364 43.3054C41.4764 42.9264 42.7672 42.3788 43.9731 41.6774C44.4124 41.4215 44.9784 41.5704 45.2343 42.0109C45.4903 42.4514 45.3414 43.0175 44.9009 43.2734C43.5621 44.0523 42.1286 44.6602 40.6384 45.0822C37.9412 45.8451 35.4346 47.1593 33.2739 48.9226C33.4018 49.0494 45.195 61.4405 45.195 61.4405C45.5457 61.8097 45.5309 62.3941 45.1617 62.7448Z"
+                            fill="#BB976D" />
+                    </svg>
+                </div>
+                <h3 class="leading-none mt-4 md:mt-6 text-2xl md:text-3xl font-bold">Trusted Partner</h3>
+                <p class="mt-3">Count on our trusted partnerships to deliver excellence. Collaborating with industry leaders
+                    ensures top-quality products and services for your satisfaction. </p>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="100">
+
+                <!-- includes/Home/trusted-partner.blade.php -->
+                @include('includes.Home.trusted-partner')
+
+            </div>
+        </div>
+    </div>
+    <!-- Partner End -->
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
 
 

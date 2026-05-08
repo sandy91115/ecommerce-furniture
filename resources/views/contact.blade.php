@@ -4,6 +4,7 @@
 @section('title', 'Contact Page')
 
 @section('content')
+<<<<<<< HEAD
 @php
     $pageTitle = $page->title ?? 'Contact Us';
     $decodedContent = isset($page) ? json_decode((string) $page->content, true) : null;
@@ -15,20 +16,33 @@
             ? asset($contactImage)
             : asset('storage/' . ltrim((string) $contactImage, '/')));
 @endphp
+=======
+
+
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
 <!-- Banner Start -->
 <div class="flex items-center gap-4 flex-wrap bg-overlay p-14 sm:p-16 before:bg-title before:bg-opacity-70" style="background-image:url('{{ asset('assets/img/shortcode/breadcumb.jpg') }}');">
     <div class="text-center w-full">
+<<<<<<< HEAD
         <h2 class="text-white text-8 md:text-[40px] font-normal leading-none text-center">{{ $pageTitle }}</h2>
         <ul class="flex items-center justify-center gap-[10px] text-base md:text-lg leading-none font-normal text-white mt-3 md:mt-4">
             <li><a href="{{ url('/') }}">Home</a></li>
             <li>/</li>
             <li class="text-primary">{{ $pageTitle }}</li>
+=======
+        <h2 class="text-white text-8 md:text-[40px] font-normal leading-none text-center">Contact Us</h2>
+        <ul class="flex items-center justify-center gap-[10px] text-base md:text-lg leading-none font-normal text-white mt-3 md:mt-4">
+            <li><a href="{{ url('/') }}">Home</a></li>
+            <li>/</li>
+            <li class="text-primary">Contact</li>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         </ul>
     </div>
 </div>
 <!-- Banner End -->
 
+<<<<<<< HEAD
 @if(filled($pageContent))
 <section class="s-pt-100">
     <div class="container">
@@ -45,6 +59,14 @@
         <div class="max-w-[1720px] mx-auto flex justify-between gap-8">
             <div class="max-w-[894px] w-full hidden lg:block" data-aos="zoom-in">
                 <img class="w-full" src="{{ $contactImageUrl }}" alt="contact">
+=======
+<!-- Contact Info Start -->
+<div class="s-pb-100 s-pt-100">
+    <div class="container-fluid">
+        <div class="max-w-[1720px] mx-auto flex justify-between gap-8">
+            <div class="max-w-[894px] w-full hidden lg:block" data-aos="zoom-in">
+                <img class="w-full" src="{{ asset('assets/img/thumb/contact-thumb.jpg') }}" alt="contct">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             </div>
             <div class="max-w-[725px] w-full mx-auto lg:mx-0">
                 <div data-aos="fade-up">
@@ -108,7 +130,11 @@
 <div class="s-pb-100" data-aos="fade-up">
     <div class="container-fluid">
         <div class="max-w-[1720px] mx-auto">
+<<<<<<< HEAD
             <iframe  class="w-full h-[400px] md:h-[600px]" src="https://www.google.com/maps?q=CAROM%20STUDIOS%2C%20MB-121-B%2C%20Street%20No.%205%2C%20Shakarpur%20Extension%2C%20Shakarpur%2C%20Delhi%2C%20110092&output=embed" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+=======
+            <iframe  class="w-full h-[400px] md:h-[600px]" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3501.859061019454!2d77.27956597604573!3d28.633985884013654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce31239612c63%3A0xe892f7ba0ff5f21b!2sLets%20Digital%20Marketing%20-%20Best%20SEO%20Company%20in%20Delhi%20NCR!5e0!3m2!1sen!2sin!4v1774958646151!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             
         </div>
     </div>
@@ -117,4 +143,8 @@
    
 @include('includes.footer')
   
+<<<<<<< HEAD
 @endsection
+=======
+@endsection
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646

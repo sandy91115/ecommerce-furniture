@@ -6,6 +6,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<<<<<<< HEAD
         @include('seo.meta')
         @php
             $siteFaviconPath = \App\Models\Setting::get('site_favicon_path');
@@ -17,6 +18,22 @@
         <link rel="stylesheet" type="text/css" href="{{ versioned_asset('assets/css/style.css') }}">
         <link rel="stylesheet" href="{{ versioned_asset('assets/css/product-ui-fixes.css') }}">
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+=======
+        <title>Laravel 12 Furnixar & Home Decor eCommerce Template</title>
+        <link rel="icon" href="{{ asset('assets/img/favicon.png') }}" type="image/gif" sizes="18x18">
+
+        <!-- Meta tags for SEO -->
+        <meta content="	ceramics, decoration, ecommerce, ecommerce template, elementor, furniture, furniture store, furniture template, interior design, interior design template, shopping, simple ecommerce, store, store template" name="keywords">
+        <meta name="author" content="Shreethemes">
+        <meta name="website" content="https://shreethemes.in">
+        <meta name="email" content="support@shreethemes.in">
+        <meta name="version" content="1.0.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <!-- Main Stylesheet -->
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/product-ui-fixes.css') }}">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
     </head>
 
@@ -40,6 +57,12 @@
             @yield('content')
         </div>
 
+<<<<<<< HEAD
         <script src="{{ versioned_asset('assets/js/scripts.js') }}"></script>
     </body>
 </html>
+=======
+        <script src="{{ asset('assets/js/scripts.js') }}"></script>
+    </body>
+</html>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646

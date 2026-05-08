@@ -35,6 +35,7 @@
                 @error('user_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
             <div>
+<<<<<<< HEAD
                 <label class="form-label">Customer Name</label>
                 <input type="text" name="reviewer_name" class="form-control" value="{{ old('reviewer_name') }}" placeholder="Shown on frontend">
                 @error('reviewer_name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
@@ -45,6 +46,8 @@
                 @error('reviewer_email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
             <div>
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 <label class="form-label">Rating *</label>
                 <div class="flex items-center gap-2 p-3 bg-gray-50 dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-600">
                     @for($i = 5; $i >= 1; $i--)

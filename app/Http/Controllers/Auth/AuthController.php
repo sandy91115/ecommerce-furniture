@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
+<<<<<<< HEAD
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,11 +18,22 @@ class AuthController extends Controller
     {
         $this->rememberIntendedUrl($request);
 
+=======
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
+class AuthController extends Controller
+{
+    public function showLoginForm()
+    {
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         return view('auth.login');
     }
 
     public function login(Request $request)
     {
+<<<<<<< HEAD
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required|string',
@@ -39,6 +51,18 @@ class AuthController extends Controller
             }
 
             return redirect()->intended('/dashboard');
+=======
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            $user = Auth::user();
+            if ($user->can('admin.access')) {
+                return redirect('/admin/dashboard');
+            }
+            return redirect('/dashboard');
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         }
 
         return back()->withErrors([
@@ -46,15 +70,21 @@ class AuthController extends Controller
         ]);
     }
 
+<<<<<<< HEAD
     public function showRegisterForm(Request $request)
     {
         $this->rememberIntendedUrl($request);
 
+=======
+    public function showRegisterForm()
+    {
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         return view('auth.register');
     }
 
     public function register(Request $request)
     {
+<<<<<<< HEAD
         $phoneInput = $request->input('phone');
 
         if (blank($phoneInput) && $request->filled('phone_number')) {
@@ -70,10 +100,16 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'phone' => ['required', 'string', 'max:20', 'regex:/^\+[1-9]\d{9,14}$/', 'unique:users,phone'],
+=======
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             'password' => 'required|string|min:8|confirmed',
         ]);
 
         $user = User::create([
+<<<<<<< HEAD
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'],
@@ -93,6 +129,13 @@ class AuthController extends Controller
 
     private function assignCustomerRole(User $user): void
     {
+=======
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $role = Role::withTrashed()->firstOrCreate([
             'name' => 'customer',
             'guard_name' => 'web',
@@ -103,6 +146,12 @@ class AuthController extends Controller
         }
 
         $user->assignRole('customer');
+<<<<<<< HEAD
+=======
+        Auth::login($user);
+
+        return redirect('/');
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 
     public function logout(Request $request)
@@ -112,6 +161,7 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
         return redirect('/login');
     }
+<<<<<<< HEAD
 
     private function rememberIntendedUrl(Request $request): void
     {
@@ -174,3 +224,7 @@ class AuthController extends Controller
         return $defaultCountryCode . $digits;
     }
 }
+=======
+}
+
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646

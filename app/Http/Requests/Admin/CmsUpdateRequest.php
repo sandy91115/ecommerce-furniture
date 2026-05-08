@@ -3,7 +3,10 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+<<<<<<< HEAD
 use Illuminate\Support\Str;
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
 class CmsUpdateRequest extends FormRequest
 {
@@ -25,6 +28,7 @@ class CmsUpdateRequest extends FormRequest
             'title' => 'required|string|max:255',
             'slug' => "nullable|alpha_dash|unique:cms_pages,slug,{$pageId}",
             'content' => 'required|string',
+<<<<<<< HEAD
             'about_images' => 'nullable|array',
             'about_images.*' => 'nullable',
             'about_images.*.*' => 'nullable',
@@ -34,10 +38,13 @@ class CmsUpdateRequest extends FormRequest
             'about_images.video_bg' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:4096',
             'page_images' => 'nullable|array',
             'page_images.contact_image' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:4096',
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             'status' => 'required|in:active,inactive',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
             'sort_order' => 'nullable|integer|min:0',
+<<<<<<< HEAD
             'seo_meta' => 'nullable|array',
             'seo_meta.focus_keyword' => 'nullable|string|max:255',
             'seo_meta.secondary_keywords_text' => 'nullable|string|max:1000',
@@ -69,6 +76,11 @@ class CmsUpdateRequest extends FormRequest
         ]);
     }
 
+=======
+        ];
+    }
+
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     /**
      * Get custom messages for validator errors.
      */

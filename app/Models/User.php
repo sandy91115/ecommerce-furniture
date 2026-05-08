@@ -31,7 +31,10 @@ class User extends Authenticatable
         'verification_status',
         'verified_at',
         'verified_by',
+<<<<<<< HEAD
         'phone_verified_at',
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     ];
 
     /**
@@ -55,7 +58,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'verified_at' => 'datetime',
+<<<<<<< HEAD
             'phone_verified_at' => 'datetime',
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             'deleted_at' => 'datetime',
         ];
     }
@@ -74,9 +80,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+<<<<<<< HEAD
 
     public function quotations()
     {
         return $this->hasMany(Quotation::class);
     }
 }
+=======
+}
+
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646

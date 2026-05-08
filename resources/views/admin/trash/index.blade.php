@@ -3,11 +3,21 @@
 @section('title', 'Recycle Bin')
 
 @section('content')
+<<<<<<< HEAD
 <div class="space-y-6">
     <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div>
             <h1 class="text-3xl font-bold text-gray-900">Recycle Bin</h1>
            
+=======
+<div class="max-w-7xl mx-auto space-y-6">
+    <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900">Recycle Bin</h1>
+            <p class="mt-2 text-sm text-gray-500">
+                Supported admin records delete hone ke baad pehle yahan aayenge. Restore yahin se hoga, aur permanent delete sirf Super Admin karega.
+            </p>
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         </div>
         <div class="rounded-2xl border border-blue-100 bg-blue-50 px-5 py-4 text-sm text-blue-800 shadow-sm">
             <div class="font-semibold">Total Trashed Items: {{ $totalItems }}</div>

@@ -3,10 +3,13 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+<<<<<<< HEAD
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -20,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
 'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
 'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
         ]);
+<<<<<<< HEAD
 
         $middleware->redirectGuestsTo(function (Request $request) {
             $adminPath = trim((string) env('ADMIN_PATH', 'panel'), '/') ?: 'panel';
@@ -71,4 +75,9 @@ return Application::configure(basePath: dirname(__DIR__))
 
             return response()->view('error', compact('statusCode', 'errorTitle', 'errorMessage'), $statusCode, $headers);
         });
+=======
+    })
+    ->withExceptions(function (Exceptions $exceptions): void {
+        //
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     })->create();

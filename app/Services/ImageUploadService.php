@@ -60,7 +60,11 @@ class ImageUploadService
                 throw new RuntimeException("Unable to stage image [{$originalName}] for background processing.");
             }
 
+<<<<<<< HEAD
             $altText = trim((string) ($altTexts[$index] ?? '')) ?: null;
+=======
+            $altText = $this->resolveAltText($originalName, $altTexts[$index] ?? null);
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
             if ($this->shouldProcessSynchronously()) {
                 $this->processQueuedProductImage(
@@ -99,9 +103,13 @@ class ImageUploadService
         ?string $altText = null,
         bool $isFeatured = false,
     ): ?ProductImage {
+<<<<<<< HEAD
         $product = Product::query()->with(['category', 'material'])->find($productId);
 
         if (! $product) {
+=======
+        if (! Product::query()->whereKey($productId)->exists()) {
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             $this->deleteTemporaryUpload($tempPath);
 
             return null;
@@ -117,10 +125,15 @@ class ImageUploadService
         $productDirectory = $this->productDirectory($productId);
         $publicDisk->makeDirectory($productDirectory);
 
+<<<<<<< HEAD
         $baseFilename = $this->buildFinalFilename($productId, $originalName, $product);
         $generatedPaths = [];
         $largeWidth = null;
         $largeHeight = null;
+=======
+        $baseFilename = $this->buildFinalFilename($productId, $originalName);
+        $generatedPaths = [];
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
         try {
             $sourceImage = $this->imageManager()
@@ -129,6 +142,7 @@ class ImageUploadService
 
             foreach (self::VARIANTS as $variant => $width) {
                 $variantImage = clone $sourceImage;
+<<<<<<< HEAD
                 $variantImage = $variantImage->scaleDown(width: $width);
 
                 if ($variant === 'large') {
@@ -137,6 +151,9 @@ class ImageUploadService
                 }
 
                 $encodedImage = $variantImage->toWebp(self::WEBP_QUALITY);
+=======
+                $encodedImage = $variantImage->scaleDown(width: $width)->toWebp(self::WEBP_QUALITY);
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                 $relativePath = $this->variantRelativePath($productId, $baseFilename, $variant);
 
                 $publicDisk->put($relativePath, (string) $encodedImage);
@@ -154,6 +171,7 @@ class ImageUploadService
                 'path' => $generatedPaths['large'],
                 'base_filename' => $baseFilename,
                 'original_name' => $originalName,
+<<<<<<< HEAD
                 'seo_filename' => $baseFilename,
                 'alt' => $this->resolveAltText($originalName, $altText, $product),
                 'title' => $this->resolveAltText($originalName, $altText, $product),
@@ -161,6 +179,10 @@ class ImageUploadService
                 'sort_order' => ProductImage::query()->where('product_id', $productId)->max('sort_order') + 1,
                 'width' => $largeWidth,
                 'height' => $largeHeight,
+=======
+                'alt' => $this->resolveAltText($originalName, $altText),
+                'featured' => $isFeatured,
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
             ]);
         } catch (Throwable $exception) {
             $this->deletePaths($generatedPaths);
@@ -171,6 +193,7 @@ class ImageUploadService
         }
     }
 
+<<<<<<< HEAD
     public function importProductImageFromPath(
         Product|int $product,
         string $sourcePath,
@@ -216,6 +239,8 @@ class ImageUploadService
         );
     }
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     public function deleteImage(ProductImage $image, bool $deleteRecord = true): void
     {
         $this->deletePaths($this->allRelativePaths($image));
@@ -327,6 +352,7 @@ class ImageUploadService
         }
     }
 
+<<<<<<< HEAD
     private function assertSupportedImportedImage(string $sourcePath, string $originalName): void
     {
         $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION) ?: pathinfo($sourcePath, PATHINFO_EXTENSION));
@@ -342,6 +368,8 @@ class ImageUploadService
         }
     }
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     private function imageManager(): ImageManager
     {
         return extension_loaded('imagick')
@@ -366,9 +394,15 @@ class ImageUploadService
         return $filename;
     }
 
+<<<<<<< HEAD
     private function buildFinalFilename(int $productId, string $originalName, ?Product $product = null): string
     {
         $slug = $this->seoSlugForProduct($product) ?: $this->slugFromOriginalName($originalName);
+=======
+    private function buildFinalFilename(int $productId, string $originalName): string
+    {
+        $slug = $this->slugFromOriginalName($originalName);
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         $timestamp = now()->timestamp;
         $counter = 0;
 
@@ -392,7 +426,11 @@ class ImageUploadService
         return Str::slug(pathinfo($originalName, PATHINFO_FILENAME)) ?: 'product-image';
     }
 
+<<<<<<< HEAD
     private function resolveAltText(string $originalName, ?string $altText, ?Product $product = null): string
+=======
+    private function resolveAltText(string $originalName, ?string $altText): string
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     {
         $altText = trim((string) $altText);
 
@@ -400,6 +438,7 @@ class ImageUploadService
             return $altText;
         }
 
+<<<<<<< HEAD
         if ($product) {
             $generated = collect([$product->name, $product->material?->name, $product->category?->name])
                 ->filter()
@@ -426,6 +465,11 @@ class ImageUploadService
             ->implode(' ')) ?: null;
     }
 
+=======
+        return Str::headline(pathinfo($originalName, PATHINFO_FILENAME));
+    }
+
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     private function temporaryDirectory(int $productId): string
     {
         return self::TEMP_ROOT . '/' . $productId;

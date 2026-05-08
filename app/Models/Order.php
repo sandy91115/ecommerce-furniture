@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+<<<<<<< HEAD
 use Illuminate\Database\Eloquent\Relations\HasOne;
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 use Illuminate\Support\Collection;
 use App\Enums\OrderStatus;
 use App\Models\OrderItem;
@@ -17,6 +20,7 @@ class Order extends Model
 {
     use HasFactory, SoftDeletes;
 
+<<<<<<< HEAD
     public const PAYMENT_STATUSES = [
         'pending' => 'Pending',
         'paid' => 'Paid',
@@ -24,14 +28,19 @@ class Order extends Model
         'refunded' => 'Refunded',
     ];
 
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     protected $fillable = [
         'user_id',
         'order_number',
         'total_amount',
         'status',
         'payment_status',
+<<<<<<< HEAD
         'payment_method',
         'payment_gateway',
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
         'shipping_address',
         'items',
     ];
@@ -68,6 +77,7 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
+<<<<<<< HEAD
     public function payment(): HasOne
     {
         return $this->hasOne(PaymentTransaction::class);
@@ -96,6 +106,11 @@ class Order extends Model
             'refunded' => '#007BFF',
             default => '#EC991D',
         };
+=======
+    public function payment()
+    {
+        return $this->belongsTo(PaymentTransaction::class);
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     }
 
     protected function normalizeItemsPayload(mixed $value): array

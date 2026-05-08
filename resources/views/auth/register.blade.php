@@ -3,7 +3,11 @@
 @section('title', 'Register | Furniture Store')
 
 @section('content')
+<<<<<<< HEAD
 <link rel="stylesheet" href="{{ versioned_asset('assets/css/login.css') }}">
+=======
+<link rel="stylesheet" href="{{ asset('assets/css/login.css') }}">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 
 @php
     $showcaseFeatures = [
@@ -20,6 +24,7 @@
             'copy' => 'Track orders, manage profile details and stay connected to your furniture journey.',
         ],
     ];
+<<<<<<< HEAD
 
     $countryDialCodes = [
         ['code' => '+91', 'iso' => 'in', 'short' => 'IN', 'label' => 'India'],
@@ -85,6 +90,11 @@
 @endphp
 
 <section class="auth-page auth-page--register">
+=======
+@endphp
+
+<section class="auth-page">
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
     <div class="auth-shell">
         <aside class="auth-showcase" style="--auth-showcase-image: url('{{ asset('assets/img/bg/register.jpg') }}');">
             <div class="auth-showcase__content">
@@ -170,6 +180,7 @@
                     </div>
 
                     <div class="auth-field">
+<<<<<<< HEAD
                         <label class="auth-label" for="phone_number">Mobile number</label>
                         <div class="auth-input-wrap auth-phone-wrap" data-phone-field>
                             <span class="auth-input-icon" aria-hidden="true">
@@ -233,6 +244,8 @@
                     </div>
 
                     <div class="auth-field">
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                         <label class="auth-label" for="password">Password</label>
                         <div class="auth-input-wrap">
                             <span class="auth-input-icon" aria-hidden="true">
@@ -306,14 +319,22 @@
                             <path d="M12 5v14" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"/>
                             <path d="M5 12h14" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"/>
                         </svg>
+<<<<<<< HEAD
                         Create & sign in
+=======
+                        Create account
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     </button>
 
                     <p class="auth-note">
                         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                             <path d="M12 3 4 7v5c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V7l-8-4Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/>
                         </svg>
+<<<<<<< HEAD
                         Your account will be created instantly and you'll be signed in automatically.
+=======
+                        Creating an account helps you keep wishlist items, order details and future checkout steps neatly organized.
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
                     </p>
 
                     <p class="auth-footnote">
@@ -341,6 +362,7 @@ document.addEventListener('DOMContentLoaded', function () {
             toggle.setAttribute('aria-label', isVisible ? 'Show password' : 'Hide password');
         });
     });
+<<<<<<< HEAD
 
     const phoneField = document.querySelector('[data-phone-field]');
 
@@ -489,6 +511,8 @@ document.addEventListener('DOMContentLoaded', function () {
             syncPhoneValue();
         }
     }
+=======
+>>>>>>> a4263c56a3ac3187932f99434605d5942427c646
 });
 </script>
 @endsection
