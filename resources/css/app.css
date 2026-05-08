@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+    --breakpoint-lg: 1025px;
+
+    /* Carom Studios brand palette */
+    --color-primary: #E3B505;          /* Mustard Yellow */
+    --color-primary-dark: #C79604;
+    --color-primary-soft: rgba(227, 181, 5, 0.14);
+    --color-primary-glow: rgba(227, 181, 5, 0.28);
+    --color-black: #1A1A1A;
+    --color-off-white: #F9F9F9;
+    --color-bg-secondary: #F2E8D5;     /* Warm Beige */
+    --color-border-light: #E5E5E5;     /* Soft Grey */
+    --color-text-secondary: #555555;   /* Dark Grey */
+    --color-accent-green: #6B8E23;     /* Olive Green */
+    --color-accent-brown: #8B6F47;     /* Muted Brown */
+
+    --color-primary-50: 250 242 200;
+    --color-primary-100: 248 238 180;
+    --color-primary-500: 227 181 5;
+    --color-primary-600: 212 167 0;
+    --color-primary-700: 187 151 109;
+}
